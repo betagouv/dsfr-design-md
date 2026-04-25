@@ -53,7 +53,12 @@ colors:
   grey-0-1000:                    "#000000"
 
   # ---------- System (functional) ----------
+  # The `-text-default` token for success is darker than `-425-625` so
+  # that text on the lightest tinted background (`-975-75`) still meets
+  # WCAG AA contrast (4.5:1). Warning, error, and info families don't
+  # need a darker text variant — their `-425-625` already passes.
   success-425-625:                "#1f8d49"
+  success-text-default:           "#18753c"
   success-975-75:                 "#dffee6"
   warning-425-625:                "#b34000"
   warning-975-75:                 "#fff4f3"
@@ -129,7 +134,6 @@ typography:
     fontSize: 2.5rem        # 40px
     fontWeight: 700
     lineHeight: 3rem        # 48px
-    letterSpacing: 0
   h1:
     fontFamily: Marianne
     fontSize: 2.5rem
@@ -198,7 +202,7 @@ typography:
     lineHeight: 1.5rem
 
 rounded:
-  none: 0
+  none: 0px
   sm:   0.25rem    # used sparingly (search input top corners)
   md:   0.5rem
   pill: 9999px     # tags / badges
@@ -206,7 +210,7 @@ rounded:
 spacing:
   # Built on the DSFR `v` base unit: 1v = 0.25rem = 4px.
   # The Figma spec also references "W" units; W = 2v = 8px in this scale.
-  0v:    0
+  0v:    0px
   0-5v:  0.125rem  # 2px
   1v:    0.25rem   # 4px
   1-5v:  0.375rem  # 6px
@@ -231,7 +235,7 @@ components:
     textColor:       "{colors.on-primary}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "8px 16px"
+    padding:         16px
     height:          40px
   button-primary-hover:
     backgroundColor: "{colors.primary-hover}"
@@ -248,7 +252,7 @@ components:
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "8px 16px"
+    padding:         16px
     height:          40px
   button-secondary-hover:
     backgroundColor: "{colors.blue-france-950-100-hover}"
@@ -262,7 +266,7 @@ components:
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "8px 16px"
+    padding:         16px
     height:          40px
   button-tertiary-hover:
     backgroundColor: "{colors.background-alt}"
@@ -276,7 +280,7 @@ components:
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.sm}"
-    padding:         "8px 12px"
+    padding:         12px
     height:          40px
   input-focus:
     backgroundColor: "{colors.background-contrast-grey}"
@@ -293,7 +297,7 @@ components:
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.sm}"
-    padding:         "8px 12px"
+    padding:         12px
     height:          40px
 
   checkbox:
@@ -332,7 +336,7 @@ components:
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "24px"
+    padding:         24px
   card-hover:
     backgroundColor: "{colors.background-alt}"
     textColor:       "{colors.text-default-grey}"
@@ -342,7 +346,7 @@ components:
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "16px"
+    padding:         16px
   tile-hover:
     backgroundColor: "{colors.background-alt}"
     textColor:       "{colors.text-action-high-blue-france}"
@@ -355,14 +359,14 @@ components:
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-sm}"
     rounded:         "{rounded.pill}"
-    padding:         "4px 12px"
+    padding:         12px
     height:          24px
   tag-sm:
     backgroundColor: "{colors.background-action-low-blue-france}"
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-xs}"
     rounded:         "{rounded.pill}"
-    padding:         "2px 8px"
+    padding:         8px
     height:          20px
 
   badge:
@@ -370,11 +374,11 @@ components:
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-sm}"
     rounded:         "{rounded.pill}"
-    padding:         "4px 8px"
+    padding:         8px
     height:          24px
   badge-success:
     backgroundColor: "{colors.success-975-75}"
-    textColor:       "{colors.success}"
+    textColor:       "{colors.success-text-default}"
   badge-warning:
     backgroundColor: "{colors.warning-975-75}"
     textColor:       "{colors.warning}"
@@ -393,25 +397,25 @@ components:
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "16px"
+    padding:         16px
   alert-warning:
     backgroundColor: "{colors.warning-975-75}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "16px"
+    padding:         16px
   alert-error:
     backgroundColor: "{colors.error-975-75}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "16px"
+    padding:         16px
   alert-info:
     backgroundColor: "{colors.info-975-75}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "16px"
+    padding:         16px
 
   # ============================================================
   # NAVIGATION — breadcrumb, modal, callout, header, footer
@@ -421,35 +425,35 @@ components:
     textColor:       "{colors.text-mention-grey}"
     typography:      "{typography.body-sm}"
     rounded:         "{rounded.none}"
-    padding:         "16px 0"
+    padding:         16px
 
   modal:
     backgroundColor: "{colors.background-default}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "32px"
+    padding:         32px
 
   callout:
     backgroundColor: "{colors.background-alt}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "24px"
+    padding:         24px
 
   header:
     backgroundColor: "{colors.background-default}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         "16px 0"
+    padding:         16px
 
   footer:
     backgroundColor: "{colors.background-default}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-sm}"
     rounded:         "{rounded.none}"
-    padding:         "32px 0"
+    padding:         32px
 ---
 
 ## Overview

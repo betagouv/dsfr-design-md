@@ -59,6 +59,14 @@ npx @google/design.md lint DESIGN.md
 
 This checks for broken token references, missing primary colour, contrast-ratio violations against WCAG AA (4.5:1), orphaned tokens, and section ordering.
 
+**Expected lint output**: `0 errors, ≈41 warnings, 1 info` — every warning is an `orphaned-tokens` finding and is intentional:
+
+- The 16 **illustrative-palette** colours (tilleul-verveine, glycine, tournesol, etc.) are accent-only by DSFR rule; they must not be referenced from buttons or system components.
+- The raw **option tokens** (e.g. `blue-france-main-525`, `red-marianne-*`) are kept as a documentation reference layer. UI code is supposed to consume the **decision tokens** that point at them — those *are* referenced by components.
+- `focus-ring` and `border-default-grey` would require component properties (`outline`, `borderColor`) that the alpha `DESIGN.md` spec doesn't yet define.
+
+Should the spec gain those properties in a future version, this file should be updated to wire the orphans through.
+
 ### Export to other formats
 
 ```bash
