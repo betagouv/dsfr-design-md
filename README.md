@@ -1,123 +1,131 @@
 # DSFR · `DESIGN.md`
 
-A `DESIGN.md` encoding of the **Système de Design de l'État Français** (DSFR) for AI coding agents.
+Encodage du **Système de Design de l'État Français** (DSFR) au format `DESIGN.md`, à destination des agents de codage IA.
 
-This repository publishes a single source-of-truth `DESIGN.md` file that translates the official French government design system — colours, typography, spacing, and core component patterns — into the **open `DESIGN.md` format** specified by Google Stitch ([`google-labs-code/design.md`](https://github.com/google-labs-code/design.md)).
+Ce dépôt publie un fichier `DESIGN.md` faisant office de source unique de vérité, qui traduit le système de design officiel de l'État français — couleurs, typographie, espacements et patrons de composants — vers le **format ouvert `DESIGN.md`** spécifié par Google Stitch ([`google-labs-code/design.md`](https://github.com/google-labs-code/design.md)).
 
-The goal is simple: **let any DESIGN.md-aware coding agent (Stitch, Claude Code, Cursor, Kiro, Windsurf, Letta Code, …) generate UIs that look and behave like a `.gouv.fr` site by default.**
-
----
-
-## Why this exists
-
-The DSFR is the [mandatory design system](https://www.systeme-de-design.gouv.fr/version-courante/fr/a-propos/articles-et-actualites/circulaire-d-application-du-7-juillet-2023) for French State web services (circulaire n°6411-SG). It ships as `@gouvfr/dsfr` on npm — a complete HTML/CSS/JS toolkit with 50+ accessible components — but coding agents that generate UI from natural-language prompts don't read SCSS files.
-
-The Stitch `DESIGN.md` format was designed specifically for this gap: a hybrid YAML-front-matter + Markdown document that gives agents a **persistent, structured understanding of a design system**, validatable against WCAG via `npx @google/design.md lint`.
-
-This project bridges the two.
+L'objectif est simple : **permettre à n'importe quel agent de codage compatible DESIGN.md (Stitch, Claude Code, Cursor, Kiro, Windsurf, Letta Code, …) de générer par défaut des interfaces qui ressemblent et se comportent comme un site `.gouv.fr`.**
 
 ---
 
-## What's in the box
+## Pourquoi ce projet existe
+
+Le DSFR est le [système de design obligatoire](https://www.systeme-de-design.gouv.fr/version-courante/fr/a-propos/articles-et-actualites/circulaire-d-application-du-7-juillet-2023) pour les services web de l'État (circulaire n°6411-SG). Il est distribué sous le nom `@gouvfr/dsfr` sur npm — une boîte à outils HTML/CSS/JS complète comportant plus de 50 composants accessibles — mais les agents de codage qui génèrent des interfaces à partir d'un prompt en langage naturel ne lisent pas les fichiers SCSS.
+
+Le format `DESIGN.md` de Stitch a été conçu spécifiquement pour combler cet écart : un document hybride YAML front matter + Markdown qui donne aux agents une **compréhension persistante et structurée d'un système de design**, validable contre les critères WCAG via `npx @google/design.md lint`.
+
+Ce projet fait le pont entre les deux.
+
+---
+
+## Contenu du dépôt
 
 ```
 .
-├── DESIGN.md          ← the design system, in DESIGN.md format
-├── README.md          ← this file
+├── DESIGN.md          ← le système de design, au format DESIGN.md
+├── README.md          ← ce fichier
 └── .gitignore
 ```
 
-The `DESIGN.md` covers:
+Le `DESIGN.md` couvre :
 
-| Layer | Content |
-|-------|---------|
-| **YAML front matter** | Bleu France & Rouge Marianne option tokens, neutrals, system (success/warning/error/info), illustrative accents (12 families), decision tokens, Marianne & Spectral typography scale, `v`-based spacing scale, border-radius scale, ~15 core components (buttons, inputs, select, checkbox, radio, toggle, card, tile, tag, alert, badge, modal, breadcrumb, callout, header/footer) with hover/active/focus/disabled state variants. |
-| **Markdown body** | 8 canonical sections — Overview · Colors · Typography · Layout · Elevation & Depth · Shapes · Components · Do's and Don'ts — explaining the *why* behind every value, including DSFR-specific rules like "never apply Bleu France to titles" and the `data-fr-scheme` light/dark mechanism. |
+| Couche | Contenu |
+|--------|---------|
+| **YAML front matter** | Tokens d'option Bleu France et Rouge Marianne, neutres, couleurs système (succès/avertissement/erreur/information), accents illustratifs (12 familles), tokens de décision, échelle typographique Marianne et Spectral, échelle d'espacement basée sur le `v`, échelle de rayons de bord, environ 15 composants centraux (boutons, champs de saisie, listes déroulantes, cases à cocher, boutons radio, interrupteurs, cartes, tuiles, tags, alertes, badges, modales, fils d'Ariane, mises en avant, en-têtes/pieds de page) avec leurs variantes d'état hover/active/focus/disabled. |
+| **Corps Markdown** | 8 sections canoniques — Aperçu · Couleurs · Typographie · Mise en page · Élévation et profondeur · Formes · Composants · À faire et à ne pas faire — qui expliquent le *pourquoi* derrière chaque valeur, y compris les règles propres au DSFR comme « ne jamais appliquer le Bleu France à un titre » et le mécanisme `data-fr-scheme` pour le basculement clair/sombre. |
 
-The file targets the **light theme**. Dark-theme decision-token mappings are documented in prose because the alpha `DESIGN.md` spec doesn't have first-class theme switching.
+Le fichier cible le **thème clair**. La correspondance des tokens de décision pour le thème sombre est documentée en prose, parce que la spécification `DESIGN.md` en version alpha ne dispose pas encore d'un mécanisme de bascule de thème natif.
 
 ---
 
-## Usage
+## Utilisation
 
-### Import into Google Stitch
+### Importer dans Google Stitch
 
-1. Open your Stitch project.
+1. Ouvrez votre projet Stitch.
 2. **Settings → Design System → Import DESIGN.md**.
-3. Paste the file contents (or upload).
-4. Generate prompts as usual — Stitch will apply DSFR colours, typography, square corners, and component patterns automatically.
+3. Collez le contenu du fichier (ou téléversez-le).
+4. Générez vos prompts comme à l'accoutumée : Stitch appliquera automatiquement les couleurs DSFR, la typographie, les coins carrés et les patrons de composants.
 
-### Use with other coding agents
+### Utiliser avec d'autres agents de codage
 
-Drop `DESIGN.md` at the root of your project. Most modern agents (Claude Code, Cursor, Kiro, Windsurf, Letta Code) will pick it up as design context. Some agents accept a `--design-md` flag; consult their docs.
+Déposez `DESIGN.md` à la racine de votre projet. La plupart des agents modernes (Claude Code, Cursor, Kiro, Windsurf, Letta Code) le récupéreront comme contexte de design. Certains agents acceptent un drapeau `--design-md` ; consultez leur documentation.
 
-### Lint and validate
+### Linter et valider
 
 ```bash
 npx @google/design.md lint DESIGN.md
 ```
 
-This checks for broken token references, missing primary colour, contrast-ratio violations against WCAG AA (4.5:1), orphaned tokens, and section ordering.
+Cette commande vérifie les références de tokens cassées, l'absence de couleur primaire, les violations de contraste vis-à-vis du WCAG AA (4.5:1), les tokens orphelins et l'ordre des sections.
 
-**Expected lint output**: `0 errors, ≈41 warnings, 1 info` — every warning is an `orphaned-tokens` finding and is intentional:
+**Sortie attendue du linter** : `0 erreur, ≈41 avertissements, 1 info` — chaque avertissement est un cas `orphaned-tokens` et est intentionnel :
 
-- The 16 **illustrative-palette** colours (tilleul-verveine, glycine, tournesol, etc.) are accent-only by DSFR rule; they must not be referenced from buttons or system components.
-- The raw **option tokens** (e.g. `blue-france-main-525`, `red-marianne-*`) are kept as a documentation reference layer. UI code is supposed to consume the **decision tokens** that point at them — those *are* referenced by components.
-- `focus-ring` and `border-default-grey` would require component properties (`outline`, `borderColor`) that the alpha `DESIGN.md` spec doesn't yet define.
+- Les 16 couleurs de la **palette illustrative** (tilleul-verveine, glycine, tournesol, etc.) sont des accents par règle DSFR ; elles ne doivent pas être référencées par les boutons ou les composants système.
+- Les **tokens d'option** bruts (par exemple `blue-france-main-525`, `red-marianne-*`) sont conservés comme couche de référence documentaire. Le code d'interface est censé consommer les **tokens de décision** qui pointent vers eux — ces derniers *sont* bien référencés par les composants.
+- `focus-ring` et `border-default-grey` nécessiteraient des propriétés de composant (`outline`, `borderColor`) que la spécification `DESIGN.md` alpha ne définit pas encore.
 
-Should the spec gain those properties in a future version, this file should be updated to wire the orphans through.
+Si la spécification gagne ces propriétés dans une version future, ce fichier devra être mis à jour pour brancher les orphelins.
 
-### Export to other formats
+### Exporter vers d'autres formats
 
 ```bash
-# Tailwind theme
+# Thème Tailwind
 npx @google/design.md export --format tailwind DESIGN.md > tailwind.theme.json
 
-# W3C DTCG tokens.json
+# tokens.json au format W3C DTCG
 npx @google/design.md export --format dtcg     DESIGN.md > tokens.json
 ```
 
 ---
 
-## Important caveats
+## Mises en garde importantes
 
-### ⚠️ Legal & brand scope
+### ⚠️ Cadre légal et identité de marque
 
-The DSFR's visual identity — the Marianne wordmark, the *République Française* logo, the Bleu France colour used as a state mark, and the Marianne typeface — is **legally restricted to official French State websites and applications**. Per the DSFR's terms of use:
+L'identité visuelle du DSFR — le bloc-marque Marianne, le logotype *République Française*, la couleur Bleu France utilisée comme marque d'État, et la fonte Marianne — est **légalement réservée aux sites et applications officiels de l'État français**. Pour reprendre les conditions d'utilisation du DSFR :
 
 > Il est formellement interdit à tout autre acteur d'utiliser le Système de Design de l'État (les administrations territoriales ou tout autre acteur privé) pour des sites web ou des applications.
 
-This `DESIGN.md` is a **derived, machine-readable description** of the design system, useful for:
+Ce `DESIGN.md` est une **description dérivée et lisible par machine** du système de design, utile pour :
 
-- ✅ State teams (`.gouv.fr` services) building with AI agents.
-- ✅ Educational and research purposes.
-- ✅ Prototyping internal tools that will eventually use the canonical `@gouvfr/dsfr` package.
+- ✅ Les équipes État (services `.gouv.fr`) qui construisent avec des agents IA.
+- ✅ Des usages éducatifs et de recherche.
+- ✅ Le prototypage d'outils internes qui finiront par utiliser le paquet canonique `@gouvfr/dsfr`.
 
-It is **not** a licence to brand third-party services as governmental. Use the official `@gouvfr/dsfr` npm package for any production .gouv.fr build.
+Ce n'est **pas** une licence pour estampiller des services tiers comme étant gouvernementaux. Pour toute mise en production sur un service `.gouv.fr`, utilisez le paquet npm officiel `@gouvfr/dsfr`.
 
-### ⚠️ Spec is alpha
+### ⚠️ La spécification est en alpha
 
-The Stitch `DESIGN.md` format is currently at version `alpha`. Token schema and CLI behaviour may change. Pin a specific `@google/design.md` version in any automated pipeline.
+Le format `DESIGN.md` de Stitch est actuellement en version `alpha`. Le schéma des tokens et le comportement de la CLI peuvent évoluer. Pensez à figer une version précise de `@google/design.md` dans toute chaîne d'intégration automatisée.
 
-### ⚠️ Lossy encoding
+### ⚠️ Encodage avec perte
 
-The DSFR is richer than the alpha spec can represent — option-token granularity, decision tokens, dual-theme switching, illustrative palettes, RGAA-specific accessibility rules. We capture the essentials in YAML and document the rest in prose. For canonical fidelity, always defer to:
+Le DSFR est plus riche que ce que la spécification alpha peut représenter — granularité des tokens d'option, tokens de décision, bascule double thème, palettes illustratives, règles d'accessibilité spécifiques au RGAA. Nous captons l'essentiel en YAML et documentons le reste en prose. Pour la fidélité canonique, référez-vous toujours à :
 
-- **Source of truth (visual)**: <https://www.systeme-de-design.gouv.fr/version-courante/fr>
-- **Source of truth (code)**: [`@gouvfr/dsfr`](https://www.npmjs.com/package/@gouvfr/dsfr) — `node_modules/@gouvfr/dsfr/dist/core/colors.json`
+- **Source de vérité (visuelle)** : <https://www.systeme-de-design.gouv.fr/version-courante/fr>
+- **Source de vérité (code)** : [`@gouvfr/dsfr`](https://www.npmjs.com/package/@gouvfr/dsfr) — `node_modules/@gouvfr/dsfr/dist/core/colors.json`
 
 ---
 
-## Sources & references
+## Statut du projet
 
-- DSFR documentation — <https://www.systeme-de-design.gouv.fr>
-- DSFR repository — <https://github.com/GouvernementFR/dsfr>
-- `DESIGN.md` specification — <https://github.com/google-labs-code/design.md>
-- Stitch announcement — <https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-design-md/>
+Ce dépôt est une **preuve de concept** réalisée par [@kaaloo](https://github.com/kaaloo) (beta.gouv.fr) afin d'évaluer l'utilité d'un `DESIGN.md` officiel pour le DSFR. Si l'expérience est concluante, l'objectif est de proposer aux mainteneurs `@GouvernementFR` la reprise du fichier dans le dépôt canonique [`GouvernementFR/dsfr`](https://github.com/GouvernementFR/dsfr) ou un dépôt voisin.
+
+Retours, issues et pull requests bienvenus.
+
+---
+
+## Sources et références
+
+- Documentation du DSFR — <https://www.systeme-de-design.gouv.fr>
+- Dépôt du DSFR — <https://github.com/GouvernementFR/dsfr>
+- Spécification `DESIGN.md` — <https://github.com/google-labs-code/design.md>
+- Annonce Stitch — <https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-design-md/>
 - W3C Design Tokens Format Module — <https://tr.designtokens.org/format/>
 
 ---
 
 ## Licence
 
-The `DESIGN.md` content in this repository is published under **MIT** (matching the DSFR's source-code licence) **with the explicit caveat above** about the visual identity. The Marianne typeface itself is **not** redistributed here — refer to the [DSFR LICENSE.md](https://github.com/GouvernementFR/dsfr/blob/main/LICENSE.md) for typeface terms.
+Le contenu `DESIGN.md` de ce dépôt est publié sous **MIT** (en cohérence avec la licence du code source du DSFR), **avec la mise en garde explicite ci-dessus** concernant l'identité visuelle. La fonte Marianne **n'est pas** redistribuée ici — référez-vous au [LICENSE.md du DSFR](https://github.com/GouvernementFR/dsfr/blob/main/LICENSE.md) pour les conditions d'usage de la fonte.
