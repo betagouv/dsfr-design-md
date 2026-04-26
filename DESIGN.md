@@ -50,14 +50,29 @@ colors:
   red-marianne-975-75-active:     "#fac4c4"
 
   # ---------- Neutrals (greys) — light-theme orientation ----------
+  # As with the brand colours, the DSFR ships hover/active states only
+  # for the grey shades intended as interactive surfaces (white surface,
+  # tinted backgrounds, action-text). Borders, body text, mention text,
+  # absolute black/white and the docs-only `main` and `850-200` shades
+  # are static — they have no hover/active in the canonical CSS.
+  grey-main-525:                  "#7b7b7b"
   grey-1000-50:                   "#ffffff"
+  grey-1000-50-hover:             "#f6f6f6"
+  grey-1000-50-active:            "#ededed"
   grey-975-100:                   "#f6f6f6"
+  grey-975-100-hover:             "#dfdfdf"
+  grey-975-100-active:            "#cfcfcf"
   grey-950-150:                   "#eeeeee"
-  grey-900-175:                   "#e5e5e5"
-  grey-850-200:                   "#dddddd"
+  grey-950-150-hover:             "#d2d2d2"
+  grey-950-150-active:            "#c1c1c1"
+  grey-925-125:                   "#e5e5e5"
+  grey-900-175:                   "#dddddd"
+  grey-850-200:                   "#cecece"
   grey-625-425:                   "#929292"
   grey-425-625:                   "#666666"
   grey-200-850:                   "#3a3a3a"
+  grey-200-850-hover:             "#616161"
+  grey-200-850-active:            "#777777"
   grey-50-1000:                   "#161616"
   grey-0-1000:                    "#000000"
 
@@ -527,7 +542,7 @@ A 10-step grey scale handles backgrounds, text, borders, and dividers:
 | Page background | `#ffffff` | `grey-1000-50` |
 | Alt background | `#f6f6f6` | `grey-975-100` |
 | Contrast surface (inputs) | `#eeeeee` | `grey-950-150` |
-| Default border | `#e5e5e5` | `grey-900-175` |
+| Default border | `#dddddd` | `grey-900-175` |
 | Mention / placeholder text | `#666666` | `grey-425-625` |
 | Body text | `#161616` | `grey-50-1000` |
 
@@ -569,7 +584,7 @@ UI code must reference these, not the option layer. The table below lists the ma
 | `background-action-low-blue-france` | `#e3e3fd` (925) | `#21213f` (125) |
 | `text-default-grey` | `#161616` | `#cecece` |
 | `text-mention-grey` | `#666666` | `#929292` |
-| `border-default-grey` | `#e5e5e5` | `#353535` |
+| `border-default-grey` | `#dddddd` | `#353535` |
 | `focus-ring` | `#0a76f6` | `#0a76f6` |
 
 > **Critical rule.** Don't apply Bleu France to non-interactive titles. The DSFR reserves it for *clickable* elements; using it on a heading creates ambiguity with links and buttons.

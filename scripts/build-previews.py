@@ -58,15 +58,32 @@ PALETTE = {
         ("red-marianne-850-200",       ("#fcbfbf", "#5e2a2b"), None, None),
     ],
     "Neutres · orientation thème clair": [
-        ("grey-1000-50",  ("#ffffff", "#161616"), None, None),
-        ("grey-975-100",  ("#f6f6f6", "#1e1e1e"), None, None),
-        ("grey-950-150",  ("#eeeeee", "#2a2a2a"), None, None),
-        ("grey-900-175",  ("#e5e5e5", "#353535"), None, None),
-        ("grey-850-200",  ("#dddddd", "#3a3a3a"), None, None),
-        ("grey-625-425",  ("#929292", "#666666"), None, None),
+        # DSFR docs ordering: main → strong → 1000 → 975 → 950 → 925 → 900 → 850.
+        # `main`, `925-125`, `900-175` and `850-200` are static per the
+        # canonical CSS; only `1000-50`, `975-100`, `950-150` (background
+        # shades) and `200-850` (interactive text) expose hover/active.
+        # The user-screenshot 8-shade set comes first, then the
+        # additional decision-supporting shades our YAML also exposes.
+        ("grey-main-525", ("#7b7b7b", "#7b7b7b"), None, None),
         ("grey-425-625",  ("#666666", "#929292"), None, None),
-        ("grey-200-850",  ("#3a3a3a", "#cecece"), None, None),
-        ("grey-50-1000",  ("#161616", "#f5f5f5"), None, None),
+        ("grey-1000-50",  ("#ffffff", "#161616"),
+                          ("#f6f6f6", "#343434"),
+                          ("#ededed", "#474747")),
+        ("grey-975-100",  ("#f6f6f6", "#242424"),
+                          ("#dfdfdf", "#474747"),
+                          ("#cfcfcf", "#5b5b5b")),
+        ("grey-950-150",  ("#eeeeee", "#2f2f2f"),
+                          ("#d2d2d2", "#545454"),
+                          ("#c1c1c1", "#696969")),
+        ("grey-925-125",  ("#e5e5e5", "#2a2a2a"), None, None),
+        ("grey-900-175",  ("#dddddd", "#353535"), None, None),
+        ("grey-850-200",  ("#cecece", "#3a3a3a"), None, None),
+        # Additional shades exposed in our YAML, used by decision tokens:
+        ("grey-625-425",  ("#929292", "#666666"), None, None),
+        ("grey-200-850",  ("#3a3a3a", "#cecece"),
+                          ("#616161", "#a8a8a8"),
+                          ("#777777", "#939393")),
+        ("grey-50-1000",  ("#161616", "#ffffff"), None, None),
         ("grey-0-1000",   ("#000000", "#ffffff"), None, None),
     ],
     "Système · feedback fonctionnel": [

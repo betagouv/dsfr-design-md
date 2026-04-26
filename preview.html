@@ -96,14 +96,24 @@
       --c-red-marianne-850-200:        #fcbfbf;
 
       /* ---- Neutres · orientation thème clair ---- */
-      --c-grey-1000-50:        #ffffff;
-      --c-grey-975-100:        #f6f6f6;
-      --c-grey-950-150:        #eeeeee;
-      --c-grey-900-175:        #e5e5e5;
-      --c-grey-850-200:        #dddddd;
-      --c-grey-625-425:        #929292;
+      --c-grey-main-525:        #7b7b7b;
       --c-grey-425-625:        #666666;
+      --c-grey-1000-50:        #ffffff;
+      --c-grey-1000-50-hover:  #f6f6f6;
+      --c-grey-1000-50-active: #ededed;
+      --c-grey-975-100:        #f6f6f6;
+      --c-grey-975-100-hover:  #dfdfdf;
+      --c-grey-975-100-active: #cfcfcf;
+      --c-grey-950-150:        #eeeeee;
+      --c-grey-950-150-hover:  #d2d2d2;
+      --c-grey-950-150-active: #c1c1c1;
+      --c-grey-925-125:        #e5e5e5;
+      --c-grey-900-175:        #dddddd;
+      --c-grey-850-200:        #cecece;
+      --c-grey-625-425:        #929292;
       --c-grey-200-850:        #3a3a3a;
+      --c-grey-200-850-hover:  #616161;
+      --c-grey-200-850-active: #777777;
       --c-grey-50-1000:        #161616;
       --c-grey-0-1000:        #000000;
 
@@ -954,45 +964,10 @@
     <div class="group-label">Neutres · orientation thème clair</div>
     <div class="shade-grid">
       <div class="shade">
-        <div class="hero" style="background:var(--c-grey-1000-50)"></div>
+        <div class="hero" style="background:var(--c-grey-main-525)"></div>
         <div class="meta">
-          <b>grey-1000-50</b>
-          <code class="hex">#ffffff</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-grey-975-100)"></div>
-        <div class="meta">
-          <b>grey-975-100</b>
-          <code class="hex">#f6f6f6</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-grey-950-150)"></div>
-        <div class="meta">
-          <b>grey-950-150</b>
-          <code class="hex">#eeeeee</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-grey-900-175)"></div>
-        <div class="meta">
-          <b>grey-900-175</b>
-          <code class="hex">#e5e5e5</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-grey-850-200)"></div>
-        <div class="meta">
-          <b>grey-850-200</b>
-          <code class="hex">#dddddd</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-grey-625-425)"></div>
-        <div class="meta">
-          <b>grey-625-425</b>
-          <code class="hex">#929292</code>
+          <b>grey-main-525</b>
+          <code class="hex">#7b7b7b</code>
         </div>
       </div>
       <div class="shade">
@@ -1003,10 +978,75 @@
         </div>
       </div>
       <div class="shade">
+        <div class="hero" style="background:var(--c-grey-1000-50)"></div>
+        <div class="meta">
+          <b>grey-1000-50</b>
+          <code class="hex">#ffffff</code>
+        </div>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-1000-50-hover)"></span><b>hover</b><code>#f6f6f6</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-1000-50-active)"></span><b>active</b><code>#ededed</code></div>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-grey-975-100)"></div>
+        <div class="meta">
+          <b>grey-975-100</b>
+          <code class="hex">#f6f6f6</code>
+        </div>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-975-100-hover)"></span><b>hover</b><code>#dfdfdf</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-975-100-active)"></span><b>active</b><code>#cfcfcf</code></div>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-grey-950-150)"></div>
+        <div class="meta">
+          <b>grey-950-150</b>
+          <code class="hex">#eeeeee</code>
+        </div>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-150-hover)"></span><b>hover</b><code>#d2d2d2</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-150-active)"></span><b>active</b><code>#c1c1c1</code></div>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-grey-925-125)"></div>
+        <div class="meta">
+          <b>grey-925-125</b>
+          <code class="hex">#e5e5e5</code>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-grey-900-175)"></div>
+        <div class="meta">
+          <b>grey-900-175</b>
+          <code class="hex">#dddddd</code>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-grey-850-200)"></div>
+        <div class="meta">
+          <b>grey-850-200</b>
+          <code class="hex">#cecece</code>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-grey-625-425)"></div>
+        <div class="meta">
+          <b>grey-625-425</b>
+          <code class="hex">#929292</code>
+        </div>
+      </div>
+      <div class="shade">
         <div class="hero" style="background:var(--c-grey-200-850)"></div>
         <div class="meta">
           <b>grey-200-850</b>
           <code class="hex">#3a3a3a</code>
+        </div>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-200-850-hover)"></span><b>hover</b><code>#616161</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-200-850-active)"></span><b>active</b><code>#777777</code></div>
         </div>
       </div>
       <div class="shade">
