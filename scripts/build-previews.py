@@ -26,23 +26,36 @@ ROOT = Path(__file__).resolve().parent.parent
 # ---------------------------------------------------------------------
 # Tuple shape: (light, dark) — None if a token is theme-stable.
 
+#
+# Ordering convention (mirrors the DSFR documentation site's palette pages):
+#
+#   1. main         (reference colour, no -hover/-active)
+#   2. strong       (saturated interactive shade — `sun-113-625` for Bleu
+#                    France, `425-625` for the rest)
+#   3. lightest     (`-975-75`)
+#   4. lighter      (`-950-100`)
+#   5. light        (`-925-125`)
+#   6. softest      (`-850-200`)
+#
+# i.e. main → strong → tints lightest-to-darkest. This is *not* numeric
+# order; it's the design-system reading order used by the DSFR docs.
 PALETTE = {
     "Bleu France · marque primaire": [
         # name, default L/D, hover L/D or None, active L/D or None
-        ("blue-france-sun-113-625",    ("#000091", "#8585f6"), ("#1212ff", "#b1b1f9"), ("#2323ff", "#c6c6fb")),
         ("blue-france-main-525",       ("#6a6af4", "#6a6af4"), None, None),
-        ("blue-france-850-200",        ("#cacafb", "#313178"), None, None),
-        ("blue-france-925-125",        ("#e3e3fd", "#272747"), ("#c1c1fb", "#4a4a7d"), ("#adadf9", "#5e5e90")),
-        ("blue-france-950-100",        ("#ececfe", "#21213f"), ("#cecefc", "#424275"), ("#bbbbfc", "#56568c")),
+        ("blue-france-sun-113-625",    ("#000091", "#8585f6"), ("#1212ff", "#b1b1f9"), ("#2323ff", "#c6c6fb")),
         ("blue-france-975-75",         ("#f5f5fe", "#1b1b35"), ("#dcdcfc", "#3a3a68"), ("#cbcbfa", "#4d4d83")),
+        ("blue-france-950-100",        ("#ececfe", "#21213f"), ("#cecefc", "#424275"), ("#bbbbfc", "#56568c")),
+        ("blue-france-925-125",        ("#e3e3fd", "#272747"), ("#c1c1fb", "#4a4a7d"), ("#adadf9", "#5e5e90")),
+        ("blue-france-850-200",        ("#cacafb", "#313178"), None, None),
     ],
     "Rouge Marianne": [
         ("red-marianne-main-472",      ("#e1000f", "#e1000f"), None, None),
         ("red-marianne-425-625",       ("#c9191e", "#f95c5e"), ("#f93f42", "#fa9293"), ("#f95a5c", "#fbabac")),
-        ("red-marianne-850-200",       ("#fcbfbf", "#5e2a2b"), None, None),
-        ("red-marianne-925-125",       ("#fddede", "#3b2424"), ("#fbb6b6", "#6b4545"), ("#fa9e9e", "#865757")),
-        ("red-marianne-950-100",       ("#fee9e9", "#331f1f"), ("#fdc5c5", "#613f3f"), ("#fcafaf", "#7b5151")),
         ("red-marianne-975-75",        ("#fef4f4", "#2b1919"), ("#fcd7d7", "#573737"), ("#fac4c4", "#704848")),
+        ("red-marianne-950-100",       ("#fee9e9", "#331f1f"), ("#fdc5c5", "#613f3f"), ("#fcafaf", "#7b5151")),
+        ("red-marianne-925-125",       ("#fddede", "#3b2424"), ("#fbb6b6", "#6b4545"), ("#fa9e9e", "#865757")),
+        ("red-marianne-850-200",       ("#fcbfbf", "#5e2a2b"), None, None),
     ],
     "Neutres · orientation thème clair": [
         ("grey-1000-50",  ("#ffffff", "#161616"), None, None),

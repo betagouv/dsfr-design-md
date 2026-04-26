@@ -64,36 +64,36 @@
     :root {
     /* BEGIN GENERATED TOKENS */
       /* ---- Bleu France · marque primaire ---- */
+      --c-blue-france-main-525:        #6a6af4;
       --c-blue-france-sun-113-625:        #000091;
       --c-blue-france-sun-113-625-hover:  #1212ff;
       --c-blue-france-sun-113-625-active: #2323ff;
-      --c-blue-france-main-525:        #6a6af4;
-      --c-blue-france-850-200:        #cacafb;
-      --c-blue-france-925-125:        #e3e3fd;
-      --c-blue-france-925-125-hover:  #c1c1fb;
-      --c-blue-france-925-125-active: #adadf9;
-      --c-blue-france-950-100:        #ececfe;
-      --c-blue-france-950-100-hover:  #cecefc;
-      --c-blue-france-950-100-active: #bbbbfc;
       --c-blue-france-975-75:        #f5f5fe;
       --c-blue-france-975-75-hover:  #dcdcfc;
       --c-blue-france-975-75-active: #cbcbfa;
+      --c-blue-france-950-100:        #ececfe;
+      --c-blue-france-950-100-hover:  #cecefc;
+      --c-blue-france-950-100-active: #bbbbfc;
+      --c-blue-france-925-125:        #e3e3fd;
+      --c-blue-france-925-125-hover:  #c1c1fb;
+      --c-blue-france-925-125-active: #adadf9;
+      --c-blue-france-850-200:        #cacafb;
 
       /* ---- Rouge Marianne ---- */
       --c-red-marianne-main-472:        #e1000f;
       --c-red-marianne-425-625:        #c9191e;
       --c-red-marianne-425-625-hover:  #f93f42;
       --c-red-marianne-425-625-active: #f95a5c;
-      --c-red-marianne-850-200:        #fcbfbf;
-      --c-red-marianne-925-125:        #fddede;
-      --c-red-marianne-925-125-hover:  #fbb6b6;
-      --c-red-marianne-925-125-active: #fa9e9e;
-      --c-red-marianne-950-100:        #fee9e9;
-      --c-red-marianne-950-100-hover:  #fdc5c5;
-      --c-red-marianne-950-100-active: #fcafaf;
       --c-red-marianne-975-75:        #fef4f4;
       --c-red-marianne-975-75-hover:  #fcd7d7;
       --c-red-marianne-975-75-active: #fac4c4;
+      --c-red-marianne-950-100:        #fee9e9;
+      --c-red-marianne-950-100-hover:  #fdc5c5;
+      --c-red-marianne-950-100-active: #fcafaf;
+      --c-red-marianne-925-125:        #fddede;
+      --c-red-marianne-925-125-hover:  #fbb6b6;
+      --c-red-marianne-925-125-active: #fa9e9e;
+      --c-red-marianne-850-200:        #fcbfbf;
 
       /* ---- Neutres · orientation thème clair ---- */
       --c-grey-1000-50:        #ffffff;
@@ -265,19 +265,26 @@
     .scheme-switch [aria-current="true"] { color: var(--c-text-default-grey); font-weight: 700; }
 
     /* ============================================================
-       6. Couleurs — cartes par teinte (DSFR-style, 210px fixe)
+       6. Couleurs — cartes par teinte (DSFR-style, 3 par rangée, 210px)
        ============================================================
        Mirrors the DSFR documentation site's `.box-sample` element:
-       fixed 210px content width, 10px padding, flex-wrap container.
-       The viewport reflows the row count rather than stretching cards. */
+       fixed 210px content width. Grid is locked at exactly 3 columns
+       (matching the DSFR's iframe layout) on desktop, falls back to
+       2 then 1 on narrow viewports. */
     .shade-grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, 210px);
       gap: 0.625rem;        /* = 10px, matches DSFR's box-sample margin */
       margin-bottom: var(--s-6v);
+      justify-content: start;
+    }
+    @media (max-width: 720px) {
+      .shade-grid { grid-template-columns: repeat(2, 210px); }
+    }
+    @media (max-width: 480px) {
+      .shade-grid { grid-template-columns: 210px; }
     }
     .shade {
-      flex: 0 0 210px;
       width: 210px;
       border: 1px solid var(--c-border-default-grey);
       background: var(--c-bg-default);
@@ -823,6 +830,13 @@
     <div class="group-label">Bleu France · marque primaire</div>
     <div class="shade-grid">
       <div class="shade">
+        <div class="hero" style="background:var(--c-blue-france-main-525)"></div>
+        <div class="meta">
+          <b>blue-france-main-525</b>
+          <code class="hex">#6a6af4</code>
+        </div>
+      </div>
+      <div class="shade">
         <div class="hero" style="background:var(--c-blue-france-sun-113-625)"></div>
         <div class="meta">
           <b>blue-france-sun-113-625</b>
@@ -834,28 +848,14 @@
         </div>
       </div>
       <div class="shade">
-        <div class="hero" style="background:var(--c-blue-france-main-525)"></div>
+        <div class="hero" style="background:var(--c-blue-france-975-75)"></div>
         <div class="meta">
-          <b>blue-france-main-525</b>
-          <code class="hex">#6a6af4</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-blue-france-850-200)"></div>
-        <div class="meta">
-          <b>blue-france-850-200</b>
-          <code class="hex">#cacafb</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-blue-france-925-125)"></div>
-        <div class="meta">
-          <b>blue-france-925-125</b>
-          <code class="hex">#e3e3fd</code>
+          <b>blue-france-975-75</b>
+          <code class="hex">#f5f5fe</code>
         </div>
         <div class="states-row">
-          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-925-125-hover)"></span><b>hover</b><code>#c1c1fb</code></div>
-          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-925-125-active)"></span><b>active</b><code>#adadf9</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-975-75-hover)"></span><b>hover</b><code>#dcdcfc</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-975-75-active)"></span><b>active</b><code>#cbcbfa</code></div>
         </div>
       </div>
       <div class="shade">
@@ -870,14 +870,21 @@
         </div>
       </div>
       <div class="shade">
-        <div class="hero" style="background:var(--c-blue-france-975-75)"></div>
+        <div class="hero" style="background:var(--c-blue-france-925-125)"></div>
         <div class="meta">
-          <b>blue-france-975-75</b>
-          <code class="hex">#f5f5fe</code>
+          <b>blue-france-925-125</b>
+          <code class="hex">#e3e3fd</code>
         </div>
         <div class="states-row">
-          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-975-75-hover)"></span><b>hover</b><code>#dcdcfc</code></div>
-          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-975-75-active)"></span><b>active</b><code>#cbcbfa</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-925-125-hover)"></span><b>hover</b><code>#c1c1fb</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-blue-france-925-125-active)"></span><b>active</b><code>#adadf9</code></div>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-blue-france-850-200)"></div>
+        <div class="meta">
+          <b>blue-france-850-200</b>
+          <code class="hex">#cacafb</code>
         </div>
       </div>
     </div>
@@ -903,21 +910,14 @@
         </div>
       </div>
       <div class="shade">
-        <div class="hero" style="background:var(--c-red-marianne-850-200)"></div>
+        <div class="hero" style="background:var(--c-red-marianne-975-75)"></div>
         <div class="meta">
-          <b>red-marianne-850-200</b>
-          <code class="hex">#fcbfbf</code>
-        </div>
-      </div>
-      <div class="shade">
-        <div class="hero" style="background:var(--c-red-marianne-925-125)"></div>
-        <div class="meta">
-          <b>red-marianne-925-125</b>
-          <code class="hex">#fddede</code>
+          <b>red-marianne-975-75</b>
+          <code class="hex">#fef4f4</code>
         </div>
         <div class="states-row">
-          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-925-125-hover)"></span><b>hover</b><code>#fbb6b6</code></div>
-          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-925-125-active)"></span><b>active</b><code>#fa9e9e</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-975-75-hover)"></span><b>hover</b><code>#fcd7d7</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-975-75-active)"></span><b>active</b><code>#fac4c4</code></div>
         </div>
       </div>
       <div class="shade">
@@ -932,14 +932,21 @@
         </div>
       </div>
       <div class="shade">
-        <div class="hero" style="background:var(--c-red-marianne-975-75)"></div>
+        <div class="hero" style="background:var(--c-red-marianne-925-125)"></div>
         <div class="meta">
-          <b>red-marianne-975-75</b>
-          <code class="hex">#fef4f4</code>
+          <b>red-marianne-925-125</b>
+          <code class="hex">#fddede</code>
         </div>
         <div class="states-row">
-          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-975-75-hover)"></span><b>hover</b><code>#fcd7d7</code></div>
-          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-975-75-active)"></span><b>active</b><code>#fac4c4</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-925-125-hover)"></span><b>hover</b><code>#fbb6b6</code></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-red-marianne-925-125-active)"></span><b>active</b><code>#fa9e9e</code></div>
+        </div>
+      </div>
+      <div class="shade">
+        <div class="hero" style="background:var(--c-red-marianne-850-200)"></div>
+        <div class="meta">
+          <b>red-marianne-850-200</b>
+          <code class="hex">#fcbfbf</code>
         </div>
       </div>
     </div>
