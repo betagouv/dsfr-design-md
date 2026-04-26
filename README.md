@@ -22,14 +22,23 @@ Ce projet fait le pont entre les deux.
 
 ```
 .
-├── DESIGN.md          ← le système de design, au format DESIGN.md
-├── preview.html       ← catalogue visuel — thème clair
-├── preview-dark.html  ← catalogue visuel — thème sombre
-├── README.md          ← ce fichier
+├── DESIGN.md                    ← le système de design, au format DESIGN.md
+├── preview.html                 ← catalogue visuel — thème clair
+├── preview-dark.html            ← catalogue visuel — thème sombre
+├── scripts/build-previews.py    ← générateur des deux pages (tokens canoniques)
+├── README.md                    ← ce fichier
 └── .gitignore
 ```
 
-Les fichiers `preview.html` et `preview-dark.html` sont des pages HTML autonomes (sans script, sans étape de build) qui rendent l'ensemble des tokens et composants documentés dans `DESIGN.md`. Elles servent de **test de cohérence visuelle** : si une valeur manque ou diverge dans le YAML, le composant correspondant casse à l'écran. Marianne et Spectral sont chargées depuis le CDN officiel `@gouvfr/dsfr` pour la fidélité typographique.
+Les fichiers `preview.html` et `preview-dark.html` sont des pages HTML autonomes (sans script, sans étape de build côté lecteur) qui rendent l'ensemble des tokens et composants documentés dans `DESIGN.md`. Elles servent de **test de cohérence visuelle** : si une valeur manque ou diverge dans le YAML, le composant correspondant casse à l'écran. Marianne et Spectral sont chargées depuis le CDN officiel `@gouvfr/dsfr` pour la fidélité typographique.
+
+Les sections « Couleurs » et « Tokens de décision » de chaque aperçu sont régénérées par `scripts/build-previews.py` à partir d'une table unique de tokens canoniques (miroir de `@gouvfr/dsfr/dist/dsfr.css`). Pour mettre à jour les pastilles après modification du `DESIGN.md`&nbsp;:
+
+```bash
+python3 scripts/build-previews.py
+```
+
+Les autres sections (typographie, espacement, composants, etc.) sont écrites à la main et ne sont pas touchées par le générateur.
 
 Le `DESIGN.md` couvre :
 

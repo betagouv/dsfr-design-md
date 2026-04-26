@@ -30,6 +30,8 @@ colors:
   blue-france-950-100-hover:      "#cecefc"
   blue-france-950-100-active:     "#bbbbfc"
   blue-france-975-75:             "#f5f5fe"
+  blue-france-975-75-hover:       "#dcdcfc"
+  blue-france-975-75-active:      "#cbcbfa"
 
   # ---------- Brand: Rouge Marianne ----------
   red-marianne-425-625:           "#c9191e"
@@ -38,7 +40,14 @@ colors:
   red-marianne-main-472:          "#e1000f"
   red-marianne-850-200:           "#fcbfbf"
   red-marianne-925-125:           "#fddede"
+  red-marianne-925-125-hover:     "#fbb6b6"
+  red-marianne-925-125-active:    "#fa9e9e"
+  red-marianne-950-100:           "#fee9e9"
+  red-marianne-950-100-hover:     "#fdc5c5"
+  red-marianne-950-100-active:    "#fcafaf"
   red-marianne-975-75:            "#fef4f4"
+  red-marianne-975-75-hover:      "#fcd7d7"
+  red-marianne-975-75-active:     "#fac4c4"
 
   # ---------- Neutrals (greys) — light-theme orientation ----------
   grey-1000-50:                   "#ffffff"
@@ -53,19 +62,44 @@ colors:
   grey-0-1000:                    "#000000"
 
   # ---------- System (functional) ----------
-  # The `-text-default` token for success is darker than `-425-625` so
-  # that text on the lightest tinted background (`-975-75`) still meets
-  # WCAG AA contrast (4.5:1). Warning, error, and info families don't
-  # need a darker text variant — their `-425-625` already passes.
-  success-425-625:                "#1f8d49"
-  success-text-default:           "#18753c"
+  # Each system family ships TWO interactive shades plus one alert tint:
+  #   - `-425-625`  saturated, used for solid status backgrounds and
+  #                 also as the canonical text-default-* color for
+  #                 each family (DSFR aliases text-default-success →
+  #                 success-425-625, etc.)
+  #   - `-950-100`  pale tint, used for low-emphasis status surfaces
+  #   - `-975-75`   ultra-light tint, alert backgrounds (no hover/
+  #                 active because alerts are not actionable surfaces)
+  # All four families pass WCAG AA at body text size on their `-975-75`
+  # alert background using their `-425-625` for text.
+  success-425-625:                "#18753c"
+  success-425-625-hover:          "#27a959"
+  success-425-625-active:         "#2fc368"
+  success-950-100:                "#b8fec9"
+  success-950-100-hover:          "#46fd89"
+  success-950-100-active:         "#34eb7b"
   success-975-75:                 "#dffee6"
   warning-425-625:                "#b34000"
+  warning-425-625-hover:          "#ff6218"
+  warning-425-625-active:         "#ff7a55"
+  warning-950-100:                "#ffe9e6"
+  warning-950-100-hover:          "#ffc6bd"
+  warning-950-100-active:         "#ffb0a2"
   warning-975-75:                 "#fff4f3"
   error-425-625:                  "#ce0500"
+  error-425-625-hover:            "#ff2725"
+  error-425-625-active:           "#ff4140"
+  error-950-100:                  "#ffe9e9"
+  error-950-100-hover:            "#ffc5c5"
+  error-950-100-active:           "#ffafaf"
   error-975-75:                   "#fff4f4"
   info-425-625:                   "#0063cb"
-  info-975-75:                    "#e8edff"
+  info-425-625-hover:             "#3b87ff"
+  info-425-625-active:            "#6798ff"
+  info-950-100:                   "#e8edff"
+  info-950-100-hover:             "#c2d1ff"
+  info-950-100-active:            "#a9bfff"
+  info-975-75:                    "#f4f6ff"
 
   # ---------- Illustrative accents (12 families, accent-only) ----------
   # Intentionally orphaned at the YAML level — these are NOT referenced by any
@@ -378,7 +412,7 @@ components:
     height:          24px
   badge-success:
     backgroundColor: "{colors.success-975-75}"
-    textColor:       "{colors.success-text-default}"
+    textColor:       "{colors.success-425-625}"
   badge-warning:
     backgroundColor: "{colors.warning-975-75}"
     textColor:       "{colors.warning}"
@@ -501,12 +535,14 @@ A 10-step grey scale handles backgrounds, text, borders, and dividers:
 
 Reserved for **system feedback only** — never decorative.
 
-| Role | Hex | Background companion |
-|------|-----|----------------------|
-| Success | `#1f8d49` | `#dffee6` |
-| Warning | `#b34000` | `#fff4f3` |
-| Error   | `#ce0500` | `#fff4f4` |
-| Info    | `#0063cb` | `#e8edff` |
+| Role | Hex (`-425-625`) | Tinted background (`-950-100`) | Alert background (`-975-75`) |
+|------|------------------|-------------------------------|------------------------------|
+| Success | `#18753c` | `#b8fec9` | `#dffee6` |
+| Warning | `#b34000` | `#ffe9e6` | `#fff4f3` |
+| Error   | `#ce0500` | `#ffe9e9` | `#fff4f4` |
+| Info    | `#0063cb` | `#e8edff` | `#f4f6ff` |
+
+Each interactive shade (`-425-625` and `-950-100`) ships explicit `-hover` and `-active` states; `-975-75` does not (alerts are not actionable surfaces).
 
 ### Illustrative accents
 
