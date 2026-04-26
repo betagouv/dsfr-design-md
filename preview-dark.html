@@ -294,16 +294,21 @@
        (no pill on the hex value, no flex column — natural flow). */
     .shade-grid {
       display: grid;
-      grid-template-columns: repeat(3, 210px);
+      /* Track width = 210px content + 2 × 10px padding = 230px outer.
+         (We use box-sizing: content-box on `.shade` to keep `width:210px`
+         meaning content-width, matching the DSFR's CSS exactly. The grid
+         track therefore has to be the *outer* width, not the content
+         width, otherwise cards overflow into the next column.) */
+      grid-template-columns: repeat(3, 230px);
       gap: 0.625rem;
       margin-bottom: var(--s-6v);
       justify-content: start;
     }
-    @media (max-width: 720px) {
-      .shade-grid { grid-template-columns: repeat(2, 210px); }
+    @media (max-width: 760px) {
+      .shade-grid { grid-template-columns: repeat(2, 230px); }
     }
-    @media (max-width: 480px) {
-      .shade-grid { grid-template-columns: 210px; }
+    @media (max-width: 500px) {
+      .shade-grid { grid-template-columns: 230px; }
     }
     .shade {
       width: 210px;
@@ -345,13 +350,18 @@
       padding: 0;
       border-radius: 0;
     }
-    /* Hover/active sub-bar — 2 cells side by side, no internal divider.
-       Each cell holds its own coloured bar then label/hex/rgb stacked. */
+    /* Hover/active sub-bar — 2 cells side by side, separated only by a
+       small visible gap (matches the DSFR docs). Each cell holds its
+       own coloured bar then label/hex/rgb stacked underneath. */
     .shade .states-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
+      gap: 2px;                /* DSFR has a hairline gap, not a divider */
       margin-top: 0.875rem;
+    }
+    .shade .state-cell {
+      min-width: 0;            /* allow the cell to shrink so flex/grid
+                                  layout doesn't push past the card */
     }
     .shade .state-cell .bar {
       display: block;
@@ -370,7 +380,7 @@
     }
     .shade .state-cell .hex,
     .shade .state-cell .rgb {
-      font-size: 0.75rem;
+      font-size: 0.6875rem;    /* = 11px, fits "rgb(187,187,252)" in 105px */
     }
     .group-label {
       font-family: var(--font-marianne); font-weight: 700;
