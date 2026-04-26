@@ -265,13 +265,19 @@
     .scheme-switch [aria-current="true"] { color: var(--c-text-default-grey); font-weight: 700; }
 
     /* ============================================================
-       6. Couleurs — cartes par teinte (DSFR-style)
+       6. Couleurs — cartes par teinte (DSFR-style, 3 par rangée)
        ============================================================ */
     .shade-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-      gap: var(--s-3v);
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-2v);
       margin-bottom: var(--s-6v);
+    }
+    @media (max-width: 768px) {
+      .shade-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .shade-grid { grid-template-columns: 1fr; }
     }
     .shade {
       border: 1px solid var(--c-border-default-grey);
@@ -280,59 +286,94 @@
       display: flex;
       flex-direction: column;
     }
+    /* Hero swatch — top of each card. Kept compact so the card stays thin. */
     .shade .hero {
       display: block;
-      height: 5rem;
+      height: 3rem;
     }
     .shade .meta {
-      padding: var(--s-3v);
+      padding: var(--s-2v) var(--s-3v);
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.75rem;
-      line-height: 1.125rem;
-      text-align: center;
+      font-size: 0.6875rem;
+      line-height: 1rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--s-2v);
     }
     .shade .meta b {
       font-family: var(--font-marianne);
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      display: block;
-      margin-bottom: 0.125rem;
       color: var(--c-text-default-grey);
+      letter-spacing: -0.01em;
+      /* Long token names should ellipsize rather than wrap. */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+      flex: 1 1 auto;
     }
-    .shade .meta .hex { color: var(--c-text-mention-grey); }
+    .shade .meta .hex {
+      color: var(--c-text-mention-grey);
+      flex: 0 0 auto;
+    }
+    /* Hover/active sub-bar — single row, 2 cells side-by-side, divided. */
     .shade .states-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       border-top: 1px solid var(--c-border-default-grey);
     }
     .shade .state-cell {
-      padding: var(--s-2v);
-      text-align: center;
+      padding: var(--s-1v) var(--s-2v) var(--s-2v);
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.6875rem;
-      line-height: 1rem;
+      font-size: 0.625rem;
+      line-height: 0.9375rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
     }
     .shade .state-cell + .state-cell { border-left: 1px solid var(--c-border-default-grey); }
     .shade .state-cell .bar {
       display: block;
-      height: 1.25rem;
-      margin-bottom: var(--s-1v);
+      height: 0.875rem;
+      margin-bottom: 0.125rem;
     }
     .shade .state-cell b {
       font-family: var(--font-marianne);
       font-weight: 700;
-      display: block;
       color: var(--c-text-default-grey);
-      font-size: 0.6875rem;
+      font-size: 0.625rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-    .shade .state-cell code { background: transparent; padding: 0; color: var(--c-text-mention-grey); }
+    .shade .state-cell code {
+      background: transparent;
+      padding: 0;
+      color: var(--c-text-mention-grey);
+      font-size: 0.625rem;
+    }
     .group-label {
       font-family: var(--font-marianne); font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.06em;
       font-size: 0.75rem; color: var(--c-text-mention-grey);
       margin: var(--s-6v) 0 var(--s-2v);
+    }
+    /* Explanatory note above the colour grids. */
+    .colors-note {
+      border-left: 4px solid var(--c-text-action-high-blue-france);
+      background: var(--c-bg-alt);
+      padding: var(--s-3v) var(--s-4v);
+      margin: var(--s-2v) 0 var(--s-6v);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .colors-note p { margin: 0 0 var(--s-2v); }
+    .colors-note p:last-child { margin-bottom: 0; }
+    .colors-note code {
+      background: var(--c-bg-default);
+      padding: 0.0625rem 0.25rem;
+      font-size: 0.8125rem;
     }
 
     /* Decision-token mapping table */
@@ -770,6 +811,19 @@
   <section id="colors">
     <h2>Couleurs</h2>
     <p class="lede">Tokens d'option du DSFR, regroupés par famille. Le code de chaque pastille indique le nom du token tel qu'il apparaît dans le YAML du <code>DESIGN.md</code>.</p>
+
+    <aside class="colors-note">
+      <p><b>Pourquoi certaines teintes n'ont-elles pas de variantes <code>-hover</code> et <code>-active</code>&nbsp;?</b></p>
+      <p>La distribution CSS officielle du DSFR (<code>@gouvfr/dsfr/dist/dsfr.css</code>) ne déclare des états interactifs que pour les nuances destinées à servir de surface d'action&nbsp;: la couleur primaire saturée (<code>sun-113-625</code>), les fonds d'action discrets (<code>925-125</code>, <code>950-100</code>, <code>975-75</code>), et les deux teintes interactives de chaque famille système (<code>-425-625</code> et <code>-950-100</code>).</p>
+      <p>Les nuances suivantes ne portent <i>pas</i> d'états par construction, et c'est volontaire&nbsp;:</p>
+      <ul style="margin: var(--s-2v) 0 0 var(--s-4v); padding: 0;">
+        <li><code>main</code> et <code>850-200</code>&nbsp;: réservées aux <b>bordures, filets et illustrations statiques</b>.</li>
+        <li><b>Neutres (gris)</b>&nbsp;: utilisés pour le texte et les fonds, jamais comme surfaces d'action autonomes.</li>
+        <li><code>-975-75</code> des familles système&nbsp;: fonds d'<b>alertes non actionnables</b> (un message d'erreur n'est pas un bouton).</li>
+        <li><b>Accents illustratifs</b>&nbsp;: usage purement éditorial, jamais interactif.</li>
+      </ul>
+      <p style="margin-top: var(--s-3v);">Le <code>DESIGN.md</code> reflète exactement ce contrat&nbsp;: <b>aucune teinte n'a d'<code>-hover</code>/<code>-active</code> que le DSFR canonique ne définirait pas</b>, et inversement.</p>
+    </aside>
 
     <!-- BEGIN GENERATED COLORS -->
     <div class="group-label">Bleu France · marque primaire</div>
