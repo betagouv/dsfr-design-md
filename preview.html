@@ -344,13 +344,14 @@
        9. Rayons
        ============================================================ */
     .radius-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: var(--s-4v);
-      max-width: 32rem;
+      align-items: center;
     }
     .radius-cell {
-      aspect-ratio: 1 / 1;
+      width: 6rem;
+      height: 6rem;
       background: var(--c-blue-france-925-125);
       border: 1px solid var(--c-border-default-grey);
       display: flex;
@@ -364,7 +365,14 @@
     .radius-cell.r-none { border-radius: var(--r-none); }
     .radius-cell.r-sm   { border-radius: var(--r-sm); }
     .radius-cell.r-md   { border-radius: var(--r-md); }
-    .radius-cell.r-pill { border-radius: var(--r-pill); }
+    /* pill is a horizontal stadium, not a circle — its width must
+       exceed its height for the rounded ends to read as a pill. */
+    .radius-cell.r-pill {
+      border-radius: var(--r-pill);
+      width: 12rem;
+      height: 3rem;
+      align-items: center;
+    }
 
     /* ============================================================
        10. Composants
