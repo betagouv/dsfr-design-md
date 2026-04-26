@@ -175,32 +175,75 @@ def css_var_block(scheme: str) -> str:
     return "\n".join(lines).rstrip()
 
 
-def short_label(token: str) -> str:
-    """Display name for a token (strip family prefix when verbose)."""
-    return token
+def hex_to_rgb(h: str) -> tuple[int, int, int]:
+    """`#abc` or `#aabbcc` → (r, g, b)."""
+    h = h.lstrip("#")
+    if len(h) == 3:
+        h = "".join(c * 2 for c in h)
+    return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+
+
+def hex_to_hsl(h: str) -> tuple[int, float, float]:
+    """`#abc` or `#aabbcc` → (hue°, saturation%, lightness%)."""
+    r, g, b = (c / 255 for c in hex_to_rgb(h))
+    mx, mn = max(r, g, b), min(r, g, b)
+    l = (mx + mn) / 2
+    if mx == mn:
+        return 0, 0.0, round(l * 100, 1)
+    d = mx - mn
+    s = d / (2 - mx - mn) if l > 0.5 else d / (mx + mn)
+    if mx == r:
+        hue = ((g - b) / d) + (6 if g < b else 0)
+    elif mx == g:
+        hue = (b - r) / d + 2
+    else:
+        hue = (r - g) / d + 4
+    return round(hue * 60), round(s * 100, 1), round(l * 100, 1)
+
+
+def fmt_rgb(h: str) -> str:
+    r, g, b = hex_to_rgb(h)
+    return f"rgb({r},{g},{b})"
+
+
+def fmt_hsl(h: str) -> str:
+    deg, s, l = hex_to_hsl(h)
+    # Trailing-zero strip to match DSFR's "85.8%" / "100%" formatting.
+    s_str = f"{s:g}"
+    l_str = f"{l:g}"
+    return f"hsl({deg}deg {s_str}% {l_str}%)"
 
 
 def shade_card(token: str, default: tuple[str, str], hover, active, scheme: str) -> str:
-    """One card per shade: hero swatch + token name + hex + optional hover/active sub-bar."""
+    """One card per shade, mirroring the DSFR docs' `.box-sample`.
+
+    Layout: hero swatch (top), token name (bold), hex/rgb/hsl stacked,
+    then an optional 2-cell hover/active sub-bar with hex/rgb only.
+    All values use `<span>` (not `<code>`) so the global `code` styling
+    in preview.html doesn't render them as grey pills.
+    """
     idx = 0 if scheme == "light" else 1
+    hex_val = default[idx]
     parts: list[str] = []
     parts.append('<div class="shade">')
-    parts.append(f'  <div class="hero" style="background:var(--c-{token})"></div>')
-    parts.append('  <div class="meta">')
-    parts.append(f'    <b>{short_label(token)}</b>')
-    parts.append(f'    <code class="hex">{default[idx]}</code>')
-    parts.append('  </div>')
+    parts.append(f'  <span class="hero" style="background:var(--c-{token})"></span>')
+    parts.append(f'  <b class="name">{token}</b>')
+    parts.append(f'  <span class="hex">{hex_val}</span>')
+    parts.append(f'  <span class="rgb">{fmt_rgb(hex_val)}</span>')
+    parts.append(f'  <span class="hsl">{fmt_hsl(hex_val)}</span>')
     if hover or active:
         parts.append('  <div class="states-row">')
-        if hover:
+        for label, pair in (("hover", hover), ("active", active)):
+            if not pair:
+                continue
+            v = pair[idx]
             parts.append(
-                f'    <div class="state-cell"><span class="bar" style="background:var(--c-{token}-hover)"></span>'
-                f'<b>hover</b><code>{hover[idx]}</code></div>'
-            )
-        if active:
-            parts.append(
-                f'    <div class="state-cell"><span class="bar" style="background:var(--c-{token}-active)"></span>'
-                f'<b>active</b><code>{active[idx]}</code></div>'
+                f'    <div class="state-cell">'
+                f'<span class="bar" style="background:var(--c-{token}-{label})"></span>'
+                f'<b>{label}</b>'
+                f'<span class="hex">{v}</span>'
+                f'<span class="rgb">{fmt_rgb(v)}</span>'
+                f'</div>'
             )
         parts.append('  </div>')
     parts.append('</div>')
