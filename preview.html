@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSFR · DESIGN.md — aperçu (clair)</title>
+  <meta name="description" content="Aperçu visuel du DESIGN.md du DSFR. Rendu uniquement à partir des tokens YAML, sans dépendre de @gouvfr/dsfr.">
+  <link rel="canonical" href="https://github.com/betagouv/dsfr-design-md/blob/main/preview.html">
+
+  <style>
+    /* ============================================================
+       1. Marianne & Spectral — chargées depuis le CDN officiel DSFR
+       ------------------------------------------------------------
+       Les fontes ne sont pas redistribuées par ce dépôt. Elles sont
+       servies depuis le paquet @gouvfr/dsfr publié sur jsdelivr,
+       sous les conditions de la fonte Marianne (cf. DSFR LICENSE.md).
+       ============================================================ */
+    @font-face {
+      font-family: "Marianne";
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Light.woff2") format("woff2");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Marianne";
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Marianne";
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Medium.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Marianne";
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Bold.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Spectral";
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Spectral-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Spectral";
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Spectral-ExtraBold.woff2") format("woff2");
+      font-weight: 800;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ============================================================
+       2. Tokens — miroir 1:1 du YAML de DESIGN.md
+       ============================================================ */
+    :root {
+      /* ---- Bleu France ---- */
+      --c-blue-france-sun-113-625:        #000091;
+      --c-blue-france-sun-113-625-hover:  #1212ff;
+      --c-blue-france-sun-113-625-active: #2323ff;
+      --c-blue-france-main-525:           #6a6af4;
+      --c-blue-france-850-200:            #cacafb;
+      --c-blue-france-925-125:            #e3e3fd;
+      --c-blue-france-925-125-hover:      #c1c1fb;
+      --c-blue-france-925-125-active:     #adadf9;
+      --c-blue-france-950-100:            #ececfe;
+      --c-blue-france-950-100-hover:      #cecefc;
+      --c-blue-france-950-100-active:     #bbbbfc;
+      --c-blue-france-975-75:             #f5f5fe;
+
+      /* ---- Rouge Marianne ---- */
+      --c-red-marianne-425-625:        #c9191e;
+      --c-red-marianne-425-625-hover:  #f93f42;
+      --c-red-marianne-425-625-active: #f95a5c;
+      --c-red-marianne-main-472:       #e1000f;
+      --c-red-marianne-850-200:        #fcbfbf;
+      --c-red-marianne-925-125:        #fddede;
+      --c-red-marianne-975-75:         #fef4f4;
+
+      /* ---- Neutres (orientation thème clair) ---- */
+      --c-grey-1000-50:  #ffffff;
+      --c-grey-975-100:  #f6f6f6;
+      --c-grey-950-150:  #eeeeee;
+      --c-grey-900-175:  #e5e5e5;
+      --c-grey-850-200:  #dddddd;
+      --c-grey-625-425:  #929292;
+      --c-grey-425-625:  #666666;
+      --c-grey-200-850:  #3a3a3a;
+      --c-grey-50-1000:  #161616;
+      --c-grey-0-1000:   #000000;
+
+      /* ---- Système ---- */
+      --c-success-425-625:      #1f8d49;
+      --c-success-text-default: #18753c;
+      --c-success-975-75:       #dffee6;
+      --c-warning-425-625:      #b34000;
+      --c-warning-975-75:       #fff4f3;
+      --c-error-425-625:        #ce0500;
+      --c-error-975-75:         #fff4f4;
+      --c-info-425-625:         #0063cb;
+      --c-info-975-75:          #e8edff;
+
+      /* ---- Accents illustratifs (12 familles, accent uniquement) ---- */
+      --c-illu-tilleul-verveine: #b7a73f;
+      --c-illu-bourgeon:         #68a532;
+      --c-illu-emeraude:         #00a95f;
+      --c-illu-menthe:           #009081;
+      --c-illu-archipel:         #009099;
+      --c-illu-ecume:            #465f9d;
+      --c-illu-cumulus:          #417dc4;
+      --c-illu-glycine:          #a558a0;
+      --c-illu-macaron:          #e18b76;
+      --c-illu-tuile:            #ce614a;
+      --c-illu-tournesol:        #c8aa39;
+      --c-illu-moutarde:         #c3992a;
+      --c-illu-terre-battue:     #e4794a;
+      --c-illu-cafe-creme:       #d1b781;
+      --c-illu-caramel:          #c08c65;
+      --c-illu-opera:            #bd987a;
+      --c-illu-gris-galet:       #aea397;
+
+      /* ---- Tokens de décision (LIGHT) ---- */
+      --c-primary:                          var(--c-blue-france-sun-113-625);
+      --c-primary-hover:                    var(--c-blue-france-sun-113-625-hover);
+      --c-primary-active:                   var(--c-blue-france-sun-113-625-active);
+      --c-on-primary:                       var(--c-grey-1000-50);
+      --c-secondary:                        var(--c-red-marianne-main-472);
+      --c-on-secondary:                     var(--c-grey-1000-50);
+
+      --c-bg-default:                       var(--c-grey-1000-50);
+      --c-bg-alt:                           var(--c-grey-975-100);
+      --c-bg-contrast-grey:                 var(--c-grey-950-150);
+      --c-bg-action-low-blue-france:        var(--c-blue-france-925-125);
+      --c-bg-action-low-blue-france-hover:  var(--c-blue-france-925-125-hover);
+      --c-bg-action-low-blue-france-active: var(--c-blue-france-925-125-active);
+
+      --c-text-default-grey:                var(--c-grey-50-1000);
+      --c-text-mention-grey:                var(--c-grey-425-625);
+      --c-text-title-blue-france:           var(--c-blue-france-sun-113-625);
+      --c-text-action-high-blue-france:     var(--c-blue-france-sun-113-625);
+      --c-text-inverted-blue-france:        var(--c-grey-1000-50);
+
+      --c-border-default-grey:              var(--c-grey-900-175);
+      --c-border-action-high-blue-france:   var(--c-blue-france-sun-113-625);
+      --c-border-plain-success:             var(--c-success-425-625);
+      --c-border-plain-warning:             var(--c-warning-425-625);
+      --c-border-plain-error:               var(--c-error-425-625);
+      --c-border-plain-info:                var(--c-info-425-625);
+
+      --c-focus-ring: #0a76f6;
+
+      /* ---- Typographie ---- */
+      --font-marianne: "Marianne", Arial, sans-serif;
+      --font-spectral: "Spectral", Georgia, serif;
+
+      /* ---- Espacement (1v = 0.25rem) ---- */
+      --s-1v:  0.25rem;   --s-2v:  0.5rem;    --s-3v:  0.75rem;
+      --s-4v:  1rem;      --s-5v:  1.25rem;   --s-6v:  1.5rem;
+      --s-8v:  2rem;      --s-10v: 2.5rem;    --s-12v: 3rem;
+      --s-16v: 4rem;      --s-32v: 8rem;
+
+      /* ---- Rayons ---- */
+      --r-none: 0;
+      --r-sm:   0.25rem;
+      --r-md:   0.5rem;
+      --r-pill: 9999px;
+    }
+
+    /* ============================================================
+       3. Reset / réglages globaux
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-marianne);
+      font-size: 1rem;
+      line-height: 1.5rem;
+      color: var(--c-text-default-grey);
+      background: var(--c-bg-default);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    *:focus-visible {
+      outline: 2px solid var(--c-focus-ring);
+      outline-offset: 2px;
+    }
+    a { color: var(--c-text-action-high-blue-france); }
+
+    /* ============================================================
+       4. Mise en page
+       ============================================================ */
+    .wrap {
+      max-width: 78rem;
+      margin: 0 auto;
+      padding: var(--s-8v) var(--s-6v);
+    }
+    section { padding: var(--s-12v) 0; }
+    section + section { border-top: 1px solid var(--c-border-default-grey); }
+    h1, h2, h3, h4 { font-family: var(--font-marianne); margin: 0 0 var(--s-4v); }
+    h1 { font-size: 2.5rem;  font-weight: 700; line-height: 3rem; }
+    h2 { font-size: 2rem;    font-weight: 700; line-height: 2.5rem; }
+    h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.75rem; margin-top: var(--s-8v); }
+    h4 { font-size: 1rem;    font-weight: 700; line-height: 1.5rem; margin-top: var(--s-6v); }
+    p  { margin: 0 0 var(--s-4v); }
+    .lede { font-size: 1.125rem; line-height: 1.75rem; max-width: 56rem; }
+    .muted { color: var(--c-text-mention-grey); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.875rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.875em; background: var(--c-bg-alt); padding: 0.125rem 0.25rem; border-radius: var(--r-sm); }
+
+    /* ============================================================
+       5. Bandeau / pied
+       ============================================================ */
+    .topbar {
+      background: var(--c-bg-alt);
+      border-bottom: 1px solid var(--c-border-default-grey);
+      padding: var(--s-3v) 0;
+      font-size: 0.875rem;
+    }
+    .topbar .wrap { padding-top: 0; padding-bottom: 0; display: flex; align-items: center; gap: var(--s-4v); flex-wrap: wrap; }
+    .topbar a { color: var(--c-text-action-high-blue-france); text-decoration: underline; }
+    .scheme-switch {
+      margin-left: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+      color: var(--c-text-mention-grey);
+    }
+    .scheme-switch [aria-current="true"] { color: var(--c-text-default-grey); font-weight: 700; }
+
+    /* ============================================================
+       6. Couleurs — grilles de pastilles
+       ============================================================ */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+      gap: var(--s-3v);
+      margin-bottom: var(--s-6v);
+    }
+    .swatch {
+      border: 1px solid var(--c-border-default-grey);
+      background: var(--c-bg-default);
+      overflow: hidden;
+    }
+    .swatch .chip {
+      display: block;
+      height: 4rem;
+    }
+    .swatch .meta {
+      padding: var(--s-2v) var(--s-3v);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+      line-height: 1.125rem;
+    }
+    .swatch .meta b { font-family: var(--font-marianne); font-size: 0.8125rem; font-weight: 700; display: block; }
+    .swatch .meta .hex { color: var(--c-text-mention-grey); }
+    .group-label {
+      font-family: var(--font-marianne); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-size: 0.75rem; color: var(--c-text-mention-grey);
+      margin: var(--s-6v) 0 var(--s-2v);
+    }
+
+    /* Decision-token mapping table */
+    table.tokens {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--s-4v);
+      font-size: 0.875rem;
+    }
+    table.tokens th, table.tokens td {
+      text-align: left;
+      padding: var(--s-2v) var(--s-3v);
+      border-bottom: 1px solid var(--c-border-default-grey);
+      vertical-align: middle;
+    }
+    table.tokens th {
+      font-family: var(--font-marianne); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-size: 0.75rem; color: var(--c-text-mention-grey);
+    }
+    table.tokens td.tok { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .dot {
+      display: inline-block;
+      width: 1rem; height: 1rem;
+      vertical-align: middle;
+      border: 1px solid var(--c-border-default-grey);
+      margin-right: var(--s-2v);
+    }
+
+    /* ============================================================
+       7. Typographie — démo de l'échelle
+       ============================================================ */
+    .type-row {
+      display: grid;
+      grid-template-columns: 12rem 1fr;
+      gap: var(--s-6v);
+      align-items: baseline;
+      padding: var(--s-3v) 0;
+      border-bottom: 1px solid var(--c-border-default-grey);
+    }
+    .type-row:last-child { border-bottom: 0; }
+    .type-row .meta { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; color: var(--c-text-mention-grey); }
+    .type-row .sample { color: var(--c-text-default-grey); }
+
+    .t-display-xl { font: 700 2.5rem/3rem var(--font-marianne); }
+    .t-h1         { font: 700 2.5rem/3rem var(--font-marianne); }
+    .t-h2         { font: 700 2rem/2.5rem var(--font-marianne); }
+    .t-h3         { font: 700 1.75rem/2.25rem var(--font-marianne); }
+    .t-h4         { font: 700 1.5rem/2rem var(--font-marianne); }
+    .t-h5         { font: 700 1.25rem/1.75rem var(--font-marianne); }
+    .t-h6         { font: 700 1.125rem/1.5rem var(--font-marianne); }
+    .t-body-lg    { font: 400 1.125rem/1.75rem var(--font-marianne); }
+    .t-body-md    { font: 400 1rem/1.5rem var(--font-marianne); }
+    .t-body-sm    { font: 400 0.875rem/1.5rem var(--font-marianne); }
+    .t-body-xs    { font: 400 0.75rem/1.25rem var(--font-marianne); }
+    .t-label      { font: 700 0.875rem/1.5rem var(--font-marianne); }
+    .t-body-md-alt { font: 400 1rem/1.5rem var(--font-spectral); }
+    .t-body-sm-alt { font: 400 0.875rem/1.5rem var(--font-spectral); }
+
+    /* ============================================================
+       8. Espacement — barres
+       ============================================================ */
+    .space-row {
+      display: grid;
+      grid-template-columns: 6rem 1fr 6rem;
+      gap: var(--s-3v);
+      align-items: center;
+      padding: var(--s-2v) 0;
+    }
+    .space-row .bar {
+      height: 1rem;
+      background: var(--c-blue-france-sun-113-625);
+    }
+    .space-row .meta { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; color: var(--c-text-mention-grey); }
+
+    /* ============================================================
+       9. Rayons
+       ============================================================ */
+    .radius-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--s-4v);
+      max-width: 32rem;
+    }
+    .radius-cell {
+      aspect-ratio: 1 / 1;
+      background: var(--c-blue-france-925-125);
+      border: 1px solid var(--c-border-default-grey);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: var(--s-3v);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+      color: var(--c-text-default-grey);
+    }
+    .radius-cell.r-none { border-radius: var(--r-none); }
+    .radius-cell.r-sm   { border-radius: var(--r-sm); }
+    .radius-cell.r-md   { border-radius: var(--r-md); }
+    .radius-cell.r-pill { border-radius: var(--r-pill); }
+
+    /* ============================================================
+       10. Composants
+       ============================================================ */
+    .component {
+      border: 1px solid var(--c-border-default-grey);
+      background: var(--c-bg-default);
+      padding: var(--s-6v);
+      margin-top: var(--s-4v);
+    }
+    .component header {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3v);
+      margin-bottom: var(--s-4v);
+    }
+    .component header h3 { margin: 0; font-size: 1.125rem; line-height: 1.5rem; }
+    .component header .bem { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; color: var(--c-text-mention-grey); }
+    .states { display: flex; flex-wrap: wrap; gap: var(--s-4v); align-items: center; }
+    .state-label {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--c-text-mention-grey);
+      display: block;
+      margin-bottom: var(--s-1v);
+    }
+
+    /* ---- Boutons ---- */
+    .btn {
+      font-family: var(--font-marianne); font-weight: 500;
+      font-size: 1rem; line-height: 1.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--r-none);
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: var(--s-2v);
+      height: 2.5rem;
+    }
+    .btn-primary               { background: var(--c-text-action-high-blue-france); color: var(--c-on-primary); }
+    .btn-primary.is-hover      { background: var(--c-primary-hover); }
+    .btn-primary.is-active     { background: var(--c-primary-active); }
+    .btn-primary.is-disabled   { background: var(--c-bg-contrast-grey); color: var(--c-text-mention-grey); cursor: not-allowed; }
+    .btn-secondary             { background: var(--c-bg-default); color: var(--c-text-action-high-blue-france); border-color: var(--c-border-action-high-blue-france); }
+    .btn-secondary.is-hover    { background: var(--c-blue-france-950-100-hover); }
+    .btn-secondary.is-active   { background: var(--c-blue-france-950-100-active); }
+    .btn-secondary.is-disabled { background: var(--c-bg-default); color: var(--c-text-mention-grey); border-color: var(--c-border-default-grey); cursor: not-allowed; }
+    .btn-tertiary              { background: transparent; color: var(--c-text-action-high-blue-france); }
+    .btn-tertiary.is-hover     { background: var(--c-bg-alt); }
+
+    /* ---- Champs ---- */
+    .field {
+      display: flex; flex-direction: column; gap: var(--s-1v);
+      max-width: 18rem;
+    }
+    .field label { font-weight: 700; font-size: 0.875rem; }
+    .input, .select {
+      font-family: var(--font-marianne); font-size: 1rem;
+      background: var(--c-bg-contrast-grey);
+      color: var(--c-text-default-grey);
+      border: 0;
+      border-bottom: 2px solid var(--c-text-default-grey);
+      border-radius: var(--r-sm) var(--r-sm) 0 0;
+      padding: 0.5rem 0.75rem;
+      height: 2.5rem;
+      width: 100%;
+    }
+    .input.is-focus            { outline: 2px solid var(--c-focus-ring); outline-offset: 2px; }
+    .input.is-error            { border-bottom-color: var(--c-error-425-625); }
+    .input.is-disabled         { color: var(--c-text-mention-grey); border-bottom-color: var(--c-text-mention-grey); cursor: not-allowed; }
+    .field .err { color: var(--c-error-425-625); font-size: 0.875rem; font-weight: 700; }
+
+    /* ---- Cases / radios / toggle ---- */
+    .check, .radio {
+      display: inline-flex; align-items: center; gap: var(--s-2v);
+      font-size: 0.875rem;
+    }
+    .check .box, .radio .box {
+      width: 1rem; height: 1rem;
+      background: var(--c-bg-default);
+      border: 1px solid var(--c-text-default-grey);
+      display: inline-block;
+      position: relative;
+    }
+    .radio .box { border-radius: var(--r-pill); }
+    .check.is-checked .box { background: var(--c-text-action-high-blue-france); border-color: var(--c-text-action-high-blue-france); }
+    .check.is-checked .box::after {
+      content: ""; position: absolute; left: 3px; top: 0;
+      width: 6px; height: 10px;
+      border: solid var(--c-on-primary);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .radio.is-checked .box {
+      background:
+        radial-gradient(circle at center, var(--c-text-action-high-blue-france) 0 30%, var(--c-bg-default) 40%);
+      border-color: var(--c-text-action-high-blue-france);
+    }
+
+    .toggle {
+      display: inline-flex; align-items: center; gap: var(--s-2v);
+      font-size: 0.875rem;
+    }
+    .toggle .track {
+      width: 2.5rem; height: 1.5rem;
+      background: var(--c-bg-contrast-grey);
+      border-radius: var(--r-pill);
+      position: relative;
+      transition: background 120ms ease;
+    }
+    .toggle .track::after {
+      content: ""; position: absolute; top: 2px; left: 2px;
+      width: 1.25rem; height: 1.25rem;
+      border-radius: var(--r-pill);
+      background: var(--c-bg-default);
+      box-shadow: 0 1px 2px rgba(0, 0, 18, 0.16);
+      transition: transform 120ms ease;
+    }
+    .toggle.is-on .track { background: var(--c-text-action-high-blue-france); }
+    .toggle.is-on .track::after { transform: translateX(1rem); }
+
+    /* ---- Card / tile ---- */
+    .card {
+      background: var(--c-bg-default);
+      color: var(--c-text-default-grey);
+      border: 1px solid var(--c-border-default-grey);
+      padding: var(--s-6v);
+      max-width: 22rem;
+    }
+    .card .card-eyebrow {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--c-text-mention-grey);
+      margin-bottom: var(--s-2v);
+    }
+    .card h4 { margin: 0 0 var(--s-2v); }
+    .card p { margin: 0; }
+
+    .tile {
+      background: var(--c-bg-default);
+      color: var(--c-text-action-high-blue-france);
+      border: 1px solid var(--c-border-default-grey);
+      padding: var(--s-4v);
+      max-width: 18rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-weight: 700;
+    }
+    .tile .arrow { color: var(--c-text-action-high-blue-france); }
+
+    /* ---- Tags & badges ---- */
+    .tag {
+      display: inline-flex; align-items: center;
+      background: var(--c-bg-action-low-blue-france);
+      color: var(--c-text-action-high-blue-france);
+      font-size: 0.875rem; line-height: 1rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--r-pill);
+      height: 1.5rem;
+    }
+    .tag.tag-sm { font-size: 0.75rem; padding: 0.125rem 0.5rem; height: 1.25rem; }
+
+    .badge {
+      display: inline-flex; align-items: center;
+      font-size: 0.875rem; line-height: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--r-pill);
+      height: 1.5rem;
+      font-weight: 700;
+    }
+    .badge-default { background: var(--c-bg-action-low-blue-france); color: var(--c-text-action-high-blue-france); }
+    .badge-success { background: var(--c-success-975-75); color: var(--c-success-text-default); }
+    .badge-warning { background: var(--c-warning-975-75); color: var(--c-warning-425-625); }
+    .badge-error   { background: var(--c-error-975-75);   color: var(--c-error-425-625); }
+    .badge-info    { background: var(--c-info-975-75);    color: var(--c-info-425-625); }
+
+    /* ---- Alertes ---- */
+    .alert {
+      display: grid;
+      grid-template-columns: 0.25rem 1fr;
+      gap: var(--s-3v);
+      padding: var(--s-4v);
+      border: 1px solid var(--c-border-default-grey);
+      border-left: 4px solid;
+      background: var(--c-bg-default);
+    }
+    .alert.alert-success { border-left-color: var(--c-success-425-625); background: var(--c-success-975-75); }
+    .alert.alert-warning { border-left-color: var(--c-warning-425-625); background: var(--c-warning-975-75); }
+    .alert.alert-error   { border-left-color: var(--c-error-425-625);   background: var(--c-error-975-75); }
+    .alert.alert-info    { border-left-color: var(--c-info-425-625);    background: var(--c-info-975-75); }
+    .alert h4 { margin: 0 0 var(--s-1v); font-size: 1rem; }
+    .alert p { margin: 0; }
+    .alert .pad { display: none; }   /* placeholder column for icon */
+
+    /* ---- Fil d'Ariane ---- */
+    .breadcrumb {
+      font-size: 0.875rem; color: var(--c-text-mention-grey);
+      padding: var(--s-4v) 0;
+    }
+    .breadcrumb a { color: var(--c-text-action-high-blue-france); text-decoration: underline; }
+    .breadcrumb .sep { margin: 0 var(--s-2v); color: var(--c-text-mention-grey); }
+    .breadcrumb [aria-current="page"] { color: var(--c-text-default-grey); }
+
+    /* ---- Modale (rendue inline pour démonstration) ---- */
+    .modal-demo {
+      border: 1px solid var(--c-border-default-grey);
+      background: var(--c-bg-default);
+      padding: var(--s-8v);
+      max-width: 32rem;
+      box-shadow: 0 8px 16px rgba(0, 0, 18, 0.16);
+    }
+    .modal-demo h4 { margin-top: 0; }
+    .modal-demo .actions {
+      display: flex; gap: var(--s-3v);
+      margin-top: var(--s-6v);
+      justify-content: flex-end;
+    }
+
+    /* ---- Mise en avant (callout) ---- */
+    .callout {
+      background: var(--c-bg-alt);
+      padding: var(--s-6v);
+      border-left: 4px solid var(--c-text-action-high-blue-france);
+    }
+    .callout h4 { margin-top: 0; }
+
+    /* ---- En-tête / pied de page de démonstration ---- */
+    .demo-header {
+      border-top: 4px solid var(--c-text-action-high-blue-france);
+      border-bottom: 1px solid var(--c-border-default-grey);
+      background: var(--c-bg-default);
+      padding: var(--s-4v) var(--s-6v);
+      display: flex; align-items: center; gap: var(--s-6v); flex-wrap: wrap;
+    }
+    .demo-header .brand {
+      font-family: var(--font-marianne); font-weight: 700;
+      line-height: 1.1; font-size: 0.875rem; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .demo-header .brand .rule {
+      display: block;
+      width: 2.5rem; border-top: 1px solid var(--c-text-default-grey);
+      margin: var(--s-1v) 0;
+    }
+    .demo-header .service { font-weight: 700; font-size: 1rem; }
+    .demo-header .service small { display: block; font-weight: 400; font-size: 0.875rem; color: var(--c-text-mention-grey); }
+    .demo-header nav { margin-left: auto; display: flex; gap: var(--s-4v); font-size: 0.875rem; }
+    .demo-header nav a { color: var(--c-text-default-grey); text-decoration: none; padding: var(--s-2v) 0; border-bottom: 2px solid transparent; }
+    .demo-header nav a[aria-current="true"] { border-bottom-color: var(--c-text-action-high-blue-france); color: var(--c-text-action-high-blue-france); }
+
+    .demo-footer {
+      background: var(--c-bg-default);
+      border-top: 1px solid var(--c-border-default-grey);
+      padding: var(--s-8v) var(--s-6v);
+      font-size: 0.875rem;
+      display: grid;
+      grid-template-columns: 14rem 1fr;
+      gap: var(--s-8v);
+      margin-top: var(--s-6v);
+    }
+    .demo-footer .brand { font-weight: 700; line-height: 1.1; }
+    .demo-footer .brand .rule { display: block; width: 2.5rem; border-top: 1px solid var(--c-text-default-grey); margin: var(--s-1v) 0; }
+    .demo-footer ul { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: var(--s-8v); }
+    .demo-footer li { margin-bottom: var(--s-2v); }
+    .demo-footer a { color: var(--c-text-default-grey); text-decoration: none; }
+    .demo-footer a:hover { text-decoration: underline; }
+    .demo-footer .legal { grid-column: 1 / -1; padding-top: var(--s-6v); border-top: 1px solid var(--c-border-default-grey); color: var(--c-text-mention-grey); }
+
+    /* ---- Bandeau légal ---- */
+    .legal-notice {
+      background: var(--c-bg-alt);
+      border: 1px solid var(--c-border-default-grey);
+      padding: var(--s-4v);
+      font-size: 0.875rem;
+      margin-bottom: var(--s-8v);
+    }
+    .legal-notice strong { color: var(--c-text-default-grey); }
+
+    @media (max-width: 640px) {
+      .demo-footer { grid-template-columns: 1fr; }
+      .demo-footer ul { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar with repo / scheme / source links -->
+<div class="topbar">
+  <div class="wrap">
+    <span><strong>DSFR · DESIGN.md</strong></span>
+    <a href="./DESIGN.md">DESIGN.md</a>
+    <a href="./README.md">README</a>
+    <a href="https://www.systeme-de-design.gouv.fr">systeme-de-design.gouv.fr</a>
+    <span class="scheme-switch">
+      <span aria-current="true">Clair</span> · <a href="./preview-dark.html">Sombre</a>
+    </span>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ====================================================
+       Aperçu / hero
+       ==================================================== -->
+  <section id="overview">
+    <h1>DSFR · <code>DESIGN.md</code> — aperçu visuel</h1>
+    <p class="lede">
+      Cet aperçu rend le <a href="./DESIGN.md"><code>DESIGN.md</code></a> du
+      Système de Design de l'État <strong>en utilisant uniquement les tokens
+      qu'il déclare</strong>. Si le fichier omet une valeur, le composant
+      correspondant casse — c'est précisément l'objectif&nbsp;: utiliser cette
+      page comme test de cohérence du <code>DESIGN.md</code>.
+    </p>
+
+    <div class="legal-notice">
+      <strong>⚠️ Cadre d'usage.</strong> L'identité visuelle reproduite
+      ci-dessous (Bleu France, fonte Marianne, bloc-marque <em>République
+      Française</em>) est légalement réservée aux services officiels de
+      l'État français. Pour toute mise en production sur un site
+      <code>.gouv.fr</code>, utilisez le paquet npm officiel
+      <a href="https://www.npmjs.com/package/@gouvfr/dsfr"><code>@gouvfr/dsfr</code></a>.
+      La fonte Marianne est chargée depuis le CDN officiel pour la fidélité
+      typographique mais n'est pas redistribuée par ce dépôt.
+    </div>
+  </section>
+
+  <!-- ====================================================
+       Couleurs
+       ==================================================== -->
+  <section id="colors">
+    <h2>Couleurs</h2>
+    <p class="lede">Tokens d'option du DSFR, regroupés par famille. Le code de chaque pastille indique le nom du token tel qu'il apparaît dans le YAML du <code>DESIGN.md</code>.</p>
+
+    <div class="group-label">Bleu France · marque primaire</div>
+    <div class="swatch-grid">
+      <!-- We render swatches as small components instead of generating from JS -->
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-sun-113-625)"></span><div class="meta"><b>blue-france-sun-113-625</b><span class="hex">#000091</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-sun-113-625-hover)"></span><div class="meta"><b>… -hover</b><span class="hex">#1212ff</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-sun-113-625-active)"></span><div class="meta"><b>… -active</b><span class="hex">#2323ff</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-main-525)"></span><div class="meta"><b>blue-france-main-525</b><span class="hex">#6a6af4</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-850-200)"></span><div class="meta"><b>blue-france-850-200</b><span class="hex">#cacafb</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-925-125)"></span><div class="meta"><b>blue-france-925-125</b><span class="hex">#e3e3fd</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-950-100)"></span><div class="meta"><b>blue-france-950-100</b><span class="hex">#ececfe</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-blue-france-975-75)"></span><div class="meta"><b>blue-france-975-75</b><span class="hex">#f5f5fe</span></div></div>
+    </div>
+
+    <div class="group-label">Rouge Marianne</div>
+    <div class="swatch-grid">
+      <div class="swatch"><span class="chip" style="background:var(--c-red-marianne-main-472)"></span><div class="meta"><b>red-marianne-main-472</b><span class="hex">#e1000f</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-red-marianne-425-625)"></span><div class="meta"><b>red-marianne-425-625</b><span class="hex">#c9191e</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-red-marianne-425-625-hover)"></span><div class="meta"><b>… -hover</b><span class="hex">#f93f42</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-red-marianne-425-625-active)"></span><div class="meta"><b>… -active</b><span class="hex">#f95a5c</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-red-marianne-850-200)"></span><div class="meta"><b>red-marianne-850-200</b><span class="hex">#fcbfbf</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-red-marianne-925-125)"></span><div class="meta"><b>red-marianne-925-125</b><span class="hex">#fddede</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-red-marianne-975-75)"></span><div class="meta"><b>red-marianne-975-75</b><span class="hex">#fef4f4</span></div></div>
+    </div>
+
+    <div class="group-label">Neutres (orientation thème clair)</div>
+    <div class="swatch-grid">
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-1000-50)"></span><div class="meta"><b>grey-1000-50</b><span class="hex">#ffffff</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-975-100)"></span><div class="meta"><b>grey-975-100</b><span class="hex">#f6f6f6</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-950-150)"></span><div class="meta"><b>grey-950-150</b><span class="hex">#eeeeee</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-900-175)"></span><div class="meta"><b>grey-900-175</b><span class="hex">#e5e5e5</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-850-200)"></span><div class="meta"><b>grey-850-200</b><span class="hex">#dddddd</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-625-425)"></span><div class="meta"><b>grey-625-425</b><span class="hex">#929292</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-425-625)"></span><div class="meta"><b>grey-425-625</b><span class="hex">#666666</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-200-850)"></span><div class="meta"><b>grey-200-850</b><span class="hex">#3a3a3a</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-50-1000)"></span><div class="meta"><b>grey-50-1000</b><span class="hex">#161616</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-grey-0-1000)"></span><div class="meta"><b>grey-0-1000</b><span class="hex">#000000</span></div></div>
+    </div>
+
+    <div class="group-label">Système · feedback fonctionnel</div>
+    <div class="swatch-grid">
+      <div class="swatch"><span class="chip" style="background:var(--c-success-425-625)"></span><div class="meta"><b>success-425-625</b><span class="hex">#1f8d49</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-success-975-75)"></span><div class="meta"><b>success-975-75</b><span class="hex">#dffee6</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-warning-425-625)"></span><div class="meta"><b>warning-425-625</b><span class="hex">#b34000</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-warning-975-75)"></span><div class="meta"><b>warning-975-75</b><span class="hex">#fff4f3</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-error-425-625)"></span><div class="meta"><b>error-425-625</b><span class="hex">#ce0500</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-error-975-75)"></span><div class="meta"><b>error-975-75</b><span class="hex">#fff4f4</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-info-425-625)"></span><div class="meta"><b>info-425-625</b><span class="hex">#0063cb</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-info-975-75)"></span><div class="meta"><b>info-975-75</b><span class="hex">#e8edff</span></div></div>
+    </div>
+
+    <div class="group-label">Accents illustratifs · une famille par page</div>
+    <p class="muted" style="font-size:0.875rem;">
+      Réservés à l'éditorial. Jamais utilisés pour les actions ou les couleurs système.
+    </p>
+    <div class="swatch-grid">
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-tilleul-verveine)"></span><div class="meta"><b>tilleul-verveine</b><span class="hex">#b7a73f</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-bourgeon)"></span><div class="meta"><b>bourgeon</b><span class="hex">#68a532</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-emeraude)"></span><div class="meta"><b>émeraude</b><span class="hex">#00a95f</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-menthe)"></span><div class="meta"><b>menthe</b><span class="hex">#009081</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-archipel)"></span><div class="meta"><b>archipel</b><span class="hex">#009099</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-ecume)"></span><div class="meta"><b>écume</b><span class="hex">#465f9d</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-cumulus)"></span><div class="meta"><b>cumulus</b><span class="hex">#417dc4</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-glycine)"></span><div class="meta"><b>glycine</b><span class="hex">#a558a0</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-macaron)"></span><div class="meta"><b>macaron</b><span class="hex">#e18b76</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-tuile)"></span><div class="meta"><b>tuile</b><span class="hex">#ce614a</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-tournesol)"></span><div class="meta"><b>tournesol</b><span class="hex">#c8aa39</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-moutarde)"></span><div class="meta"><b>moutarde</b><span class="hex">#c3992a</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-terre-battue)"></span><div class="meta"><b>terre-battue</b><span class="hex">#e4794a</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-cafe-creme)"></span><div class="meta"><b>café-crème</b><span class="hex">#d1b781</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-caramel)"></span><div class="meta"><b>caramel</b><span class="hex">#c08c65</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-opera)"></span><div class="meta"><b>opéra</b><span class="hex">#bd987a</span></div></div>
+      <div class="swatch"><span class="chip" style="background:var(--c-illu-gris-galet)"></span><div class="meta"><b>gris-galet</b><span class="hex">#aea397</span></div></div>
+    </div>
+
+    <h3>Tokens de décision</h3>
+    <p>Les composants doivent référencer ces tokens, pas les options brutes.</p>
+    <table class="tokens">
+      <thead>
+        <tr><th>Token de décision</th><th>Pointe vers (clair)</th><th>Couleur</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="tok">primary / text-action-high-blue-france</td><td class="tok">blue-france-sun-113-625</td><td><span class="dot" style="background:var(--c-primary)"></span><code>#000091</code></td></tr>
+        <tr><td class="tok">primary-hover</td><td class="tok">blue-france-sun-113-625-hover</td><td><span class="dot" style="background:var(--c-primary-hover)"></span><code>#1212ff</code></td></tr>
+        <tr><td class="tok">primary-active</td><td class="tok">blue-france-sun-113-625-active</td><td><span class="dot" style="background:var(--c-primary-active)"></span><code>#2323ff</code></td></tr>
+        <tr><td class="tok">background-default</td><td class="tok">grey-1000-50</td><td><span class="dot" style="background:var(--c-bg-default)"></span><code>#ffffff</code></td></tr>
+        <tr><td class="tok">background-alt</td><td class="tok">grey-975-100</td><td><span class="dot" style="background:var(--c-bg-alt)"></span><code>#f6f6f6</code></td></tr>
+        <tr><td class="tok">background-contrast-grey</td><td class="tok">grey-950-150</td><td><span class="dot" style="background:var(--c-bg-contrast-grey)"></span><code>#eeeeee</code></td></tr>
+        <tr><td class="tok">background-action-low-blue-france</td><td class="tok">blue-france-925-125</td><td><span class="dot" style="background:var(--c-bg-action-low-blue-france)"></span><code>#e3e3fd</code></td></tr>
+        <tr><td class="tok">text-default-grey</td><td class="tok">grey-50-1000</td><td><span class="dot" style="background:var(--c-text-default-grey)"></span><code>#161616</code></td></tr>
+        <tr><td class="tok">text-mention-grey</td><td class="tok">grey-425-625</td><td><span class="dot" style="background:var(--c-text-mention-grey)"></span><code>#666666</code></td></tr>
+        <tr><td class="tok">border-default-grey</td><td class="tok">grey-900-175</td><td><span class="dot" style="background:var(--c-border-default-grey)"></span><code>#e5e5e5</code></td></tr>
+        <tr><td class="tok">focus-ring</td><td class="tok">(littéral)</td><td><span class="dot" style="background:var(--c-focus-ring)"></span><code>#0a76f6</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ====================================================
+       Typographie
+       ==================================================== -->
+  <section id="typography">
+    <h2>Typographie</h2>
+    <p class="lede">Marianne est la fonte principale (sans-serif, dessinée pour l'État&nbsp;; weights 300/400/500/700). Spectral est la fonte secondaire (serif, 400/800), réservée aux passages distinctifs ou éditoriaux via la classe <code>fr-text--alt</code>.</p>
+
+    <div class="type-row">
+      <span class="meta">display-xl · 2.5rem / 700 / Marianne</span>
+      <span class="sample t-display-xl">République numérique</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">h2 · 2rem / 700 / Marianne</span>
+      <span class="sample t-h2">Démarches en ligne</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">h3 · 1.75rem / 700 / Marianne</span>
+      <span class="sample t-h3">Vos services administratifs</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">h4 · 1.5rem / 700 / Marianne</span>
+      <span class="sample t-h4">Informations pratiques</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">h5 · 1.25rem / 700 / Marianne</span>
+      <span class="sample t-h5">Sous-titre de section</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">h6 · 1.125rem / 700 / Marianne</span>
+      <span class="sample t-h6">Intertitre minimal</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">body-lg · 1.125rem / 400 / Marianne</span>
+      <span class="sample t-body-lg">Le DSFR garantit la cohérence visuelle des sites de l'État et améliore l'expérience des usagers.</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">body-md · 1rem / 400 / Marianne</span>
+      <span class="sample t-body-md">Texte courant des services publics numériques. Lisibilité prioritaire, hauteur de ligne 1.5rem.</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">body-sm · 0.875rem / 400 / Marianne</span>
+      <span class="sample t-body-sm">Métadonnées et texte secondaire — date de mise à jour, légendes, mentions.</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">body-xs · 0.75rem / 400 / Marianne</span>
+      <span class="sample t-body-xs">Microcopie, légendes de tableau, indications techniques.</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">label · 0.875rem / 700 / Marianne</span>
+      <span class="sample t-label">Libellé de champ ou de bouton</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">body-md-alt · Spectral 1rem / 400</span>
+      <span class="sample t-body-md-alt">Variante éditoriale pour distinguer un passage : citation, exergue, encadré littéraire.</span>
+    </div>
+    <div class="type-row">
+      <span class="meta">body-sm-alt · Spectral 0.875rem / 400</span>
+      <span class="sample t-body-sm-alt">Note de bas de page ou source en serif.</span>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       Espacement
+       ==================================================== -->
+  <section id="spacing">
+    <h2>Espacement</h2>
+    <p class="lede">Échelle basée sur l'unité <code>v</code> (1v = 0.25rem = 4px). L'unité W de Figma correspond à 2v (8px). Le pas standard inter-composants est <code>4v</code> (2W).</p>
+
+    <div class="space-row"><span class="meta">1v</span><span class="bar" style="width:var(--s-1v)"></span><span class="meta">4 px</span></div>
+    <div class="space-row"><span class="meta">2v · 1W</span><span class="bar" style="width:var(--s-2v)"></span><span class="meta">8 px</span></div>
+    <div class="space-row"><span class="meta">3v</span><span class="bar" style="width:var(--s-3v)"></span><span class="meta">12 px</span></div>
+    <div class="space-row"><span class="meta">4v · 2W</span><span class="bar" style="width:var(--s-4v)"></span><span class="meta">16 px</span></div>
+    <div class="space-row"><span class="meta">6v · 3W</span><span class="bar" style="width:var(--s-6v)"></span><span class="meta">24 px</span></div>
+    <div class="space-row"><span class="meta">8v · 4W</span><span class="bar" style="width:var(--s-8v)"></span><span class="meta">32 px</span></div>
+    <div class="space-row"><span class="meta">12v</span><span class="bar" style="width:var(--s-12v)"></span><span class="meta">48 px</span></div>
+    <div class="space-row"><span class="meta">16v</span><span class="bar" style="width:var(--s-16v)"></span><span class="meta">64 px</span></div>
+    <div class="space-row"><span class="meta">32v</span><span class="bar" style="width:var(--s-32v)"></span><span class="meta">128 px</span></div>
+  </section>
+
+  <!-- ====================================================
+       Rayons de bord
+       ==================================================== -->
+  <section id="radius">
+    <h2>Rayons de bord</h2>
+    <p class="lede">Coins carrés par défaut. Les exceptions documentées sont&nbsp;: <code>sm</code> pour les coins supérieurs du champ de recherche et <code>pill</code> pour les tags, badges et l'interrupteur.</p>
+    <div class="radius-grid">
+      <div class="radius-cell r-none">none · 0</div>
+      <div class="radius-cell r-sm">sm · 4 px</div>
+      <div class="radius-cell r-md">md · 8 px</div>
+      <div class="radius-cell r-pill">pill · 9999 px</div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       Composants
+       ==================================================== -->
+  <section id="components">
+    <h2>Composants</h2>
+    <p class="lede">15 composants centraux rendus avec leurs principales variantes d'état. Chaque carte indique la classe BEM du DSFR officiel — référence pour le code de production.</p>
+
+    <article class="component">
+      <header><h3>Bouton primaire</h3><span class="bem">.fr-btn</span></header>
+      <div class="states">
+        <div><span class="state-label">défaut</span><button class="btn btn-primary">Continuer</button></div>
+        <div><span class="state-label">hover</span><button class="btn btn-primary is-hover">Continuer</button></div>
+        <div><span class="state-label">active</span><button class="btn btn-primary is-active">Continuer</button></div>
+        <div><span class="state-label">disabled</span><button class="btn btn-primary is-disabled" disabled>Continuer</button></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Bouton secondaire</h3><span class="bem">.fr-btn.fr-btn--secondary</span></header>
+      <div class="states">
+        <div><span class="state-label">défaut</span><button class="btn btn-secondary">Annuler</button></div>
+        <div><span class="state-label">hover</span><button class="btn btn-secondary is-hover">Annuler</button></div>
+        <div><span class="state-label">active</span><button class="btn btn-secondary is-active">Annuler</button></div>
+        <div><span class="state-label">disabled</span><button class="btn btn-secondary is-disabled" disabled>Annuler</button></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Bouton tertiaire</h3><span class="bem">.fr-btn.fr-btn--tertiary</span></header>
+      <div class="states">
+        <div><span class="state-label">défaut</span><button class="btn btn-tertiary">En savoir plus</button></div>
+        <div><span class="state-label">hover</span><button class="btn btn-tertiary is-hover">En savoir plus</button></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Champ de saisie</h3><span class="bem">.fr-input</span></header>
+      <div class="states">
+        <div class="field"><label>Adresse e-mail</label><input class="input" placeholder="prenom.nom@gouv.fr"></div>
+        <div class="field"><label>Adresse e-mail (focus)</label><input class="input is-focus" value="prenom.nom@gouv.fr"></div>
+        <div class="field"><label>Adresse e-mail (erreur)</label><input class="input is-error" value="prenom.nom"><span class="err">Format d'e-mail invalide</span></div>
+        <div class="field"><label>Adresse e-mail (désactivé)</label><input class="input is-disabled" value="—" disabled></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Liste déroulante</h3><span class="bem">.fr-select</span></header>
+      <div class="states">
+        <div class="field"><label>Région</label>
+          <select class="select"><option>Île-de-France</option><option>Bretagne</option><option>Occitanie</option></select>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Cases à cocher · boutons radio · interrupteur</h3><span class="bem">.fr-checkbox-group · .fr-radio-group · .fr-toggle</span></header>
+      <div class="states">
+        <span class="check"><span class="box"></span> J'accepte les conditions</span>
+        <span class="check is-checked"><span class="box"></span> J'accepte les conditions</span>
+        <span class="radio"><span class="box"></span> Particulier</span>
+        <span class="radio is-checked"><span class="box"></span> Professionnel</span>
+        <span class="toggle"><span class="track"></span> Notifications</span>
+        <span class="toggle is-on"><span class="track"></span> Notifications</span>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Carte</h3><span class="bem">.fr-card</span></header>
+      <div class="states">
+        <div class="card">
+          <div class="card-eyebrow">Démarche</div>
+          <h4>Demander un acte de naissance</h4>
+          <p class="muted">Pour les personnes nées en France ou à l'étranger, la demande se fait en ligne ou en mairie selon votre situation.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Tuile</h3><span class="bem">.fr-tile</span></header>
+      <div class="states">
+        <div class="tile">Service public <span class="arrow">→</span></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Tag</h3><span class="bem">.fr-tag</span></header>
+      <div class="states">
+        <span class="tag">Catégorie</span>
+        <span class="tag tag-sm">Petit</span>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Badge</h3><span class="bem">.fr-badge</span></header>
+      <div class="states">
+        <span class="badge badge-default">Nouveau</span>
+        <span class="badge badge-success">Succès</span>
+        <span class="badge badge-warning">Avertissement</span>
+        <span class="badge badge-error">Erreur</span>
+        <span class="badge badge-info">Information</span>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Alertes</h3><span class="bem">.fr-alert</span></header>
+      <div class="states" style="flex-direction: column; align-items: stretch;">
+        <div class="alert alert-success"><span class="pad"></span><div><h4>Demande enregistrée</h4><p>Vous recevrez un accusé de réception par courriel.</p></div></div>
+        <div class="alert alert-warning"><span class="pad"></span><div><h4>Pièce justificative manquante</h4><p>Téléversez le justificatif de domicile pour finaliser.</p></div></div>
+        <div class="alert alert-error"><span class="pad"></span><div><h4>Erreur de transmission</h4><p>Le service est temporairement indisponible. Veuillez réessayer.</p></div></div>
+        <div class="alert alert-info"><span class="pad"></span><div><h4>Maintenance programmée</h4><p>Le service sera indisponible le 30 avril de 02h à 04h.</p></div></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Fil d'Ariane</h3><span class="bem">.fr-breadcrumb</span></header>
+      <nav class="breadcrumb" aria-label="Vous êtes ici :">
+        <a href="#">Accueil</a><span class="sep">›</span>
+        <a href="#">Démarches</a><span class="sep">›</span>
+        <a href="#">État civil</a><span class="sep">›</span>
+        <span aria-current="page">Acte de naissance</span>
+      </nav>
+    </article>
+
+    <article class="component">
+      <header><h3>Modale (rendue inline)</h3><span class="bem">.fr-modal</span></header>
+      <div class="modal-demo">
+        <h4>Confirmer la suppression</h4>
+        <p>Cette action est irréversible. Le brouillon de votre demande sera définitivement supprimé.</p>
+        <div class="actions">
+          <button class="btn btn-secondary">Annuler</button>
+          <button class="btn btn-primary">Supprimer</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Mise en avant</h3><span class="bem">.fr-callout</span></header>
+      <div class="callout">
+        <h4>Information importante</h4>
+        <p>Depuis le 1er janvier, certaines démarches peuvent être réalisées via FranceConnect+ pour une vérification renforcée.</p>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>En-tête (bloc-marque)</h3><span class="bem">.fr-header</span></header>
+      <div class="demo-header">
+        <div class="brand">
+          République<br>
+          <span class="rule"></span>
+          Française
+        </div>
+        <div class="service">
+          Direction interministérielle<br>
+          <small>Services numériques de l'État</small>
+        </div>
+        <nav>
+          <a href="#" aria-current="true">Accueil</a>
+          <a href="#">Démarches</a>
+          <a href="#">Aide</a>
+        </nav>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Pied de page</h3><span class="bem">.fr-footer</span></header>
+      <footer class="demo-footer">
+        <div class="brand">
+          République<br>
+          <span class="rule"></span>
+          Française
+        </div>
+        <ul>
+          <li><a href="#">legifrance.gouv.fr</a></li>
+          <li><a href="#">gouvernement.fr</a></li>
+          <li><a href="#">service-public.fr</a></li>
+          <li><a href="#">data.gouv.fr</a></li>
+          <li><a href="#">Plan du site</a></li>
+          <li><a href="#">Accessibilité&nbsp;: totalement conforme</a></li>
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">Données personnelles</a></li>
+        </ul>
+        <p class="legal">
+          Sauf mention contraire, tous les textes de ce site sont sous
+          <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md">licence Etalab&nbsp;2.0</a>.
+        </p>
+      </footer>
+    </article>
+  </section>
+
+</main>
+
+</body>
+</html>

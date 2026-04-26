@@ -23,9 +23,13 @@ Ce projet fait le pont entre les deux.
 ```
 .
 ├── DESIGN.md          ← le système de design, au format DESIGN.md
+├── preview.html       ← catalogue visuel — thème clair
+├── preview-dark.html  ← catalogue visuel — thème sombre
 ├── README.md          ← ce fichier
 └── .gitignore
 ```
+
+Les fichiers `preview.html` et `preview-dark.html` sont des pages HTML autonomes (sans script, sans étape de build) qui rendent l'ensemble des tokens et composants documentés dans `DESIGN.md`. Elles servent de **test de cohérence visuelle** : si une valeur manque ou diverge dans le YAML, le composant correspondant casse à l'écran. Marianne et Spectral sont chargées depuis le CDN officiel `@gouvfr/dsfr` pour la fidélité typographique.
 
 Le `DESIGN.md` couvre :
 
