@@ -265,70 +265,64 @@
     .scheme-switch [aria-current="true"] { color: var(--c-text-default-grey); font-weight: 700; }
 
     /* ============================================================
-       6. Couleurs — cartes par teinte (DSFR-style, 3 par rangée)
-       ============================================================ */
+       6. Couleurs — cartes par teinte (DSFR-style, 210px fixe)
+       ============================================================
+       Mirrors the DSFR documentation site's `.box-sample` element:
+       fixed 210px content width, 10px padding, flex-wrap container.
+       The viewport reflows the row count rather than stretching cards. */
     .shade-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--s-2v);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;        /* = 10px, matches DSFR's box-sample margin */
       margin-bottom: var(--s-6v);
     }
-    @media (max-width: 768px) {
-      .shade-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 480px) {
-      .shade-grid { grid-template-columns: 1fr; }
-    }
     .shade {
+      flex: 0 0 210px;
+      width: 210px;
       border: 1px solid var(--c-border-default-grey);
       background: var(--c-bg-default);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      text-align: center;
     }
-    /* Hero swatch — top of each card. Kept compact so the card stays thin. */
+    /* Hero swatch — proportions match the DSFR docs (~210×110, 1.9:1). */
     .shade .hero {
       display: block;
-      height: 3rem;
+      height: 6rem;
     }
     .shade .meta {
-      padding: var(--s-2v) var(--s-3v);
+      padding: 0.625rem;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.6875rem;
-      line-height: 1rem;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: var(--s-2v);
+      font-size: 0.75rem;
+      line-height: 1.125rem;
     }
     .shade .meta b {
       font-family: var(--font-marianne);
-      font-size: 0.75rem;
+      font-size: 0.8125rem;
       font-weight: 700;
       color: var(--c-text-default-grey);
-      letter-spacing: -0.01em;
-      /* Long token names should ellipsize rather than wrap. */
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-      flex: 1 1 auto;
+      display: block;
+      margin-bottom: 0.125rem;
+      /* Long token names wrap; 210px is enough for our longest. */
+      word-break: break-word;
     }
     .shade .meta .hex {
       color: var(--c-text-mention-grey);
-      flex: 0 0 auto;
+      display: block;
     }
     /* Hover/active sub-bar — single row, 2 cells side-by-side, divided. */
     .shade .states-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       border-top: 1px solid var(--c-border-default-grey);
+      margin-top: auto;
     }
     .shade .state-cell {
-      padding: var(--s-1v) var(--s-2v) var(--s-2v);
+      padding: 0.375rem 0.5rem 0.5rem;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.625rem;
-      line-height: 0.9375rem;
+      font-size: 0.6875rem;
+      line-height: 1rem;
       display: flex;
       flex-direction: column;
       gap: 0.125rem;
@@ -336,14 +330,14 @@
     .shade .state-cell + .state-cell { border-left: 1px solid var(--c-border-default-grey); }
     .shade .state-cell .bar {
       display: block;
-      height: 0.875rem;
-      margin-bottom: 0.125rem;
+      height: 1rem;
+      margin-bottom: 0.25rem;
     }
     .shade .state-cell b {
       font-family: var(--font-marianne);
       font-weight: 700;
       color: var(--c-text-default-grey);
-      font-size: 0.625rem;
+      font-size: 0.6875rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
@@ -351,7 +345,7 @@
       background: transparent;
       padding: 0;
       color: var(--c-text-mention-grey);
-      font-size: 0.625rem;
+      font-size: 0.6875rem;
     }
     .group-label {
       font-family: var(--font-marianne); font-weight: 700;
