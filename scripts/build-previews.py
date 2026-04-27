@@ -81,6 +81,13 @@ PALETTE = {
         ("grey-975-75",   ("#f6f6f6", "#1e1e1e"),
                           ("#dfdfdf", "#3f3f3f"),
                           ("#cfcfcf", "#525252")),
+        # Canonical decision-token target for `background-elevated-grey`.
+        # Same light value as grey-1000-50 but darker dark value (grey-75
+        # instead of grey-50) — used for raised surfaces like dropdowns
+        # that need to read as "lifted" against the page in dark mode.
+        ("grey-1000-75",  ("#ffffff", "#1e1e1e"),
+                          ("#f6f6f6", "#3f3f3f"),
+                          ("#ededed", "#525252")),
         ("grey-950-150",  ("#eeeeee", "#2f2f2f"),
                           ("#d2d2d2", "#545454"),
                           ("#c1c1c1", "#696969")),
@@ -296,60 +303,158 @@ PALETTE = {
     ],
 }
 
-# Decision tokens — curated subset for the visual mapping table. The full
-# Tier 1+2 set (~78 tokens) lives in DESIGN.md; this list shows the most
-# heavily-used decisions across each role so the preview stays scannable.
-# Names follow the canonical DSFR convention: <role>-<level>-<family>.
-DECISION_TOKENS_LIGHT = [
-    # background
-    ("background-default-grey",                "grey-1000-50",                "#ffffff"),
-    ("background-alt-grey",                    "grey-975-75",                 "#f6f6f6"),
-    ("background-contrast-grey",               "grey-950-100",                "#eeeeee"),
-    ("background-action-high-blue-france",     "blue-france-sun-113-625",     "#000091"),
-    ("background-action-low-blue-france",      "blue-france-925-125",         "#e3e3fd"),
-    ("background-disabled-grey",               "grey-925-125",                "#e5e5e5"),
-    # text
-    ("text-default-grey",                      "grey-200-850",                "#3a3a3a"),
-    ("text-title-grey",                        "grey-50-1000",                "#161616"),
-    ("text-mention-grey",                      "grey-425-625",                "#666666"),
-    ("text-action-high-blue-france",           "blue-france-sun-113-625",     "#000091"),
-    ("text-inverted-blue-france",              "blue-france-975-sun-113",     "#f5f5fe"),
-    ("text-disabled-grey",                     "grey-625-425",                "#929292"),
-    # border
-    ("border-default-grey",                    "grey-900-175",                "#dddddd"),
-    ("border-plain-grey",                      "grey-200-850",                "#3a3a3a"),
-    ("border-plain-success",                   "success-425-625",             "#18753c"),
-    ("border-plain-warning",                   "warning-425-625",             "#b34000"),
-    ("border-plain-error",                     "error-425-625",               "#ce0500"),
-    ("border-plain-info",                      "info-425-625",                "#0063cb"),
-    # literal
-    ("focus-ring",                             "(literal)",                   "#0a76f6"),
+# Decision tokens — mirrors the canonical DSFR documentation page
+# (https://www.systeme-de-design.gouv.fr/version-courante/fr/fondamentaux/couleurs-palette).
+# Three sections, 30 user-facing tokens with usage descriptions and
+# concrete examples. Each row points at a paired option token whose
+# (light, dark) values are looked up in PALETTE for swatch rendering.
+#
+# Format per row: (token, paired_option, description, example).
+DECISION_SECTIONS = [
+    ("Couleurs de fond", [
+        ("background-alt-grey", "grey-975-75",
+         "Fond de blocs ou de sections",
+         "Pied de page"),
+        ("background-alt-blue-france", "blue-france-975-75",
+         "Fond de bloc de page aux couleurs de l'État",
+         "Lettre d'information et réseaux sociaux"),
+        ("background-contrast-grey", "grey-950-100",
+         "Fond de composant contrastant",
+         "Mise en avant, champ de saisie"),
+        ("background-elevated-grey", "grey-1000-75",
+         "Fond de composant en relief",
+         "En-tête, menu déroulant"),
+        ("background-action-high-blue-france", "blue-france-sun-113-625",
+         "Fond de composant cliquable important et portant l'identité de l'État",
+         "Bouton primaire"),
+        ("background-action-low-blue-france", "blue-france-925-125",
+         "Fond de composant cliquable mineur et portant l'identité de l'État",
+         "Tag cliquable"),
+        ("background-active-blue-france", "blue-france-sun-113-625",
+         "Fond de composant actif et portant l'identité de l'État",
+         "Pagination"),
+        ("background-open-blue-france", "blue-france-925-125",
+         "Fond de composant ouvert et portant l'identité de l'État",
+         "Élément de navigation"),
+        ("background-disabled-grey", "grey-925-125",
+         "Fond de composant désactivé",
+         "Boutons, tag"),
+        ("background-flat-error", "error-425-625",
+         "Fond de composant en état d'erreur",
+         "Alerte"),
+        ("background-flat-warning", "warning-425-625",
+         "Fond de composant en état d'avertissement",
+         "Alerte"),
+        ("background-flat-success", "success-425-625",
+         "Fond de composant en état de succès",
+         "Alerte"),
+        ("background-flat-info", "info-425-625",
+         "Fond de composant en état d'information",
+         "Alerte"),
+        ("background-default-grey", "grey-1000-50",
+         "Fonds de page et de composant par défaut",
+         "Pied de page, modale, onglet"),
+    ]),
+    ("Couleurs de texte", [
+        ("text-title-grey", "grey-50-1000",
+         "Titre ou élément équivalent",
+         "Titres éditoriaux, titre de tableau"),
+        ("text-title-blue-france", "blue-france-sun-113-625",
+         "Titre portant l'identité de l'État",
+         "—"),
+        ("text-default-grey", "grey-200-850",
+         "Corps de texte",
+         "—"),
+        ("text-mention-grey", "grey-425-625",
+         "Texte de mentions ou de détail",
+         "—"),
+        ("text-label-grey", "grey-50-1000",
+         "Texte de libellé",
+         "Éléments de formulaire"),
+        ("text-action-high-blue-france", "blue-france-sun-113-625",
+         "Texte cliquable important et portant l'identité de l'État",
+         "Bouton secondaire"),
+        ("text-action-high-grey", "grey-50-1000",
+         "Texte cliquable important",
+         "Accordéon, élément de navigation"),
+        ("text-inverted-grey", "grey-1000-50",
+         "Texte ou icône contrastant en nuances de gris",
+         "Alerte"),
+        ("text-inverted-blue-france", "blue-france-975-sun-113",
+         "Texte ou icône contrastant portant l'identité de l'État",
+         "Bouton primaire, pagination, tag"),
+        ("text-active-blue-france", "blue-france-sun-113-625",
+         "Texte actif portant l'identité de l'État",
+         "Élément de navigation, interrupteur"),
+        ("text-active-grey", "grey-50-1000",
+         "Texte actif neutre",
+         "Fil d'Ariane"),
+        ("text-disabled-grey", "grey-625-425",
+         "Texte désactivé",
+         "—"),
+        ("text-default-error", "error-425-625",
+         "Texte ou icône en état d'erreur",
+         "Champ de saisie, élément de formulaire"),
+        ("text-default-success", "success-425-625",
+         "Texte ou icône en état de succès",
+         "Champ de saisie, élément de formulaire"),
+    ]),
+    ("Couleurs d'illustrations", [
+        ("artwork-major-blue-france", "blue-france-sun-113-625",
+         "Couleur dominante d'illustration (60%)",
+         "Illustration des options de paramètres d'affichage"),
+        ("artwork-minor-blue-france", "blue-france-main-525",
+         "Icône portant l'identité de l'État ou couleur mineure d'illustration (30%)",
+         "Citation"),
+    ]),
 ]
-DECISION_TOKENS_DARK = [
-    # background
-    ("background-default-grey",                "grey-1000-50",                "#161616"),
-    ("background-alt-grey",                    "grey-975-75",                 "#1e1e1e"),
-    ("background-contrast-grey",               "grey-950-100",                "#242424"),
-    ("background-action-high-blue-france",     "blue-france-sun-113-625",     "#8585f6"),
-    ("background-action-low-blue-france",      "blue-france-925-125",         "#272747"),
-    ("background-disabled-grey",               "grey-925-125",                "#2a2a2a"),
-    # text
-    ("text-default-grey",                      "grey-200-850",                "#cecece"),
-    ("text-title-grey",                        "grey-50-1000",                "#ffffff"),
-    ("text-mention-grey",                      "grey-425-625",                "#929292"),
-    ("text-action-high-blue-france",           "blue-france-sun-113-625",     "#8585f6"),
-    ("text-inverted-blue-france",              "blue-france-975-sun-113",     "#000091"),
-    ("text-disabled-grey",                     "grey-625-425",                "#666666"),
-    # border
-    ("border-default-grey",                    "grey-900-175",                "#353535"),
-    ("border-plain-grey",                      "grey-200-850",                "#cecece"),
-    ("border-plain-success",                   "success-425-625",             "#27a658"),
-    ("border-plain-warning",                   "warning-425-625",             "#fc5d00"),
-    ("border-plain-error",                     "error-425-625",               "#ff5655"),
-    ("border-plain-info",                      "info-425-625",                "#518fff"),
-    # literal
-    ("focus-ring",                             "(literal)",                   "#4ea7ff"),
-]
+
+# Known token-name family prefixes for paired-option decomposition.
+# Order matters: longer prefixes must come before shorter ones so that
+# `blue-france` is matched before `blue` (which isn't a family).
+DSFR_FAMILIES = (
+    "blue-france", "red-marianne",
+    "info", "success", "warning", "error",
+    "grey",
+)
+
+
+def decompose_paired(paired: str) -> tuple[str, str]:
+    """Split a paired option token like `grey-975-75` into the two
+    single-theme reference labels the DSFR docs print: ("grey-975", "grey-75").
+
+    Recognised forms (after stripping the family prefix):
+        main-XXX        theme-stable; both labels equal the full name.
+        N-N             two numeric segments → ("<fam>-<L>", "<fam>-<D>")
+        sun-N-N         three segments       → ("<fam>-sun-<L>", "<fam>-<D>")
+        N-sun-N         three segments       → ("<fam>-<L>", "<fam>-sun-<D>")
+
+    Anything else (illustrative `sun-X-moon-Y` etc.) is returned as-is
+    in both slots since the DSFR docs only use this for the seven
+    canonical decision-token families above.
+    """
+    fam = next((f for f in DSFR_FAMILIES if paired.startswith(f + "-")), None)
+    if not fam:
+        return paired, paired
+    suffix = paired[len(fam) + 1:]
+    if suffix.startswith("main-"):
+        return paired, paired
+    parts = suffix.split("-")
+    if len(parts) == 2 and all(p.isdigit() for p in parts):
+        return f"{fam}-{parts[0]}", f"{fam}-{parts[1]}"
+    if len(parts) == 3 and parts[0] == "sun":
+        return f"{fam}-sun-{parts[1]}", f"{fam}-{parts[2]}"
+    if len(parts) == 3 and parts[1] == "sun":
+        return f"{fam}-{parts[0]}", f"{fam}-sun-{parts[2]}"
+    return paired, paired
+
+
+# Flat hex lookup populated from PALETTE: token-name → (light_hex, dark_hex).
+PALETTE_HEX: dict[str, tuple[str, str]] = {
+    tok: default
+    for shades in PALETTE.values()
+    for tok, default, _hover, _active in shades
+}
 
 
 # ---------------------------------------------------------------------
@@ -487,26 +592,54 @@ def colors_section_html(scheme: str) -> str:
 
 
 def decision_table_html(scheme: str) -> str:
-    rows = DECISION_TOKENS_LIGHT if scheme == "light" else DECISION_TOKENS_DARK
-    label = "Pointe vers (clair)" if scheme == "light" else "Pointe vers (sombre)"
+    """Render the three DSFR decision-token tables (Fond, Texte, Illustrations).
+
+    The output is identical for light and dark previews — the DSFR
+    documentation page itself shows both Thème clair and Thème sombre
+    columns simultaneously, so we mirror that layout here. The
+    `scheme` parameter is accepted for symmetry with the other
+    generators but isn't used.
+    """
+    del scheme  # not used; both previews show both columns
     out: list[str] = []
     out.append('    <h3>Tokens de décision</h3>')
-    out.append('    <p>Les composants doivent référencer ces tokens, pas les options brutes.</p>')
-    out.append('    <table class="tokens">')
-    out.append('      <thead>')
-    out.append(f'        <tr><th>Token de décision</th><th>{label}</th><th>Couleur</th></tr>')
-    out.append('      </thead>')
-    out.append('      <tbody>')
-    for tok, points_at, hex_val in rows:
-        # Use a literal hex for the decision-token preview so the table is
-        # readable even if the var ref drifts during a refactor.
-        out.append(
-            f'        <tr><td class="tok">{tok}</td>'
-            f'<td class="tok">{points_at}</td>'
-            f'<td><span class="dot" style="background:{hex_val}"></span><code>{hex_val}</code></td></tr>'
-        )
-    out.append('      </tbody>')
-    out.append('    </table>')
+    out.append('    <p>Les composants doivent référencer ces tokens, pas les options brutes.')
+    out.append('       Chaque token de décision pointe vers un token d\'option différent selon le thème (clair / sombre).</p>')
+    for section_title, rows in DECISION_SECTIONS:
+        out.append(f'    <h4 style="margin-top:2rem;">{section_title}</h4>')
+        out.append('    <table class="tokens decisions">')
+        out.append('      <thead>')
+        out.append('        <tr>')
+        out.append('          <th>Description de l\'usage</th>')
+        out.append('          <th>Token</th>')
+        out.append('          <th>Thème clair</th>')
+        out.append('          <th>Thème sombre</th>')
+        out.append('        </tr>')
+        out.append('      </thead>')
+        out.append('      <tbody>')
+        for tok, paired, desc, example in rows:
+            light_ref, dark_ref = decompose_paired(paired)
+            light_hex, dark_hex = PALETTE_HEX.get(paired, ("?", "?"))
+            example_html = (
+                f'<br><span class="muted" style="font-size:0.875rem;">Exemple : {example}</span>'
+                if example and example != "—" else ""
+            )
+            out.append(
+                f'        <tr>'
+                f'<td>{desc}{example_html}</td>'
+                f'<td class="tok">${tok}</td>'
+                f'<td class="tok">'
+                f'<span class="dot" style="background:{light_hex}"></span>'
+                f'${light_ref} <span class="muted">({light_hex})</span>'
+                f'</td>'
+                f'<td class="tok">'
+                f'<span class="dot" style="background:{dark_hex}"></span>'
+                f'${dark_ref} <span class="muted">({dark_hex})</span>'
+                f'</td>'
+                f'</tr>'
+            )
+        out.append('      </tbody>')
+        out.append('    </table>')
     return "\n".join(out)
 
 

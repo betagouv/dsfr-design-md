@@ -62,6 +62,46 @@ DEFAULT_THRESHOLD = 5     # Tier 1+2
 # Canonical role ordering for output. Mirrors `_decisions.scss`.
 ROLE_ORDER = ("background", "text", "border", "artwork")
 
+# Tokens documented on the DSFR canonical reference page
+# (https://www.systeme-de-design.gouv.fr/version-courante/fr/fondamentaux/couleurs-palette).
+# These are the user-facing decision tokens and must ALWAYS be emitted
+# regardless of usage count — some of them appear only 1-2× in the
+# canonical CSS yet are part of the public API. The whitelist applies
+# to base names only; their `-hover` / `-active` variants are pulled
+# in automatically by `tier_filter` if they exist in the canonical
+# decisions dict.
+# Doc-only decision tokens — names that appear on the DSFR canonical
+# documentation page but are NOT compiled to a `--<name>: var(--…)`
+# declaration in `:root`. The DSFR's SCSS resolves these at build
+# time so components reference the option token directly. We add
+# them here so DESIGN.md exposes the documented decision-token
+# vocabulary even when the compiled CSS doesn't.
+SYNTHETIC_DECISIONS: dict[str, str] = {
+    "background-elevated-grey": "grey-1000-75",
+}
+
+ALWAYS_INCLUDE = frozenset({
+    # background (14)
+    "background-alt-grey", "background-alt-blue-france",
+    "background-contrast-grey", "background-elevated-grey",
+    "background-action-high-blue-france", "background-action-low-blue-france",
+    "background-active-blue-france", "background-open-blue-france",
+    "background-disabled-grey",
+    "background-flat-error", "background-flat-warning",
+    "background-flat-success", "background-flat-info",
+    "background-default-grey",
+    # text (14)
+    "text-title-grey", "text-title-blue-france",
+    "text-default-grey", "text-mention-grey", "text-label-grey",
+    "text-action-high-blue-france", "text-action-high-grey",
+    "text-inverted-grey", "text-inverted-blue-france",
+    "text-active-blue-france", "text-active-grey",
+    "text-disabled-grey",
+    "text-default-error", "text-default-success",
+    # artwork (2)
+    "artwork-major-blue-france", "artwork-minor-blue-france",
+})
+
 
 # ---------------------------------------------------------------------
 # Fetch
@@ -154,18 +194,26 @@ def tier_filter(
     decisions: dict[str, str],
     usage: Counter[str],
     threshold: int,
+    always_include: frozenset[str] = ALWAYS_INCLUDE,
 ) -> list[str]:
     """Return the subset of decision-token names to emit.
 
-    A token passes if its **base** token's aggregated usage is at or
-    above the threshold. `-hover` and `-active` variants inherit their
-    base's tier so we don't end up emitting an `-active` without its
-    base or vice versa.
+    A token passes if either:
+      - its **base** token is in `always_include` (the DSFR-doc whitelist
+        of user-facing decision tokens), OR
+      - its base token's aggregated usage is at or above `threshold`.
+
+    `-hover` and `-active` variants inherit their base's status so we
+    don't end up emitting an `-active` without its base or vice versa.
     """
     base_usage: Counter[str] = Counter()
     for tok in decisions:
         base_usage[base_name(tok)] += usage.get(tok, 0)
-    return sorted(tok for tok in decisions if base_usage[base_name(tok)] >= threshold)
+    return sorted(
+        tok for tok in decisions
+        if base_name(tok) in always_include
+        or base_usage[base_name(tok)] >= threshold
+    )
 
 
 def group_by_role(tokens: list[str]) -> dict[str, list[str]]:
@@ -271,6 +319,10 @@ def main() -> int:
 
     css = fetch_css()
     decisions = extract_decisions(css)
+    # Merge in the doc-only decisions that don't appear in compiled CSS
+    # but are part of the public DSFR API (e.g. background-elevated-grey).
+    for tok, target in SYNTHETIC_DECISIONS.items():
+        decisions.setdefault(tok, target)
     component = strip_root_blocks(css)
     usage = compute_usage(component, set(decisions))
 

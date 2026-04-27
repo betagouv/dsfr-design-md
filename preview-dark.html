@@ -108,6 +108,9 @@
       --c-grey-975-75:        #1e1e1e;
       --c-grey-975-75-hover:  #3f3f3f;
       --c-grey-975-75-active: #525252;
+      --c-grey-1000-75:        #1e1e1e;
+      --c-grey-1000-75-hover:  #3f3f3f;
+      --c-grey-1000-75-active: #525252;
       --c-grey-950-150:        #2f2f2f;
       --c-grey-950-150-hover:  #545454;
       --c-grey-950-150-active: #696969;
@@ -1315,6 +1318,17 @@
         <div class="states-row">
           <div class="state-cell"><span class="bar" style="background:var(--c-grey-975-75-hover)"></span><b>hover</b><span class="hex">#3f3f3f</span><span class="rgb">rgb(63,63,63)</span></div>
           <div class="state-cell"><span class="bar" style="background:var(--c-grey-975-75-active)"></span><b>active</b><span class="hex">#525252</span><span class="rgb">rgb(82,82,82)</span></div>
+        </div>
+      </div>
+      <div class="shade">
+        <span class="hero" style="background:var(--c-grey-1000-75)"></span>
+        <b class="name">grey-1000-75</b>
+        <span class="hex">#1e1e1e</span>
+        <span class="rgb">rgb(30,30,30)</span>
+        <span class="hsl">hsl(0deg 0% 11.8%)</span>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-1000-75-hover)"></span><b>hover</b><span class="hex">#3f3f3f</span><span class="rgb">rgb(63,63,63)</span></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-1000-75-active)"></span><b>active</b><span class="hex">#525252</span><span class="rgb">rgb(82,82,82)</span></div>
         </div>
       </div>
       <div class="shade">
@@ -2673,31 +2687,75 @@
 
     <!-- BEGIN GENERATED DECISION TABLE -->
     <h3>Tokens de décision</h3>
-    <p>Les composants doivent référencer ces tokens, pas les options brutes.</p>
-    <table class="tokens">
+    <p>Les composants doivent référencer ces tokens, pas les options brutes.
+       Chaque token de décision pointe vers un token d'option différent selon le thème (clair / sombre).</p>
+    <h4 style="margin-top:2rem;">Couleurs de fond</h4>
+    <table class="tokens decisions">
       <thead>
-        <tr><th>Token de décision</th><th>Pointe vers (sombre)</th><th>Couleur</th></tr>
+        <tr>
+          <th>Description de l'usage</th>
+          <th>Token</th>
+          <th>Thème clair</th>
+          <th>Thème sombre</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td class="tok">background-default-grey</td><td class="tok">grey-1000-50</td><td><span class="dot" style="background:#161616"></span><code>#161616</code></td></tr>
-        <tr><td class="tok">background-alt-grey</td><td class="tok">grey-975-75</td><td><span class="dot" style="background:#1e1e1e"></span><code>#1e1e1e</code></td></tr>
-        <tr><td class="tok">background-contrast-grey</td><td class="tok">grey-950-100</td><td><span class="dot" style="background:#242424"></span><code>#242424</code></td></tr>
-        <tr><td class="tok">background-action-high-blue-france</td><td class="tok">blue-france-sun-113-625</td><td><span class="dot" style="background:#8585f6"></span><code>#8585f6</code></td></tr>
-        <tr><td class="tok">background-action-low-blue-france</td><td class="tok">blue-france-925-125</td><td><span class="dot" style="background:#272747"></span><code>#272747</code></td></tr>
-        <tr><td class="tok">background-disabled-grey</td><td class="tok">grey-925-125</td><td><span class="dot" style="background:#2a2a2a"></span><code>#2a2a2a</code></td></tr>
-        <tr><td class="tok">text-default-grey</td><td class="tok">grey-200-850</td><td><span class="dot" style="background:#cecece"></span><code>#cecece</code></td></tr>
-        <tr><td class="tok">text-title-grey</td><td class="tok">grey-50-1000</td><td><span class="dot" style="background:#ffffff"></span><code>#ffffff</code></td></tr>
-        <tr><td class="tok">text-mention-grey</td><td class="tok">grey-425-625</td><td><span class="dot" style="background:#929292"></span><code>#929292</code></td></tr>
-        <tr><td class="tok">text-action-high-blue-france</td><td class="tok">blue-france-sun-113-625</td><td><span class="dot" style="background:#8585f6"></span><code>#8585f6</code></td></tr>
-        <tr><td class="tok">text-inverted-blue-france</td><td class="tok">blue-france-975-sun-113</td><td><span class="dot" style="background:#000091"></span><code>#000091</code></td></tr>
-        <tr><td class="tok">text-disabled-grey</td><td class="tok">grey-625-425</td><td><span class="dot" style="background:#666666"></span><code>#666666</code></td></tr>
-        <tr><td class="tok">border-default-grey</td><td class="tok">grey-900-175</td><td><span class="dot" style="background:#353535"></span><code>#353535</code></td></tr>
-        <tr><td class="tok">border-plain-grey</td><td class="tok">grey-200-850</td><td><span class="dot" style="background:#cecece"></span><code>#cecece</code></td></tr>
-        <tr><td class="tok">border-plain-success</td><td class="tok">success-425-625</td><td><span class="dot" style="background:#27a658"></span><code>#27a658</code></td></tr>
-        <tr><td class="tok">border-plain-warning</td><td class="tok">warning-425-625</td><td><span class="dot" style="background:#fc5d00"></span><code>#fc5d00</code></td></tr>
-        <tr><td class="tok">border-plain-error</td><td class="tok">error-425-625</td><td><span class="dot" style="background:#ff5655"></span><code>#ff5655</code></td></tr>
-        <tr><td class="tok">border-plain-info</td><td class="tok">info-425-625</td><td><span class="dot" style="background:#518fff"></span><code>#518fff</code></td></tr>
-        <tr><td class="tok">focus-ring</td><td class="tok">(literal)</td><td><span class="dot" style="background:#4ea7ff"></span><code>#4ea7ff</code></td></tr>
+        <tr><td>Fond de blocs ou de sections<br><span class="muted" style="font-size:0.875rem;">Exemple : Pied de page</span></td><td class="tok">$background-alt-grey</td><td class="tok"><span class="dot" style="background:#f6f6f6"></span>$grey-975 <span class="muted">(#f6f6f6)</span></td><td class="tok"><span class="dot" style="background:#1e1e1e"></span>$grey-75 <span class="muted">(#1e1e1e)</span></td></tr>
+        <tr><td>Fond de bloc de page aux couleurs de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Lettre d'information et réseaux sociaux</span></td><td class="tok">$background-alt-blue-france</td><td class="tok"><span class="dot" style="background:#f5f5fe"></span>$blue-france-975 <span class="muted">(#f5f5fe)</span></td><td class="tok"><span class="dot" style="background:#1b1b35"></span>$blue-france-75 <span class="muted">(#1b1b35)</span></td></tr>
+        <tr><td>Fond de composant contrastant<br><span class="muted" style="font-size:0.875rem;">Exemple : Mise en avant, champ de saisie</span></td><td class="tok">$background-contrast-grey</td><td class="tok"><span class="dot" style="background:#eeeeee"></span>$grey-950 <span class="muted">(#eeeeee)</span></td><td class="tok"><span class="dot" style="background:#242424"></span>$grey-100 <span class="muted">(#242424)</span></td></tr>
+        <tr><td>Fond de composant en relief<br><span class="muted" style="font-size:0.875rem;">Exemple : En-tête, menu déroulant</span></td><td class="tok">$background-elevated-grey</td><td class="tok"><span class="dot" style="background:#ffffff"></span>$grey-1000 <span class="muted">(#ffffff)</span></td><td class="tok"><span class="dot" style="background:#1e1e1e"></span>$grey-75 <span class="muted">(#1e1e1e)</span></td></tr>
+        <tr><td>Fond de composant cliquable important et portant l'identité de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Bouton primaire</span></td><td class="tok">$background-action-high-blue-france</td><td class="tok"><span class="dot" style="background:#000091"></span>$blue-france-sun-113 <span class="muted">(#000091)</span></td><td class="tok"><span class="dot" style="background:#8585f6"></span>$blue-france-625 <span class="muted">(#8585f6)</span></td></tr>
+        <tr><td>Fond de composant cliquable mineur et portant l'identité de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Tag cliquable</span></td><td class="tok">$background-action-low-blue-france</td><td class="tok"><span class="dot" style="background:#e3e3fd"></span>$blue-france-925 <span class="muted">(#e3e3fd)</span></td><td class="tok"><span class="dot" style="background:#272747"></span>$blue-france-125 <span class="muted">(#272747)</span></td></tr>
+        <tr><td>Fond de composant actif et portant l'identité de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Pagination</span></td><td class="tok">$background-active-blue-france</td><td class="tok"><span class="dot" style="background:#000091"></span>$blue-france-sun-113 <span class="muted">(#000091)</span></td><td class="tok"><span class="dot" style="background:#8585f6"></span>$blue-france-625 <span class="muted">(#8585f6)</span></td></tr>
+        <tr><td>Fond de composant ouvert et portant l'identité de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Élément de navigation</span></td><td class="tok">$background-open-blue-france</td><td class="tok"><span class="dot" style="background:#e3e3fd"></span>$blue-france-925 <span class="muted">(#e3e3fd)</span></td><td class="tok"><span class="dot" style="background:#272747"></span>$blue-france-125 <span class="muted">(#272747)</span></td></tr>
+        <tr><td>Fond de composant désactivé<br><span class="muted" style="font-size:0.875rem;">Exemple : Boutons, tag</span></td><td class="tok">$background-disabled-grey</td><td class="tok"><span class="dot" style="background:#e5e5e5"></span>$grey-925 <span class="muted">(#e5e5e5)</span></td><td class="tok"><span class="dot" style="background:#2a2a2a"></span>$grey-125 <span class="muted">(#2a2a2a)</span></td></tr>
+        <tr><td>Fond de composant en état d'erreur<br><span class="muted" style="font-size:0.875rem;">Exemple : Alerte</span></td><td class="tok">$background-flat-error</td><td class="tok"><span class="dot" style="background:#ce0500"></span>$error-425 <span class="muted">(#ce0500)</span></td><td class="tok"><span class="dot" style="background:#ff5655"></span>$error-625 <span class="muted">(#ff5655)</span></td></tr>
+        <tr><td>Fond de composant en état d'avertissement<br><span class="muted" style="font-size:0.875rem;">Exemple : Alerte</span></td><td class="tok">$background-flat-warning</td><td class="tok"><span class="dot" style="background:#b34000"></span>$warning-425 <span class="muted">(#b34000)</span></td><td class="tok"><span class="dot" style="background:#fc5d00"></span>$warning-625 <span class="muted">(#fc5d00)</span></td></tr>
+        <tr><td>Fond de composant en état de succès<br><span class="muted" style="font-size:0.875rem;">Exemple : Alerte</span></td><td class="tok">$background-flat-success</td><td class="tok"><span class="dot" style="background:#18753c"></span>$success-425 <span class="muted">(#18753c)</span></td><td class="tok"><span class="dot" style="background:#27a658"></span>$success-625 <span class="muted">(#27a658)</span></td></tr>
+        <tr><td>Fond de composant en état d'information<br><span class="muted" style="font-size:0.875rem;">Exemple : Alerte</span></td><td class="tok">$background-flat-info</td><td class="tok"><span class="dot" style="background:#0063cb"></span>$info-425 <span class="muted">(#0063cb)</span></td><td class="tok"><span class="dot" style="background:#518fff"></span>$info-625 <span class="muted">(#518fff)</span></td></tr>
+        <tr><td>Fonds de page et de composant par défaut<br><span class="muted" style="font-size:0.875rem;">Exemple : Pied de page, modale, onglet</span></td><td class="tok">$background-default-grey</td><td class="tok"><span class="dot" style="background:#ffffff"></span>$grey-1000 <span class="muted">(#ffffff)</span></td><td class="tok"><span class="dot" style="background:#161616"></span>$grey-50 <span class="muted">(#161616)</span></td></tr>
+      </tbody>
+    </table>
+    <h4 style="margin-top:2rem;">Couleurs de texte</h4>
+    <table class="tokens decisions">
+      <thead>
+        <tr>
+          <th>Description de l'usage</th>
+          <th>Token</th>
+          <th>Thème clair</th>
+          <th>Thème sombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Titre ou élément équivalent<br><span class="muted" style="font-size:0.875rem;">Exemple : Titres éditoriaux, titre de tableau</span></td><td class="tok">$text-title-grey</td><td class="tok"><span class="dot" style="background:#161616"></span>$grey-50 <span class="muted">(#161616)</span></td><td class="tok"><span class="dot" style="background:#ffffff"></span>$grey-1000 <span class="muted">(#ffffff)</span></td></tr>
+        <tr><td>Titre portant l'identité de l'État</td><td class="tok">$text-title-blue-france</td><td class="tok"><span class="dot" style="background:#000091"></span>$blue-france-sun-113 <span class="muted">(#000091)</span></td><td class="tok"><span class="dot" style="background:#8585f6"></span>$blue-france-625 <span class="muted">(#8585f6)</span></td></tr>
+        <tr><td>Corps de texte</td><td class="tok">$text-default-grey</td><td class="tok"><span class="dot" style="background:#3a3a3a"></span>$grey-200 <span class="muted">(#3a3a3a)</span></td><td class="tok"><span class="dot" style="background:#cecece"></span>$grey-850 <span class="muted">(#cecece)</span></td></tr>
+        <tr><td>Texte de mentions ou de détail</td><td class="tok">$text-mention-grey</td><td class="tok"><span class="dot" style="background:#666666"></span>$grey-425 <span class="muted">(#666666)</span></td><td class="tok"><span class="dot" style="background:#929292"></span>$grey-625 <span class="muted">(#929292)</span></td></tr>
+        <tr><td>Texte de libellé<br><span class="muted" style="font-size:0.875rem;">Exemple : Éléments de formulaire</span></td><td class="tok">$text-label-grey</td><td class="tok"><span class="dot" style="background:#161616"></span>$grey-50 <span class="muted">(#161616)</span></td><td class="tok"><span class="dot" style="background:#ffffff"></span>$grey-1000 <span class="muted">(#ffffff)</span></td></tr>
+        <tr><td>Texte cliquable important et portant l'identité de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Bouton secondaire</span></td><td class="tok">$text-action-high-blue-france</td><td class="tok"><span class="dot" style="background:#000091"></span>$blue-france-sun-113 <span class="muted">(#000091)</span></td><td class="tok"><span class="dot" style="background:#8585f6"></span>$blue-france-625 <span class="muted">(#8585f6)</span></td></tr>
+        <tr><td>Texte cliquable important<br><span class="muted" style="font-size:0.875rem;">Exemple : Accordéon, élément de navigation</span></td><td class="tok">$text-action-high-grey</td><td class="tok"><span class="dot" style="background:#161616"></span>$grey-50 <span class="muted">(#161616)</span></td><td class="tok"><span class="dot" style="background:#ffffff"></span>$grey-1000 <span class="muted">(#ffffff)</span></td></tr>
+        <tr><td>Texte ou icône contrastant en nuances de gris<br><span class="muted" style="font-size:0.875rem;">Exemple : Alerte</span></td><td class="tok">$text-inverted-grey</td><td class="tok"><span class="dot" style="background:#ffffff"></span>$grey-1000 <span class="muted">(#ffffff)</span></td><td class="tok"><span class="dot" style="background:#161616"></span>$grey-50 <span class="muted">(#161616)</span></td></tr>
+        <tr><td>Texte ou icône contrastant portant l'identité de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Bouton primaire, pagination, tag</span></td><td class="tok">$text-inverted-blue-france</td><td class="tok"><span class="dot" style="background:#f5f5fe"></span>$blue-france-975 <span class="muted">(#f5f5fe)</span></td><td class="tok"><span class="dot" style="background:#000091"></span>$blue-france-sun-113 <span class="muted">(#000091)</span></td></tr>
+        <tr><td>Texte actif portant l'identité de l'État<br><span class="muted" style="font-size:0.875rem;">Exemple : Élément de navigation, interrupteur</span></td><td class="tok">$text-active-blue-france</td><td class="tok"><span class="dot" style="background:#000091"></span>$blue-france-sun-113 <span class="muted">(#000091)</span></td><td class="tok"><span class="dot" style="background:#8585f6"></span>$blue-france-625 <span class="muted">(#8585f6)</span></td></tr>
+        <tr><td>Texte actif neutre<br><span class="muted" style="font-size:0.875rem;">Exemple : Fil d'Ariane</span></td><td class="tok">$text-active-grey</td><td class="tok"><span class="dot" style="background:#161616"></span>$grey-50 <span class="muted">(#161616)</span></td><td class="tok"><span class="dot" style="background:#ffffff"></span>$grey-1000 <span class="muted">(#ffffff)</span></td></tr>
+        <tr><td>Texte désactivé</td><td class="tok">$text-disabled-grey</td><td class="tok"><span class="dot" style="background:#929292"></span>$grey-625 <span class="muted">(#929292)</span></td><td class="tok"><span class="dot" style="background:#666666"></span>$grey-425 <span class="muted">(#666666)</span></td></tr>
+        <tr><td>Texte ou icône en état d'erreur<br><span class="muted" style="font-size:0.875rem;">Exemple : Champ de saisie, élément de formulaire</span></td><td class="tok">$text-default-error</td><td class="tok"><span class="dot" style="background:#ce0500"></span>$error-425 <span class="muted">(#ce0500)</span></td><td class="tok"><span class="dot" style="background:#ff5655"></span>$error-625 <span class="muted">(#ff5655)</span></td></tr>
+        <tr><td>Texte ou icône en état de succès<br><span class="muted" style="font-size:0.875rem;">Exemple : Champ de saisie, élément de formulaire</span></td><td class="tok">$text-default-success</td><td class="tok"><span class="dot" style="background:#18753c"></span>$success-425 <span class="muted">(#18753c)</span></td><td class="tok"><span class="dot" style="background:#27a658"></span>$success-625 <span class="muted">(#27a658)</span></td></tr>
+      </tbody>
+    </table>
+    <h4 style="margin-top:2rem;">Couleurs d'illustrations</h4>
+    <table class="tokens decisions">
+      <thead>
+        <tr>
+          <th>Description de l'usage</th>
+          <th>Token</th>
+          <th>Thème clair</th>
+          <th>Thème sombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Couleur dominante d'illustration (60%)<br><span class="muted" style="font-size:0.875rem;">Exemple : Illustration des options de paramètres d'affichage</span></td><td class="tok">$artwork-major-blue-france</td><td class="tok"><span class="dot" style="background:#000091"></span>$blue-france-sun-113 <span class="muted">(#000091)</span></td><td class="tok"><span class="dot" style="background:#8585f6"></span>$blue-france-625 <span class="muted">(#8585f6)</span></td></tr>
+        <tr><td>Icône portant l'identité de l'État ou couleur mineure d'illustration (30%)<br><span class="muted" style="font-size:0.875rem;">Exemple : Citation</span></td><td class="tok">$artwork-minor-blue-france</td><td class="tok"><span class="dot" style="background:#6a6af4"></span>$blue-france-main-525 <span class="muted">(#6a6af4)</span></td><td class="tok"><span class="dot" style="background:#6a6af4"></span>$blue-france-main-525 <span class="muted">(#6a6af4)</span></td></tr>
       </tbody>
     </table>
     <!-- END GENERATED DECISION TABLE -->
