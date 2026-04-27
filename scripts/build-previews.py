@@ -48,6 +48,11 @@ PALETTE = {
         ("blue-france-950-100",        ("#ececfe", "#21213f"), ("#cecefc", "#424275"), ("#bbbbfc", "#56568c")),
         ("blue-france-925-125",        ("#e3e3fd", "#272747"), ("#c1c1fb", "#4a4a7d"), ("#adadf9", "#5e5e90")),
         ("blue-france-850-200",        ("#cacafb", "#313178"), None, None),
+        # Special pairing: light=blue-france-975 (pale), dark=blue-france-sun-113
+        # (saturated brand blue). Used by the `text-inverted-blue-france`
+        # decision token so that "inverted" text on a Bleu France background
+        # remains the brand blue when the page is in dark mode.
+        ("blue-france-975-sun-113",    ("#f5f5fe", "#000091"), None, None),
     ],
     "Rouge Marianne": [
         ("red-marianne-main-472",      ("#e1000f", "#e1000f"), None, None),
@@ -72,9 +77,17 @@ PALETTE = {
         ("grey-975-100",  ("#f6f6f6", "#242424"),
                           ("#dfdfdf", "#474747"),
                           ("#cfcfcf", "#5b5b5b")),
+        # Canonical decision-token target for `background-alt-grey`.
+        ("grey-975-75",   ("#f6f6f6", "#1e1e1e"),
+                          ("#dfdfdf", "#3f3f3f"),
+                          ("#cfcfcf", "#525252")),
         ("grey-950-150",  ("#eeeeee", "#2f2f2f"),
                           ("#d2d2d2", "#545454"),
                           ("#c1c1c1", "#696969")),
+        # Canonical decision-token target for `background-contrast-grey`.
+        ("grey-950-100",  ("#eeeeee", "#242424"),
+                          ("#d2d2d2", "#474747"),
+                          ("#c1c1c1", "#5b5b5b")),
         ("grey-925-125",  ("#e5e5e5", "#2a2a2a"), None, None),
         ("grey-900-175",  ("#dddddd", "#353535"), None, None),
         ("grey-850-200",  ("#cecece", "#3a3a3a"), None, None),
@@ -148,36 +161,59 @@ PALETTE = {
     ],
 }
 
-# Decision tokens that depend on option tokens. Listed for the mapping table.
+# Decision tokens — curated subset for the visual mapping table. The full
+# Tier 1+2 set (~78 tokens) lives in DESIGN.md; this list shows the most
+# heavily-used decisions across each role so the preview stays scannable.
+# Names follow the canonical DSFR convention: <role>-<level>-<family>.
 DECISION_TOKENS_LIGHT = [
-    ("primary",                          "blue-france-sun-113-625",  "#000091"),
-    ("primary-hover",                    "blue-france-sun-113-625-hover", "#1212ff"),
-    ("primary-active",                   "blue-france-sun-113-625-active", "#2323ff"),
-    ("on-primary",                       "grey-1000-50",             "#ffffff"),
-    ("background-default",               "grey-1000-50",             "#ffffff"),
-    ("background-alt",                   "grey-975-100",             "#f6f6f6"),
-    ("background-contrast-grey",         "grey-950-150",             "#eeeeee"),
-    ("background-action-low-blue-france","blue-france-925-125",      "#e3e3fd"),
-    ("text-default-grey",                "grey-50-1000",             "#161616"),
-    ("text-mention-grey",                "grey-425-625",             "#666666"),
-    ("text-action-high-blue-france",     "blue-france-sun-113-625",  "#000091"),
-    ("border-default-grey",              "grey-900-175",             "#e5e5e5"),
-    ("focus-ring",                       "(literal)",                "#0a76f6"),
+    # background
+    ("background-default-grey",                "grey-1000-50",                "#ffffff"),
+    ("background-alt-grey",                    "grey-975-75",                 "#f6f6f6"),
+    ("background-contrast-grey",               "grey-950-100",                "#eeeeee"),
+    ("background-action-high-blue-france",     "blue-france-sun-113-625",     "#000091"),
+    ("background-action-low-blue-france",      "blue-france-925-125",         "#e3e3fd"),
+    ("background-disabled-grey",               "grey-925-125",                "#e5e5e5"),
+    # text
+    ("text-default-grey",                      "grey-200-850",                "#3a3a3a"),
+    ("text-title-grey",                        "grey-50-1000",                "#161616"),
+    ("text-mention-grey",                      "grey-425-625",                "#666666"),
+    ("text-action-high-blue-france",           "blue-france-sun-113-625",     "#000091"),
+    ("text-inverted-blue-france",              "blue-france-975-sun-113",     "#f5f5fe"),
+    ("text-disabled-grey",                     "grey-625-425",                "#929292"),
+    # border
+    ("border-default-grey",                    "grey-900-175",                "#dddddd"),
+    ("border-plain-grey",                      "grey-200-850",                "#3a3a3a"),
+    ("border-plain-success",                   "success-425-625",             "#18753c"),
+    ("border-plain-warning",                   "warning-425-625",             "#b34000"),
+    ("border-plain-error",                     "error-425-625",               "#ce0500"),
+    ("border-plain-info",                      "info-425-625",                "#0063cb"),
+    # literal
+    ("focus-ring",                             "(literal)",                   "#0a76f6"),
 ]
 DECISION_TOKENS_DARK = [
-    ("primary",                          "blue-france-sun-113-625",  "#8585f6"),
-    ("primary-hover",                    "blue-france-sun-113-625-hover", "#b1b1f9"),
-    ("primary-active",                   "blue-france-sun-113-625-active", "#c6c6fb"),
-    ("on-primary",                       "(constant)",               "#1b1b35"),
-    ("background-default",               "grey-1000-50",             "#161616"),
-    ("background-alt",                   "grey-975-100",             "#1e1e1e"),
-    ("background-contrast-grey",         "grey-950-150",             "#2a2a2a"),
-    ("background-action-low-blue-france","blue-france-925-125",      "#272747"),
-    ("text-default-grey",                "grey-50-1000",             "#f5f5f5"),
-    ("text-mention-grey",                "grey-425-625",             "#929292"),
-    ("text-action-high-blue-france",     "blue-france-sun-113-625",  "#8585f6"),
-    ("border-default-grey",              "grey-900-175",             "#353535"),
-    ("focus-ring",                       "(literal)",                "#4ea7ff"),
+    # background
+    ("background-default-grey",                "grey-1000-50",                "#161616"),
+    ("background-alt-grey",                    "grey-975-75",                 "#1e1e1e"),
+    ("background-contrast-grey",               "grey-950-100",                "#242424"),
+    ("background-action-high-blue-france",     "blue-france-sun-113-625",     "#8585f6"),
+    ("background-action-low-blue-france",      "blue-france-925-125",         "#272747"),
+    ("background-disabled-grey",               "grey-925-125",                "#2a2a2a"),
+    # text
+    ("text-default-grey",                      "grey-200-850",                "#cecece"),
+    ("text-title-grey",                        "grey-50-1000",                "#ffffff"),
+    ("text-mention-grey",                      "grey-425-625",                "#929292"),
+    ("text-action-high-blue-france",           "blue-france-sun-113-625",     "#8585f6"),
+    ("text-inverted-blue-france",              "blue-france-975-sun-113",     "#000091"),
+    ("text-disabled-grey",                     "grey-625-425",                "#666666"),
+    # border
+    ("border-default-grey",                    "grey-900-175",                "#353535"),
+    ("border-plain-grey",                      "grey-200-850",                "#cecece"),
+    ("border-plain-success",                   "success-425-625",             "#27a658"),
+    ("border-plain-warning",                   "warning-425-625",             "#fc5d00"),
+    ("border-plain-error",                     "error-425-625",               "#ff5655"),
+    ("border-plain-info",                      "info-425-625",                "#518fff"),
+    # literal
+    ("focus-ring",                             "(literal)",                   "#4ea7ff"),
 ]
 
 

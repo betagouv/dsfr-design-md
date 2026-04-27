@@ -78,6 +78,7 @@
       --c-blue-france-925-125-hover:  #c1c1fb;
       --c-blue-france-925-125-active: #adadf9;
       --c-blue-france-850-200:        #cacafb;
+      --c-blue-france-975-sun-113:        #f5f5fe;
 
       /* ---- Rouge Marianne ---- */
       --c-red-marianne-main-472:        #e1000f;
@@ -104,9 +105,15 @@
       --c-grey-975-100:        #f6f6f6;
       --c-grey-975-100-hover:  #dfdfdf;
       --c-grey-975-100-active: #cfcfcf;
+      --c-grey-975-75:        #f6f6f6;
+      --c-grey-975-75-hover:  #dfdfdf;
+      --c-grey-975-75-active: #cfcfcf;
       --c-grey-950-150:        #eeeeee;
       --c-grey-950-150-hover:  #d2d2d2;
       --c-grey-950-150-active: #c1c1c1;
+      --c-grey-950-100:        #eeeeee;
+      --c-grey-950-100-hover:  #d2d2d2;
+      --c-grey-950-100-active: #c1c1c1;
       --c-grey-925-125:        #e5e5e5;
       --c-grey-900-175:        #dddddd;
       --c-grey-850-200:        #cecece;
@@ -927,6 +934,13 @@
         <span class="rgb">rgb(202,202,251)</span>
         <span class="hsl">hsl(240deg 86% 88.8%)</span>
       </div>
+      <div class="shade">
+        <span class="hero" style="background:var(--c-blue-france-975-sun-113)"></span>
+        <b class="name">blue-france-975-sun-113</b>
+        <span class="hex">#f5f5fe</span>
+        <span class="rgb">rgb(245,245,254)</span>
+        <span class="hsl">hsl(240deg 81.8% 97.8%)</span>
+      </div>
     </div>
 
     <div class="group-label">Rouge Marianne</div>
@@ -1030,6 +1044,17 @@
         </div>
       </div>
       <div class="shade">
+        <span class="hero" style="background:var(--c-grey-975-75)"></span>
+        <b class="name">grey-975-75</b>
+        <span class="hex">#f6f6f6</span>
+        <span class="rgb">rgb(246,246,246)</span>
+        <span class="hsl">hsl(0deg 0% 96.5%)</span>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-975-75-hover)"></span><b>hover</b><span class="hex">#dfdfdf</span><span class="rgb">rgb(223,223,223)</span></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-975-75-active)"></span><b>active</b><span class="hex">#cfcfcf</span><span class="rgb">rgb(207,207,207)</span></div>
+        </div>
+      </div>
+      <div class="shade">
         <span class="hero" style="background:var(--c-grey-950-150)"></span>
         <b class="name">grey-950-150</b>
         <span class="hex">#eeeeee</span>
@@ -1038,6 +1063,17 @@
         <div class="states-row">
           <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-150-hover)"></span><b>hover</b><span class="hex">#d2d2d2</span><span class="rgb">rgb(210,210,210)</span></div>
           <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-150-active)"></span><b>active</b><span class="hex">#c1c1c1</span><span class="rgb">rgb(193,193,193)</span></div>
+        </div>
+      </div>
+      <div class="shade">
+        <span class="hero" style="background:var(--c-grey-950-100)"></span>
+        <b class="name">grey-950-100</b>
+        <span class="hex">#eeeeee</span>
+        <span class="rgb">rgb(238,238,238)</span>
+        <span class="hsl">hsl(0deg 0% 93.3%)</span>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-100-hover)"></span><b>hover</b><span class="hex">#d2d2d2</span><span class="rgb">rgb(210,210,210)</span></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-100-active)"></span><b>active</b><span class="hex">#c1c1c1</span><span class="rgb">rgb(193,193,193)</span></div>
         </div>
       </div>
       <div class="shade">
@@ -1435,18 +1471,24 @@
         <tr><th>Token de décision</th><th>Pointe vers (clair)</th><th>Couleur</th></tr>
       </thead>
       <tbody>
-        <tr><td class="tok">primary</td><td class="tok">blue-france-sun-113-625</td><td><span class="dot" style="background:#000091"></span><code>#000091</code></td></tr>
-        <tr><td class="tok">primary-hover</td><td class="tok">blue-france-sun-113-625-hover</td><td><span class="dot" style="background:#1212ff"></span><code>#1212ff</code></td></tr>
-        <tr><td class="tok">primary-active</td><td class="tok">blue-france-sun-113-625-active</td><td><span class="dot" style="background:#2323ff"></span><code>#2323ff</code></td></tr>
-        <tr><td class="tok">on-primary</td><td class="tok">grey-1000-50</td><td><span class="dot" style="background:#ffffff"></span><code>#ffffff</code></td></tr>
-        <tr><td class="tok">background-default</td><td class="tok">grey-1000-50</td><td><span class="dot" style="background:#ffffff"></span><code>#ffffff</code></td></tr>
-        <tr><td class="tok">background-alt</td><td class="tok">grey-975-100</td><td><span class="dot" style="background:#f6f6f6"></span><code>#f6f6f6</code></td></tr>
-        <tr><td class="tok">background-contrast-grey</td><td class="tok">grey-950-150</td><td><span class="dot" style="background:#eeeeee"></span><code>#eeeeee</code></td></tr>
+        <tr><td class="tok">background-default-grey</td><td class="tok">grey-1000-50</td><td><span class="dot" style="background:#ffffff"></span><code>#ffffff</code></td></tr>
+        <tr><td class="tok">background-alt-grey</td><td class="tok">grey-975-75</td><td><span class="dot" style="background:#f6f6f6"></span><code>#f6f6f6</code></td></tr>
+        <tr><td class="tok">background-contrast-grey</td><td class="tok">grey-950-100</td><td><span class="dot" style="background:#eeeeee"></span><code>#eeeeee</code></td></tr>
+        <tr><td class="tok">background-action-high-blue-france</td><td class="tok">blue-france-sun-113-625</td><td><span class="dot" style="background:#000091"></span><code>#000091</code></td></tr>
         <tr><td class="tok">background-action-low-blue-france</td><td class="tok">blue-france-925-125</td><td><span class="dot" style="background:#e3e3fd"></span><code>#e3e3fd</code></td></tr>
-        <tr><td class="tok">text-default-grey</td><td class="tok">grey-50-1000</td><td><span class="dot" style="background:#161616"></span><code>#161616</code></td></tr>
+        <tr><td class="tok">background-disabled-grey</td><td class="tok">grey-925-125</td><td><span class="dot" style="background:#e5e5e5"></span><code>#e5e5e5</code></td></tr>
+        <tr><td class="tok">text-default-grey</td><td class="tok">grey-200-850</td><td><span class="dot" style="background:#3a3a3a"></span><code>#3a3a3a</code></td></tr>
+        <tr><td class="tok">text-title-grey</td><td class="tok">grey-50-1000</td><td><span class="dot" style="background:#161616"></span><code>#161616</code></td></tr>
         <tr><td class="tok">text-mention-grey</td><td class="tok">grey-425-625</td><td><span class="dot" style="background:#666666"></span><code>#666666</code></td></tr>
         <tr><td class="tok">text-action-high-blue-france</td><td class="tok">blue-france-sun-113-625</td><td><span class="dot" style="background:#000091"></span><code>#000091</code></td></tr>
-        <tr><td class="tok">border-default-grey</td><td class="tok">grey-900-175</td><td><span class="dot" style="background:#e5e5e5"></span><code>#e5e5e5</code></td></tr>
+        <tr><td class="tok">text-inverted-blue-france</td><td class="tok">blue-france-975-sun-113</td><td><span class="dot" style="background:#f5f5fe"></span><code>#f5f5fe</code></td></tr>
+        <tr><td class="tok">text-disabled-grey</td><td class="tok">grey-625-425</td><td><span class="dot" style="background:#929292"></span><code>#929292</code></td></tr>
+        <tr><td class="tok">border-default-grey</td><td class="tok">grey-900-175</td><td><span class="dot" style="background:#dddddd"></span><code>#dddddd</code></td></tr>
+        <tr><td class="tok">border-plain-grey</td><td class="tok">grey-200-850</td><td><span class="dot" style="background:#3a3a3a"></span><code>#3a3a3a</code></td></tr>
+        <tr><td class="tok">border-plain-success</td><td class="tok">success-425-625</td><td><span class="dot" style="background:#18753c"></span><code>#18753c</code></td></tr>
+        <tr><td class="tok">border-plain-warning</td><td class="tok">warning-425-625</td><td><span class="dot" style="background:#b34000"></span><code>#b34000</code></td></tr>
+        <tr><td class="tok">border-plain-error</td><td class="tok">error-425-625</td><td><span class="dot" style="background:#ce0500"></span><code>#ce0500</code></td></tr>
+        <tr><td class="tok">border-plain-info</td><td class="tok">info-425-625</td><td><span class="dot" style="background:#0063cb"></span><code>#0063cb</code></td></tr>
         <tr><td class="tok">focus-ring</td><td class="tok">(literal)</td><td><span class="dot" style="background:#0a76f6"></span><code>#0a76f6</code></td></tr>
       </tbody>
     </table>
