@@ -145,25 +145,154 @@ PALETTE = {
         ("error-925-125",    ("#ffdddd", "#412121"), None, None),
         ("error-850-200",    ("#ffbdbd", "#642626"), None, None),
     ],
-    "Accents illustratifs · une famille par page": [
-        # Illustrative accents have no documented hover/active in the CSS dist.
+    # ----- Accents illustratifs -----
+    # 17 familles, ordre de la doc DSFR :
+    # Tilleul verveine, Bourgeon, Émeraude, Menthe, Archipel, Écume,
+    # Cumulus, Glycine, Macaron, Tuile, Tournesol, Moutarde,
+    # Terre battue, Café crème, Caramel, Opéra, Gris galet.
+    #
+    # Chaque famille suit la même structure de 6 nuances :
+    #   main-XXX            référence (thème-stable, pas de hover/active)
+    #   sun-XXX-moon-YYY    nuance forte (paire light/dark, hover/active)
+    #   975-75              très clair (paire, hover/active)
+    #   950-100             clair (paire, hover/active)
+    #   925-125             intermédiaire (paire, hover/active)
+    #   850-200             plus saturé (paire, pas de hover/active)
+    "Tilleul verveine {scheme_label}": [
         ("green-tilleul-verveine-main-707", ("#b7a73f", "#b7a73f"), None, None),
-        ("green-bourgeon-main-640",         ("#68a532", "#68a532"), None, None),
-        ("green-emeraude-main-632",         ("#00a95f", "#00a95f"), None, None),
-        ("green-menthe-main-548",           ("#009081", "#009081"), None, None),
-        ("green-archipel-main-557",         ("#009099", "#009099"), None, None),
-        ("blue-ecume-main-400",             ("#465f9d", "#465f9d"), None, None),
-        ("blue-cumulus-main-526",           ("#417dc4", "#417dc4"), None, None),
-        ("purple-glycine-main-494",         ("#a558a0", "#a558a0"), None, None),
-        ("pink-macaron-main-689",           ("#e18b76", "#e18b76"), None, None),
-        ("pink-tuile-main-556",             ("#ce614a", "#ce614a"), None, None),
-        ("yellow-tournesol-main-731",       ("#c8aa39", "#c8aa39"), None, None),
-        ("yellow-moutarde-main-679",        ("#c3992a", "#c3992a"), None, None),
-        ("orange-terre-battue-main-645",    ("#e4794a", "#e4794a"), None, None),
-        ("brown-cafe-creme-main-782",       ("#d1b781", "#d1b781"), None, None),
-        ("brown-caramel-main-648",          ("#c08c65", "#c08c65"), None, None),
-        ("brown-opera-main-680",            ("#bd987a", "#bd987a"), None, None),
-        ("beige-gris-galet-main-702",       ("#aea397", "#aea397"), None, None),
+        ("green-tilleul-verveine-sun-418-moon-817", ("#66673d", "#d8c634"), ("#929359", "#fee943"), ("#a7a967", "#fef1ab")),
+        ("green-tilleul-verveine-975-75", ("#fef7da", "#201e14"), ("#fce552", "#433f2e"), ("#ebd54c", "#57533d")),
+        ("green-tilleul-verveine-950-100", ("#fceeac", "#272419"), ("#e8d45c", "#4c4734"), ("#d4c254", "#615b44")),
+        ("green-tilleul-verveine-925-125", ("#fbe769", "#2d2a1d"), ("#d7c655", "#534f39"), ("#c2b24c", "#696349")),
+        ("green-tilleul-verveine-850-200", ("#e2cf58", "#3f3a20"), None, None),
+    ],
+    "Bourgeon {scheme_label}": [
+        ("green-bourgeon-main-640", ("#68a532", "#68a532"), None, None),
+        ("green-bourgeon-sun-425-moon-759", ("#447049", "#99c221"), ("#639f6a", "#baec2a"), ("#72b77a", "#c9fd2e")),
+        ("green-bourgeon-975-75", ("#e6feda", "#182014"), ("#a7fc62", "#35432e"), ("#98ed4d", "#46573d")),
+        ("green-bourgeon-950-100", ("#c9fcac", "#1e2719"), ("#9ae95d", "#3d4c34"), ("#8dd555", "#4e6144")),
+        ("green-bourgeon-925-125", ("#a9fb68", "#232d1d"), ("#8ed654", "#435339"), ("#7fc04b", "#556949")),
+        ("green-bourgeon-850-200", ("#95e257", "#2a401a"), None, None),
+    ],
+    "Émeraude {scheme_label}": [
+        ("green-emeraude-main-632", ("#00a95f", "#00a95f"), None, None),
+        ("green-emeraude-sun-425-moon-753", ("#297254", "#34cb6a"), ("#3ea47a", "#42fb84"), ("#49bc8d", "#80fda3")),
+        ("green-emeraude-975-75", ("#e3fdeb", "#142018"), ("#94f9b9", "#2e4335"), ("#6df1a3", "#3d5846")),
+        ("green-emeraude-950-100", ("#c3fad5", "#19271e"), ("#77eda5", "#344c3d"), ("#6dd897", "#44624f")),
+        ("green-emeraude-925-125", ("#9ef9be", "#1e2e23"), ("#69df97", "#3b5543"), ("#5ec988", "#4b6b55")),
+        ("green-emeraude-850-200", ("#6fe49d", "#21402c"), None, None),
+    ],
+    "Menthe {scheme_label}": [
+        ("green-menthe-main-548", ("#009081", "#009081"), None, None),
+        ("green-menthe-sun-373-moon-652", ("#37635f", "#21ab8e"), ("#53918c", "#2eddb8"), ("#62a9a2", "#34f4cc")),
+        ("green-menthe-975-75", ("#dffdf7", "#15201e"), ("#84f9e7", "#30433f"), ("#70ebd8", "#3f5753")),
+        ("green-menthe-950-100", ("#bafaee", "#1a2624"), ("#79e7d5", "#364b47"), ("#6fd3c3", "#46605b")),
+        ("green-menthe-925-125", ("#8bf8e7", "#1f2d2a"), ("#6ed5c5", "#3c534e"), ("#62bfb1", "#4d6963")),
+        ("green-menthe-850-200", ("#73e0cf", "#223f3a"), None, None),
+    ],
+    "Archipel {scheme_label}": [
+        ("green-archipel-main-557", ("#009099", "#009099"), None, None),
+        ("green-archipel-sun-391-moon-716", ("#006a6f", "#34bab5"), ("#009fa7", "#43e9e2"), ("#00bbc3", "#4cfdf6")),
+        ("green-archipel-975-75", ("#e5fbfd", "#152021"), ("#99f2f8", "#2f4345"), ("#73e9f0", "#3f5759")),
+        ("green-archipel-950-100", ("#c7f6fc", "#1a2628"), ("#64ecf8", "#364a4e"), ("#5bd8e3", "#465f63")),
+        ("green-archipel-925-125", ("#a6f2fa", "#1f2c2e"), ("#62dbe5", "#3c5255"), ("#58c5cf", "#4d676b")),
+        ("green-archipel-850-200", ("#60e0eb", "#233e41"), None, None),
+    ],
+    "Écume {scheme_label}": [
+        ("blue-ecume-main-400", ("#465f9d", "#465f9d"), None, None),
+        ("blue-ecume-sun-247-moon-675", ("#2f4077", "#869ece"), ("#4e68bb", "#b8c5e2"), ("#667dcf", "#ced6ea")),
+        ("blue-ecume-975-75", ("#f4f6fe", "#171d2f"), ("#d7dffb", "#333e5e"), ("#c3cffa", "#445179")),
+        ("blue-ecume-950-100", ("#e9edfe", "#1d2437"), ("#c5d0fc", "#3b4767"), ("#adbffc", "#4c5b83")),
+        ("blue-ecume-925-125", ("#dee5fd", "#222940"), ("#b4c5fb", "#424d73"), ("#99b3f9", "#536190")),
+        ("blue-ecume-850-200", ("#bfccfb", "#273962"), None, None),
+    ],
+    "Cumulus {scheme_label}": [
+        ("blue-cumulus-main-526", ("#417dc4", "#417dc4"), None, None),
+        ("blue-cumulus-sun-368-moon-732", ("#3558a2", "#7ab1e8"), ("#5982e0", "#bad2f2"), ("#7996e6", "#d2e2f6")),
+        ("blue-cumulus-975-75", ("#f3f6fe", "#171e2b"), ("#d3dffc", "#333f56"), ("#bed0fa", "#43536f")),
+        ("blue-cumulus-950-100", ("#e6eefe", "#1c2433"), ("#bcd3fc", "#3a4761"), ("#9fc3fc", "#4a5b7b")),
+        ("blue-cumulus-925-125", ("#dae6fd", "#212a3a"), ("#a9c8fb", "#404f69"), ("#8ab8f9", "#516384")),
+        ("blue-cumulus-850-200", ("#b6cffb", "#263b58"), None, None),
+    ],
+    "Glycine {scheme_label}": [
+        ("purple-glycine-main-494", ("#a558a0", "#a558a0"), None, None),
+        ("purple-glycine-sun-319-moon-630", ("#6e445a", "#ce70cc"), ("#a66989", "#dfa4dd"), ("#bb7f9e", "#e7bbe6")),
+        ("purple-glycine-975-75", ("#fef3fd", "#251a24"), ("#fcd4f8", "#4c394a"), ("#fabff5", "#634a60")),
+        ("purple-glycine-950-100", ("#fee7fc", "#2c202b"), ("#fdc0f8", "#554053"), ("#fca8f6", "#6c536a")),
+        ("purple-glycine-925-125", ("#fddbfa", "#332632"), ("#fbaff5", "#5d485c"), ("#fa96f2", "#755b73")),
+        ("purple-glycine-850-200", ("#fbb8f6", "#502e4d"), None, None),
+    ],
+    "Macaron {scheme_label}": [
+        ("pink-macaron-main-689", ("#e18b76", "#e18b76"), None, None),
+        ("pink-macaron-sun-406-moon-833", ("#8d533e", "#ffb7ae"), ("#ca795c", "#ffe0dc"), ("#e08e73", "#fff0ee")),
+        ("pink-macaron-975-75", ("#fef4f2", "#261b19"), ("#fcd8d0", "#4e3a37"), ("#fac5b8", "#654c48")),
+        ("pink-macaron-950-100", ("#fee9e6", "#2e211f"), ("#fdc6bd", "#58423f"), ("#fcb0a2", "#705551")),
+        ("pink-macaron-925-125", ("#fddfda", "#352724"), ("#fbb8ab", "#614a45"), ("#faa18d", "#795d57")),
+        ("pink-macaron-850-200", ("#fcc0b4", "#52312a"), None, None),
+    ],
+    "Tuile {scheme_label}": [
+        ("pink-tuile-main-556", ("#ce614a", "#ce614a"), None, None),
+        ("pink-tuile-sun-425-moon-750", ("#a94645", "#ff9575"), ("#d5706f", "#ffc4b7"), ("#da8a89", "#ffd8d0")),
+        ("pink-tuile-975-75", ("#fef4f3", "#281b19"), ("#fcd7d3", "#513a37"), ("#fac4be", "#694c48")),
+        ("pink-tuile-950-100", ("#fee9e7", "#2f211f"), ("#fdc6c0", "#5a423e"), ("#fcb0a7", "#725550")),
+        ("pink-tuile-925-125", ("#fddfdb", "#372624"), ("#fbb8ad", "#644845"), ("#faa191", "#7d5b57")),
+        ("pink-tuile-850-200", ("#fcbfb7", "#55302a"), None, None),
+    ],
+    "Tournesol {scheme_label}": [
+        ("yellow-tournesol-main-731", ("#c8aa39", "#c8aa39"), None, None),
+        ("yellow-tournesol-sun-407-moon-922", ("#716043", "#ffe552"), ("#a28a62", "#e1c700"), ("#ba9f72", "#cab300")),
+        ("yellow-tournesol-975-75", ("#fef6e3", "#221d11"), ("#fce086", "#473e29"), ("#f5d24b", "#5c5136")),
+        ("yellow-tournesol-950-100", ("#feecc2", "#292416"), ("#fbd335", "#4f472f"), ("#e6c130", "#655b3d")),
+        ("yellow-tournesol-925-125", ("#fde39c", "#302a1a"), ("#e9c53b", "#584e34"), ("#d3b235", "#6f6342")),
+        ("yellow-tournesol-850-200", ("#efcb3a", "#43391a"), None, None),
+    ],
+    "Moutarde {scheme_label}": [
+        ("yellow-moutarde-main-679", ("#c3992a", "#c3992a"), None, None),
+        ("yellow-moutarde-sun-348-moon-860", ("#695240", "#ffca00"), ("#9b7b61", "#cda200"), ("#b58f72", "#b28c00")),
+        ("yellow-moutarde-975-75", ("#fef5e8", "#231d14"), ("#fcdca3", "#483e2e"), ("#fbcd64", "#5e513d")),
+        ("yellow-moutarde-950-100", ("#feebd0", "#2a2319"), ("#fdcd6d", "#514534"), ("#f4be30", "#685944")),
+        ("yellow-moutarde-925-125", ("#fde2b5", "#30291d"), ("#f6c43c", "#584d39"), ("#dfb135", "#6f6149")),
+        ("yellow-moutarde-850-200", ("#fcc63a", "#453820"), None, None),
+    ],
+    "Terre battue {scheme_label}": [
+        ("orange-terre-battue-main-645", ("#e4794a", "#e4794a"), None, None),
+        ("orange-terre-battue-sun-370-moon-672", ("#755348", "#ff732c"), ("#ab7b6b", "#ffa48b"), ("#c68f7d", "#ffbbab")),
+        ("orange-terre-battue-975-75", ("#fef4f2", "#281a16"), ("#fcd8d0", "#513932"), ("#fac5b8", "#6a4b42")),
+        ("orange-terre-battue-950-100", ("#fee9e5", "#31201c"), ("#fdc6ba", "#5d403a"), ("#fcb09e", "#77534a")),
+        ("orange-terre-battue-925-125", ("#fddfd8", "#382621"), ("#fbb8a5", "#664840"), ("#faa184", "#7f5b51")),
+        ("orange-terre-battue-850-200", ("#fcc0b0", "#543125"), None, None),
+    ],
+    "Café crème {scheme_label}": [
+        ("brown-cafe-creme-main-782", ("#d1b781", "#d1b781"), None, None),
+        ("brown-cafe-creme-sun-383-moon-885", ("#685c48", "#ecd7a2"), ("#97866a", "#c5b386"), ("#ae9b7b", "#af9f77")),
+        ("brown-cafe-creme-975-75", ("#fbf6ed", "#211d16"), ("#f2deb6", "#453e31"), ("#eacf91", "#5a5141")),
+        ("brown-cafe-creme-950-100", ("#f7ecdb", "#28241c"), ("#edce94", "#4e4739"), ("#dabd84", "#635b4a")),
+        ("brown-cafe-creme-925-125", ("#f4e3c7", "#2e2a21"), ("#e1c386", "#554e3f"), ("#ccb078", "#6b6351")),
+        ("brown-cafe-creme-850-200", ("#e7ca8e", "#423925"), None, None),
+    ],
+    "Caramel {scheme_label}": [
+        ("brown-caramel-main-648", ("#c08c65", "#c08c65"), None, None),
+        ("brown-caramel-sun-425-moon-901", ("#845d48", "#fbd8ab"), ("#bb8568", "#efb547"), ("#d69978", "#d6a23e")),
+        ("brown-caramel-975-75", ("#fbf5f2", "#251c16"), ("#f1dbcf", "#4c3c31"), ("#ecc9b5", "#624e41")),
+        ("brown-caramel-950-100", ("#f7ebe5", "#2c221c"), ("#eccbb9", "#554439"), ("#e6b79a", "#6c574a")),
+        ("brown-caramel-925-125", ("#f3e2d9", "#332821"), ("#e7bea6", "#5d4b40"), ("#e1a982", "#755f51")),
+        ("brown-caramel-850-200", ("#eac7b2", "#4b3525"), None, None),
+    ],
+    "Opéra {scheme_label}": [
+        ("brown-opera-main-680", ("#bd987a", "#bd987a"), None, None),
+        ("brown-opera-sun-395-moon-820", ("#745b47", "#e6be92"), ("#a78468", "#f2e2d3"), ("#c09979", "#f8f0e9")),
+        ("brown-opera-975-75", ("#fbf5f2", "#241c17"), ("#f1dbcf", "#4a3c33"), ("#ecc9b5", "#604f44")),
+        ("brown-opera-950-100", ("#f7ece4", "#2b221c"), ("#eccdb3", "#53443a"), ("#e6ba90", "#6a574a")),
+        ("brown-opera-925-125", ("#f3e2d7", "#322821"), ("#e7bfa0", "#5c4b40"), ("#deaa7e", "#735f51")),
+        ("brown-opera-850-200", ("#eac7ad", "#493625"), None, None),
+    ],
+    "Gris galet {scheme_label}": [
+        ("beige-gris-galet-main-702", ("#aea397", "#aea397"), None, None),
+        ("beige-gris-galet-sun-407-moon-821", ("#6a6156", "#d0c3b7"), ("#988b7c", "#eae5e1"), ("#afa08f", "#f4f2f0")),
+        ("beige-gris-galet-975-75", ("#f9f6f2", "#211d19"), ("#eadecd", "#453e37"), ("#e1ceb1", "#595148")),
+        ("beige-gris-galet-950-100", ("#f3ede5", "#28231f"), ("#e1d0b5", "#4e453f"), ("#d1bea2", "#635950")),
+        ("beige-gris-galet-925-125", ("#eee4d9", "#2e2924"), ("#dbc3a4", "#554d45"), ("#c6b094", "#6b6157")),
+        ("beige-gris-galet-850-200", ("#e0cab0", "#433829"), None, None),
     ],
 }
 
@@ -340,11 +469,15 @@ def colors_section_html(scheme: str) -> str:
     out: list[str] = []
     for group_name, shades in PALETTE.items():
         title = format_group_name(group_name, scheme)
-        out.append(f'    <div class="group-label">{title}</div>')
-        if "Accents illustratifs" in group_name:
+        # The first illustrative family (Tilleul verveine) gets a one-time
+        # intro paragraph that applies to all 17 families that follow.
+        if group_name.startswith("Tilleul verveine"):
+            out.append('    <h2 style="margin-top:3rem;">Accents illustratifs · une famille par page</h2>')
             out.append('    <p class="muted" style="font-size:0.875rem;">')
-            out.append('      Réservés à l\'éditorial. Jamais utilisés pour les actions ou les couleurs système.')
+            out.append('      17 familles, réservées à l\'éditorial. Jamais utilisées pour les actions ou les couleurs système.')
+            out.append('      Chaque famille expose 6 nuances (main → sun-moon → 975 → 950 → 925 → 850).')
             out.append('    </p>')
+        out.append(f'    <div class="group-label">{title}</div>')
         out.append('    <div class="shade-grid">')
         for token, default, hover, active in shades:
             out.append('      ' + shade_card(token, default, hover, active, scheme))
