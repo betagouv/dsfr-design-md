@@ -86,19 +86,45 @@ PALETTE = {
         ("grey-50-1000",  ("#161616", "#ffffff"), None, None),
         ("grey-0-1000",   ("#000000", "#ffffff"), None, None),
     ],
+    # Système : ordre des familles imposé par la doc DSFR :
+    # « Les couleurs systèmes sont : Info, warning, error, success. »
+    # Au sein de chaque famille, ordre canonique (cf. en-tête PALETTE) :
+    # main → strong → lightest → lighter → light → softest.
+    #
+    # NB : `*-main-525`, `*-925-125` et `*-850-200` ne sont pas exposés
+    # comme variables CSS dans la distribution `dsfr.css` ; ce sont des
+    # valeurs de référence de la documentation. Mêmes traitement que
+    # `blue-france-main-525`, `grey-main-525`, `grey-925-125`,
+    # `grey-850-200` : exposés sans hover/active dans nos previews.
     "Système · feedback fonctionnel": [
-        ("success-425-625", ("#18753c", "#27a658"), ("#27a959", "#36d975"), ("#2fc368", "#3df183")),
-        ("success-950-100", ("#b8fec9", "#19271d"), ("#46fd89", "#344c3b"), ("#34eb7b", "#44624d")),
-        ("success-975-75",  ("#dffee6", "#142117"), None, None),
-        ("warning-425-625", ("#b34000", "#fc5d00"), ("#ff6218", "#ff8c73"), ("#ff7a55", "#ffa595")),
-        ("warning-950-100", ("#ffe9e6", "#361e19"), ("#ffc6bd", "#663d35"), ("#ffb0a2", "#824f44")),
-        ("warning-975-75",  ("#fff4f3", "#2d1814"), None, None),
-        ("error-425-625",   ("#ce0500", "#ff5655"), ("#ff2725", "#ff8c8c"), ("#ff4140", "#ffa6a6")),
-        ("error-950-100",   ("#ffe9e9", "#391c1c"), ("#ffc5c5", "#6c3a3a"), ("#ffafaf", "#894b4b")),
-        ("error-975-75",    ("#fff4f4", "#301717"), None, None),
-        ("info-425-625",    ("#0063cb", "#518fff"), ("#3b87ff", "#98b4ff"), ("#6798ff", "#b4c7ff")),
-        ("info-950-100",    ("#e8edff", "#1d2437"), ("#c2d1ff", "#3b4767"), ("#a9bfff", "#4c5b83")),
-        ("info-975-75",     ("#f4f6ff", "#171d2e"), None, None),
+        # info
+        ("info-main-525",    ("#0078f3", "#0078f3"), None, None),
+        ("info-425-625",     ("#0063cb", "#518fff"), ("#3b87ff", "#98b4ff"), ("#6798ff", "#b4c7ff")),
+        ("info-975-75",      ("#f4f6ff", "#171d2e"), None, None),
+        ("info-950-100",     ("#e8edff", "#1d2437"), ("#c2d1ff", "#3b4767"), ("#a9bfff", "#4c5b83")),
+        ("info-925-125",     ("#dde5ff", "#222a3f"), None, None),
+        ("info-850-200",     ("#bccdff", "#273961"), None, None),
+        # warning
+        ("warning-main-525", ("#d64d00", "#d64d00"), None, None),
+        ("warning-425-625",  ("#b34000", "#fc5d00"), ("#ff6218", "#ff8c73"), ("#ff7a55", "#ffa595")),
+        ("warning-975-75",   ("#fff4f3", "#2d1814"), None, None),
+        ("warning-950-100",  ("#ffe9e6", "#361e19"), ("#ffc6bd", "#663d35"), ("#ffb0a2", "#824f44")),
+        ("warning-925-125",  ("#ffded9", "#3e231e"), None, None),
+        ("warning-850-200",  ("#ffbeb4", "#5d2c20"), None, None),
+        # error
+        ("error-main-525",   ("#f60700", "#f60700"), None, None),
+        ("error-425-625",    ("#ce0500", "#ff5655"), ("#ff2725", "#ff8c8c"), ("#ff4140", "#ffa6a6")),
+        ("error-975-75",     ("#fff4f4", "#301717"), None, None),
+        ("error-950-100",    ("#ffe9e9", "#391c1c"), ("#ffc5c5", "#6c3a3a"), ("#ffafaf", "#894b4b")),
+        ("error-925-125",    ("#ffdddd", "#412121"), None, None),
+        ("error-850-200",    ("#ffbdbd", "#642626"), None, None),
+        # success
+        ("success-main-525", ("#1f8d49", "#1f8d49"), None, None),
+        ("success-425-625",  ("#18753c", "#27a658"), ("#27a959", "#36d975"), ("#2fc368", "#3df183")),
+        ("success-975-75",   ("#dffee6", "#142117"), None, None),
+        ("success-950-100",  ("#b8fec9", "#19271d"), ("#46fd89", "#344c3b"), ("#34eb7b", "#44624d")),
+        ("success-925-125",  ("#88fdaa", "#1e2e22"), None, None),
+        ("success-850-200",  ("#3bea7e", "#204129"), None, None),
     ],
     "Accents illustratifs · une famille par page": [
         # Illustrative accents have no documented hover/active in the CSS dist.

@@ -77,44 +77,67 @@ colors:
   grey-0-1000:                    "#000000"
 
   # ---------- System (functional) ----------
-  # Each system family ships TWO interactive shades plus one alert tint:
-  #   - `-425-625`  saturated, used for solid status backgrounds and
-  #                 also as the canonical text-default-* color for
-  #                 each family (DSFR aliases text-default-success →
-  #                 success-425-625, etc.)
-  #   - `-950-100`  pale tint, used for low-emphasis status surfaces
-  #   - `-975-75`   ultra-light tint, alert backgrounds (no hover/
-  #                 active because alerts are not actionable surfaces)
+  # Family order is fixed by the DSFR docs:
+  # « Les couleurs systèmes sont : Info, warning, error, success. »
+  #
+  # Each family exposes 6 shades following the same convention as the
+  # brand colours (main → strong → lightest → lighter → light → softest):
+  #   - `-main-525` reference value (theme-stable, both themes use the
+  #                 same hex). Documented in DSFR but NOT exposed as a
+  #                 CSS variable in `dsfr.css`. Same category as
+  #                 `blue-france-main-525`, `grey-main-525`, etc.
+  #   - `-425-625`  strong / saturated. Solid status backgrounds, and
+  #                 also the canonical text-default-* color (DSFR
+  #                 aliases text-default-success → success-425-625, etc.)
+  #   - `-975-75`   lightest / alert background tint
+  #   - `-950-100`  lighter / low-emphasis status surfaces
+  #   - `-925-125`  light / docs-only reference (NOT in `dsfr.css`)
+  #   - `-850-200`  softest / docs-only reference (NOT in `dsfr.css`)
+  # Only `-425-625`, `-950-100`, and `-975-75` are compiled into the
+  # canonical CSS distribution; the other three are reference values
+  # listed in the DSFR's palette page for design-time use.
   # All four families pass WCAG AA at body text size on their `-975-75`
   # alert background using their `-425-625` for text.
-  success-425-625:                "#18753c"
-  success-425-625-hover:          "#27a959"
-  success-425-625-active:         "#2fc368"
-  success-950-100:                "#b8fec9"
-  success-950-100-hover:          "#46fd89"
-  success-950-100-active:         "#34eb7b"
-  success-975-75:                 "#dffee6"
-  warning-425-625:                "#b34000"
-  warning-425-625-hover:          "#ff6218"
-  warning-425-625-active:         "#ff7a55"
-  warning-950-100:                "#ffe9e6"
-  warning-950-100-hover:          "#ffc6bd"
-  warning-950-100-active:         "#ffb0a2"
-  warning-975-75:                 "#fff4f3"
-  error-425-625:                  "#ce0500"
-  error-425-625-hover:            "#ff2725"
-  error-425-625-active:           "#ff4140"
-  error-950-100:                  "#ffe9e9"
-  error-950-100-hover:            "#ffc5c5"
-  error-950-100-active:           "#ffafaf"
-  error-975-75:                   "#fff4f4"
+  info-main-525:                  "#0078f3"
   info-425-625:                   "#0063cb"
   info-425-625-hover:             "#3b87ff"
   info-425-625-active:            "#6798ff"
+  info-975-75:                    "#f4f6ff"
   info-950-100:                   "#e8edff"
   info-950-100-hover:             "#c2d1ff"
   info-950-100-active:            "#a9bfff"
-  info-975-75:                    "#f4f6ff"
+  info-925-125:                   "#dde5ff"
+  info-850-200:                   "#bccdff"
+  warning-main-525:               "#d64d00"
+  warning-425-625:                "#b34000"
+  warning-425-625-hover:          "#ff6218"
+  warning-425-625-active:         "#ff7a55"
+  warning-975-75:                 "#fff4f3"
+  warning-950-100:                "#ffe9e6"
+  warning-950-100-hover:          "#ffc6bd"
+  warning-950-100-active:         "#ffb0a2"
+  warning-925-125:                "#ffded9"
+  warning-850-200:                "#ffbeb4"
+  error-main-525:                 "#f60700"
+  error-425-625:                  "#ce0500"
+  error-425-625-hover:            "#ff2725"
+  error-425-625-active:           "#ff4140"
+  error-975-75:                   "#fff4f4"
+  error-950-100:                  "#ffe9e9"
+  error-950-100-hover:            "#ffc5c5"
+  error-950-100-active:           "#ffafaf"
+  error-925-125:                  "#ffdddd"
+  error-850-200:                  "#ffbdbd"
+  success-main-525:               "#1f8d49"
+  success-425-625:                "#18753c"
+  success-425-625-hover:          "#27a959"
+  success-425-625-active:         "#2fc368"
+  success-975-75:                 "#dffee6"
+  success-950-100:                "#b8fec9"
+  success-950-100-hover:          "#46fd89"
+  success-950-100-active:         "#34eb7b"
+  success-925-125:                "#88fdaa"
+  success-850-200:                "#3bea7e"
 
   # ---------- Illustrative accents (12 families, accent-only) ----------
   # Intentionally orphaned at the YAML level — these are NOT referenced by any
