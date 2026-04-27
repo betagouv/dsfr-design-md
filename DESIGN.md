@@ -90,8 +90,8 @@ colors:
   grey-0-1000:                    "#000000"
 
   # ---------- System (functional) ----------
-  # Family order is fixed by the DSFR docs:
-  # « Les couleurs systèmes sont : Info, warning, error, success. »
+  # Family order matches the DSFR documentation captures:
+  # info → succès → avertissement → erreur.
   #
   # Each family exposes 6 shades following the same convention as the
   # brand colours (main → strong → lightest → lighter → light → softest):
@@ -121,6 +121,16 @@ colors:
   info-950-100-active:            "#a9bfff"
   info-925-125:                   "#dde5ff"
   info-850-200:                   "#bccdff"
+  success-main-525:               "#1f8d49"
+  success-425-625:                "#18753c"
+  success-425-625-hover:          "#27a959"
+  success-425-625-active:         "#2fc368"
+  success-975-75:                 "#dffee6"
+  success-950-100:                "#b8fec9"
+  success-950-100-hover:          "#46fd89"
+  success-950-100-active:         "#34eb7b"
+  success-925-125:                "#88fdaa"
+  success-850-200:                "#3bea7e"
   warning-main-525:               "#d64d00"
   warning-425-625:                "#b34000"
   warning-425-625-hover:          "#ff6218"
@@ -141,16 +151,6 @@ colors:
   error-950-100-active:           "#ffafaf"
   error-925-125:                  "#ffdddd"
   error-850-200:                  "#ffbdbd"
-  success-main-525:               "#1f8d49"
-  success-425-625:                "#18753c"
-  success-425-625-hover:          "#27a959"
-  success-425-625-active:         "#2fc368"
-  success-975-75:                 "#dffee6"
-  success-950-100:                "#b8fec9"
-  success-950-100-hover:          "#46fd89"
-  success-950-100-active:         "#34eb7b"
-  success-925-125:                "#88fdaa"
-  success-850-200:                "#3bea7e"
 
   # ---------- Illustrative accents (12 families, accent-only) ----------
   # Intentionally orphaned at the YAML level — these are NOT referenced by any
@@ -181,7 +181,7 @@ colors:
   # text, border, artwork. Common levels: default, alt, contrast,
   # action-high, action-low, active, plain, disabled, open, label,
   # title, mention, inverted. Families: grey (neutral), blue-france
-  # (primary), the four system colours (success/warning/error/info),
+  # (primary), the four system colours (info/success/warning/error),
   # and the 17 illustrative-accent families.
   #
   # Light/dark theme abstraction is automatic: each decision token
@@ -691,7 +691,7 @@ Decision token names follow the canonical DSFR format `<role>-<level>-<family>`:
 
 - **Role** — what kind of style: `background`, `text`, `border`, `artwork`.
 - **Level** — the contextual purpose: `default` (the most generic value for the role), `alt` (a light alternative), `contrast` (a more saturated alternative), `action-high` (high-emphasis interactive surface, e.g. primary button), `action-low` (low-emphasis interactive, e.g. tonal button), `active` (currently-selected state), `plain` (saturated solid for status), `disabled`, `open` (expanded/disclosed state), `mention` (lower-priority text), `inverted` (text on a coloured background), `label`, `title`.
-- **Family** — which palette the value belongs to: `grey` (neutral), `blue-france` (primary), the four system colours `success`/`warning`/`error`/`info`, or one of the seventeen illustrative-accent families (`green-tilleul-verveine`, `orange-terre-battue`, `pink-macaron`, …).
+- **Family** — which palette the value belongs to: `grey` (neutral), `blue-france` (primary), the four system colours `info`/`success`/`warning`/`error`, or one of the seventeen illustrative-accent families (`green-tilleul-verveine`, `orange-terre-battue`, `pink-macaron`, …).
 
 Examples:
 
