@@ -594,13 +594,15 @@ def colors_section_html(scheme: str) -> str:
 def decision_table_html(scheme: str) -> str:
     """Render the three DSFR decision-token tables (Fond, Texte, Illustrations).
 
-    The output is identical for light and dark previews — the DSFR
-    documentation page itself shows both Thème clair and Thème sombre
-    columns simultaneously, so we mirror that layout here. The
-    `scheme` parameter is accepted for symmetry with the other
-    generators but isn't used.
+    Each preview file is theme-specific (preview.html vs
+    preview-dark.html) and the colour swatches elsewhere on the page
+    reflect that single theme — so the decision-tokens table follows
+    the same convention and shows only the column relevant to the
+    file's scheme. `scheme="light"` emits a "Thème clair" column;
+    `scheme="dark"` emits a "Thème sombre" column.
     """
-    del scheme  # not used; both previews show both columns
+    idx = 0 if scheme == "light" else 1
+    column_title = "Thème clair" if scheme == "light" else "Thème sombre"
     out: list[str] = []
     out.append('    <h3>Tokens de décision</h3>')
     out.append('    <p>Les composants doivent référencer ces tokens, pas les options brutes.')
@@ -612,14 +614,14 @@ def decision_table_html(scheme: str) -> str:
         out.append('        <tr>')
         out.append('          <th>Description de l\'usage</th>')
         out.append('          <th>Token</th>')
-        out.append('          <th>Thème clair</th>')
-        out.append('          <th>Thème sombre</th>')
+        out.append(f'          <th>{column_title}</th>')
         out.append('        </tr>')
         out.append('      </thead>')
         out.append('      <tbody>')
         for tok, paired, desc, example in rows:
             light_ref, dark_ref = decompose_paired(paired)
-            light_hex, dark_hex = PALETTE_HEX.get(paired, ("?", "?"))
+            theme_ref = light_ref if scheme == "light" else dark_ref
+            theme_hex = PALETTE_HEX.get(paired, ("?", "?"))[idx]
             example_html = (
                 f'<br><span class="muted" style="font-size:0.875rem;">Exemple : {example}</span>'
                 if example and example != "—" else ""
@@ -629,12 +631,8 @@ def decision_table_html(scheme: str) -> str:
                 f'<td>{desc}{example_html}</td>'
                 f'<td class="tok">${tok}</td>'
                 f'<td class="tok">'
-                f'<span class="dot" style="background:{light_hex}"></span>'
-                f'${light_ref} <span class="muted">({light_hex})</span>'
-                f'</td>'
-                f'<td class="tok">'
-                f'<span class="dot" style="background:{dark_hex}"></span>'
-                f'${dark_ref} <span class="muted">({dark_hex})</span>'
+                f'<span class="dot" style="background:{theme_hex}"></span>'
+                f'${theme_ref} <span class="muted">({theme_hex})</span>'
                 f'</td>'
                 f'</tr>'
             )
