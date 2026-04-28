@@ -621,78 +621,181 @@ colors:
   focus-ring:                      "#0a76f6"
 
 typography:
+  # ===========================================================
   # Marianne — sans-serif, the primary government typeface.
+  # Sizes mirror the canonical DSFR ladder; values are the
+  # DESKTOP attributes (the docs' "Attributs desktop" column).
+  # Mobile values are exposed as `*-mobile` companion tokens
+  # below so the responsive ladder is fully captured in YAML.
+  # ===========================================================
+
+  # ---- Titres alternatifs (display sizes — fr-display--*) ----
+  # Editorial / hero use only. Apply via the `fr-display--{size}`
+  # utility class on any heading element.
   display-xl:
     fontFamily: Marianne
-    fontSize: 2.5rem        # 40px
+    fontSize: 5rem           # 80px (desktop)
     fontWeight: 700
-    lineHeight: 3rem        # 48px
+    lineHeight: 5.5rem       # 88px
+  display-lg:
+    fontFamily: Marianne
+    fontSize: 4.5rem         # 72px (desktop)
+    fontWeight: 700
+    lineHeight: 5rem         # 80px
+  display-md:
+    fontFamily: Marianne
+    fontSize: 4rem           # 64px (desktop)
+    fontWeight: 700
+    lineHeight: 4.5rem       # 72px
+  display-sm:
+    fontFamily: Marianne
+    fontSize: 3.5rem         # 56px (desktop)
+    fontWeight: 700
+    lineHeight: 4rem         # 64px
+  display-xs:
+    fontFamily: Marianne
+    fontSize: 3rem           # 48px (desktop)
+    fontWeight: 700
+    lineHeight: 3.5rem       # 56px
+
+  # ---- Titres (semantic headings — h1…h6 / fr-h1…fr-h6) ----
   h1:
     fontFamily: Marianne
-    fontSize: 2.5rem
+    fontSize: 2.5rem         # 40px (desktop)
     fontWeight: 700
-    lineHeight: 3rem
+    lineHeight: 3rem         # 48px
   h2:
     fontFamily: Marianne
-    fontSize: 2rem          # 32px
+    fontSize: 2rem           # 32px (desktop)
     fontWeight: 700
-    lineHeight: 2.5rem
+    lineHeight: 2.5rem       # 40px
   h3:
     fontFamily: Marianne
-    fontSize: 1.75rem       # 28px
+    fontSize: 1.75rem        # 28px (desktop)
     fontWeight: 700
-    lineHeight: 2.25rem
+    lineHeight: 2.25rem      # 36px
   h4:
     fontFamily: Marianne
-    fontSize: 1.5rem        # 24px
+    fontSize: 1.5rem         # 24px (desktop)
     fontWeight: 700
-    lineHeight: 2rem
+    lineHeight: 2rem         # 32px
   h5:
     fontFamily: Marianne
-    fontSize: 1.25rem       # 20px
+    fontSize: 1.375rem       # 22px (desktop)
     fontWeight: 700
-    lineHeight: 1.75rem
+    lineHeight: 1.75rem      # 28px
   h6:
     fontFamily: Marianne
-    fontSize: 1.125rem      # 18px
+    fontSize: 1.25rem        # 20px (desktop)
     fontWeight: 700
-    lineHeight: 1.5rem
-  body-lg:
+    lineHeight: 1.75rem      # 28px
+
+  # ---- Body / paragraph styles (size-stable across breakpoints) ----
+  body-xl:                   # also: lead — fr-text--xl / fr-text--lead
     fontFamily: Marianne
-    fontSize: 1.125rem      # 18px
+    fontSize: 1.25rem        # 20px
     fontWeight: 400
-    lineHeight: 1.75rem
-  body-md:
+    lineHeight: 2rem         # 32px
+  body-lg:                   # fr-text--lg
     fontFamily: Marianne
-    fontSize: 1rem          # 16px
+    fontSize: 1.125rem       # 18px
     fontWeight: 400
-    lineHeight: 1.5rem
-  body-sm:
+    lineHeight: 1.75rem      # 28px
+  body-md:                   # fr-text--md (default body size)
     fontFamily: Marianne
-    fontSize: 0.875rem      # 14px
+    fontSize: 1rem           # 16px
     fontWeight: 400
-    lineHeight: 1.5rem
-  body-xs:
+    lineHeight: 1.5rem       # 24px
+  body-sm:                   # fr-text--sm
     fontFamily: Marianne
-    fontSize: 0.75rem       # 12px
+    fontSize: 0.875rem       # 14px
     fontWeight: 400
-    lineHeight: 1.25rem
+    lineHeight: 1.5rem       # 24px
+  body-xs:                   # fr-text--xs
+    fontFamily: Marianne
+    fontSize: 0.75rem        # 12px
+    fontWeight: 400
+    lineHeight: 1.25rem      # 20px
   label:
     fontFamily: Marianne
-    fontSize: 0.875rem
+    fontSize: 0.875rem       # 14px
     fontWeight: 700
-    lineHeight: 1.5rem
-  # Spectral — serif, secondary; reserved for distinguishing minor/secondary text.
+    lineHeight: 1.5rem       # 24px
+
+  # ---- Spectral — serif, secondary; via the `fr-text--alt` class. ----
   body-md-alt:
     fontFamily: Spectral
-    fontSize: 1rem
+    fontSize: 1rem           # 16px
     fontWeight: 400
-    lineHeight: 1.5rem
+    lineHeight: 1.5rem       # 24px
   body-sm-alt:
     fontFamily: Spectral
-    fontSize: 0.875rem
+    fontSize: 0.875rem       # 14px
     fontWeight: 400
-    lineHeight: 1.5rem
+    lineHeight: 1.5rem       # 24px
+
+  # ===========================================================
+  # Mobile companion tokens (viewports < 48em / 768px).
+  # Apply automatically via DSFR's `fr-h*` and `fr-display--*`
+  # utility classes, which carry @media rules. Listed here so
+  # agents emitting custom (non-utility-class) markup can pick
+  # the correct size manually for the mobile breakpoint.
+  # ===========================================================
+  display-xl-mobile:
+    fontFamily: Marianne
+    fontSize: 4.5rem         # 72px
+    fontWeight: 700
+    lineHeight: 5rem         # 80px
+  display-lg-mobile:
+    fontFamily: Marianne
+    fontSize: 4rem           # 64px
+    fontWeight: 700
+    lineHeight: 4.5rem       # 72px
+  display-md-mobile:
+    fontFamily: Marianne
+    fontSize: 3.5rem         # 56px
+    fontWeight: 700
+    lineHeight: 4rem         # 64px
+  display-sm-mobile:
+    fontFamily: Marianne
+    fontSize: 3rem           # 48px
+    fontWeight: 700
+    lineHeight: 3.5rem       # 56px
+  display-xs-mobile:
+    fontFamily: Marianne
+    fontSize: 2.5rem         # 40px
+    fontWeight: 700
+    lineHeight: 3rem         # 48px
+  h1-mobile:
+    fontFamily: Marianne
+    fontSize: 2rem           # 32px
+    fontWeight: 700
+    lineHeight: 2.5rem       # 40px
+  h2-mobile:
+    fontFamily: Marianne
+    fontSize: 1.75rem        # 28px
+    fontWeight: 700
+    lineHeight: 2.25rem      # 36px
+  h3-mobile:
+    fontFamily: Marianne
+    fontSize: 1.5rem         # 24px
+    fontWeight: 700
+    lineHeight: 2rem         # 32px
+  h4-mobile:
+    fontFamily: Marianne
+    fontSize: 1.375rem       # 22px
+    fontWeight: 700
+    lineHeight: 1.75rem      # 28px
+  h5-mobile:
+    fontFamily: Marianne
+    fontSize: 1.25rem        # 20px
+    fontWeight: 700
+    lineHeight: 1.75rem      # 28px
+  h6-mobile:
+    fontFamily: Marianne
+    fontSize: 1.125rem       # 18px
+    fontWeight: 700
+    lineHeight: 1.5rem       # 24px
 
 rounded:
   none: 0px
@@ -718,6 +821,14 @@ spacing:
   12v:   3rem      # 48px
   16v:   4rem      # 64px
   32v:   8rem      # 128px
+
+  # Semantic spacing aliases used by typography tokens. Mirrors
+  # the canonical DSFR `--title-spacing` / `--display-spacing`
+  # CSS variables (which expand to `0 0 1.5rem` / `0 0 2rem`).
+  # Captured here as primitives so agents have a single
+  # margin-bottom value per role.
+  title-margin:   1.5rem   # 24px (= 6v / 3W) — h1…h6 bottom margin
+  display-margin: 2rem     # 32px (= 8v / 4W) — fr-display--* bottom margin
 
 components:
   # ============================================================
@@ -1075,30 +1186,55 @@ The full set (~78 Tier 1+2 decision tokens covering 73% of all references in DSF
 
 > The DSFR explicitly recommends *not* using Spectral as the primary face. It's an accent.
 
-### Scale
+### Titres (semantic headings)
 
-| Token | Size | Weight | Use |
-|-------|------|--------|-----|
-| `display-xl` / `h1` | 2.5rem (40px) | 700 | Hero / page title |
-| `h2` | 2rem (32px) | 700 | Major section |
-| `h3` | 1.75rem (28px) | 700 | Subsection |
-| `h4` | 1.5rem (24px) | 700 | Block heading |
-| `h5` | 1.25rem (20px) | 700 | Inline heading |
-| `h6` | 1.125rem (18px) | 700 | Smallest heading |
-| `body-lg` | 1.125rem (18px) | 400 | Lead paragraph |
-| `body-md` | 1rem (16px) | 400 | Default body |
-| `body-sm` | 0.875rem (14px) | 400 | Metadata, secondary |
-| `body-xs` | 0.75rem (12px) | 400 | Captions, microcopy |
-| `label` | 0.875rem (14px) | 700 | Form labels, button text |
+The `h1`…`h6` typography tokens are applied to native `<h1>`–`<h6>` elements, or via the `fr-h1`…`fr-h6` utility class on any heading element. The breakpoint is **48em (768px)**: below it the tokens fall back to their `*-mobile` companions automatically (the `fr-h*` classes carry the `@media` rules — emit them rather than custom markup whenever possible).
 
-Mobile renders one step down on `display-xl`/`h1`/`h2` (handled by `@media` rules in DSFR's CSS — agents emitting markup should rely on the `fr-h1`…`fr-h6` classes which carry the responsive logic).
+All title levels share the same colour bindings: `{colors.text-title-grey}` on light backgrounds, inverted on dark (the dark mode of the same decision token already resolves to `#fff`). Margin-bottom is `{spacing.title-margin}` (24px) for every level.
+
+| Niveau | Usages | Balise | Desktop (taille / line) | Mobile (taille / line) |
+|--------|--------|--------|-------------------------|------------------------|
+| **H1** | Titre principal de la page : il ne peut y en avoir qu'un par page. | `<h1>` | 40 / 48 px | 32 / 40 px |
+| **H2** | Second niveau de titre de section ou de paragraphes. Leur nombre n'est pas limité. | `<h2>` | 32 / 40 px | 28 / 36 px |
+| **H3** | Troisième niveau de sous-titre. Leur nombre n'est pas limité. | `<h3>` | 28 / 36 px | 24 / 32 px |
+| **H4** | Quatrième niveau de sous-titre. Leur nombre n'est pas limité. | `<h4>` | 24 / 32 px | 22 / 28 px |
+| **H5** | Cinquième niveau de sous-titre. Leur nombre n'est pas limité. | `<h5>` | 22 / 28 px | 20 / 28 px |
+| **H6** | Sixième et plus petit niveau de sous-titre. Leur nombre n'est pas limité. | `<h6>` | 20 / 28 px | 18 / 24 px |
+
+### Titres alternatifs (display sizes)
+
+For editorial / hero / marketing surfaces the DSFR provides five oversized title styles. They are *not* semantic — apply them via the `fr-display--{size}` utility class on a heading element of the appropriate semantic level (most often an `<h1>`). All share `{colors.text-title-grey}` and a margin-bottom of `{spacing.display-margin}` (32px).
+
+| Niveau | Classe | Desktop (taille / line) | Mobile (taille / line) |
+|--------|--------|-------------------------|------------------------|
+| **Titre alternatif XL** | `fr-display--xl` | 80 / 88 px | 72 / 80 px |
+| **Titre alternatif LG** | `fr-display--lg` | 72 / 80 px | 64 / 72 px |
+| **Titre alternatif MD** | `fr-display--md` | 64 / 72 px | 56 / 64 px |
+| **Titre alternatif SM** | `fr-display--sm` | 56 / 64 px | 48 / 56 px |
+| **Titre alternatif XS** | `fr-display--xs` | 48 / 56 px | 40 / 48 px |
+
+### Body, lead, label
+
+Body styles are size-stable across breakpoints (no mobile companions).
+
+| Token | Class | Size / line | Weight | Use |
+|-------|-------|-------------|--------|-----|
+| `body-xl` | `fr-text--xl`, `fr-text--lead` | 1.25rem / 2rem (20 / 32 px) | 400 | Lead paragraph |
+| `body-lg` | `fr-text--lg` | 1.125rem / 1.75rem (18 / 28 px) | 400 | Emphasised paragraph |
+| `body-md` | `fr-text--md` | 1rem / 1.5rem (16 / 24 px) | 400 | Default body |
+| `body-sm` | `fr-text--sm` | 0.875rem / 1.5rem (14 / 24 px) | 400 | Metadata, secondary |
+| `body-xs` | `fr-text--xs` | 0.75rem / 1.25rem (12 / 20 px) | 400 | Captions, microcopy |
+| `label` | — | 0.875rem / 1.5rem (14 / 24 px) | 700 | Form labels, button text |
+| `body-md-alt` | `fr-text--alt` (+`fr-text--md`) | 1rem / 1.5rem (16 / 24 px) | 400 | Editorial Spectral pull-quote |
+| `body-sm-alt` | `fr-text--alt` (+`fr-text--sm`) | 0.875rem / 1.5rem (14 / 24 px) | 400 | Spectral footnote / source |
 
 ### Rules
 
 - Body line-height: `1.5rem` (1.5× on `body-md`) for comfortable long-form reading.
 - Use sentence case for headings; reserve uppercase for utility microcopy with expanded letter-spacing (e.g. `fr-link--icon` labels).
-- **Never** colour a title in Bleu France (see Colors).
+- **Never** colour a title in Bleu France except via the `text-title-blue-france` decision token, which is reserved for explicit identity expressions.
 - For all-caps utility microcopy, set letter-spacing `0.06em`.
+- Prefer the `fr-h*` / `fr-display--*` utility classes over raw font-size declarations — they carry the responsive `@media` rules so mobile sizing happens automatically.
 
 ## Layout
 

@@ -461,6 +461,101 @@ PALETTE_HEX: dict[str, tuple[str, str]] = {
 # Generators
 # ---------------------------------------------------------------------
 
+# Typography — mirrors the canonical DSFR documentation page
+# (https://www.systeme-de-design.gouv.fr/version-courante/fr/fondamentaux/typographie).
+# Two sections: Titres (semantic h1-h6) and Titres alternatifs
+# (display-only `fr-display--*` classes). Each row carries usage
+# description, the HTML balise / CSS class binding, and BOTH
+# desktop + mobile attributes. Sample text is rendered live with
+# the row's actual font size to make scale comparisons obvious.
+#
+# Format per row: (level, sample, usage, balise_or_class,
+#                  (desktop_size, desktop_lh, desktop_mb),
+#                  (mobile_size,  mobile_lh,  mobile_mb))
+# Sizes/lh in px (the docs print px, not rem); margin-bottom is
+# fixed per section (24px titles, 32px displays) but kept on each
+# row for symmetry with the docs.
+TITRES = [
+    ("H1",
+     "République numérique",
+     "Titre principal de la page : il ne peut y en avoir qu'un par page.",
+     "&lt;h1&gt;",
+     (40, 48, 24), (32, 40, 24)),
+    ("H2",
+     "Démarches en ligne",
+     "Second niveau de titre de section ou de paragraphes. Leur nombre n'est pas limité.",
+     "&lt;h2&gt;",
+     (32, 40, 24), (28, 36, 24)),
+    ("H3",
+     "Vos services administratifs",
+     "Troisième niveau de sous-titre. Leur nombre n'est pas limité.",
+     "&lt;h3&gt;",
+     (28, 36, 24), (24, 32, 24)),
+    ("H4",
+     "Informations pratiques",
+     "Quatrième niveau de sous-titre. Leur nombre n'est pas limité.",
+     "&lt;h4&gt;",
+     (24, 32, 24), (22, 28, 24)),
+    ("H5",
+     "Sous-titre de section",
+     "Cinquième niveau de sous-titre. Leur nombre n'est pas limité.",
+     "&lt;h5&gt;",
+     (22, 28, 24), (20, 28, 24)),
+    ("H6",
+     "Intertitre minimal",
+     "Sixième et plus petit niveau de sous-titre. Leur nombre n'est pas limité.",
+     "&lt;h6&gt;",
+     (20, 28, 24), (18, 24, 24)),
+]
+
+TITRES_ALTERNATIFS = [
+    ("Titre alternatif XL", "République", "fr-display--xl", (80, 88, 32), (72, 80, 32)),
+    ("Titre alternatif LG", "République", "fr-display--lg", (72, 80, 32), (64, 72, 32)),
+    ("Titre alternatif MD", "République", "fr-display--md", (64, 72, 32), (56, 64, 32)),
+    ("Titre alternatif SM", "République", "fr-display--sm", (56, 64, 32), (48, 56, 32)),
+    ("Titre alternatif XS", "République", "fr-display--xs", (48, 56, 32), (40, 48, 32)),
+]
+
+# Body / lead / label / Spectral — size-stable across breakpoints
+# (no @media overrides in the canonical CSS), so a single column
+# of attributes is sufficient.
+# Format: (token, sample, usage, classe, size_px, lh_px, weight, font_label)
+CORPS_DE_TEXTE = [
+    ("body-xl",
+     "Le DSFR garantit la cohérence visuelle des sites de l'État.",
+     "Paragraphe d'accroche (lead) en tête d'article ou de section.",
+     "fr-text--xl / fr-text--lead", 20, 32, 400, "Marianne"),
+    ("body-lg",
+     "Le DSFR garantit la cohérence visuelle des sites de l'État et améliore l'expérience des usagers.",
+     "Paragraphe mis en avant ou texte courant légèrement agrandi.",
+     "fr-text--lg", 18, 28, 400, "Marianne"),
+    ("body-md",
+     "Texte courant des services publics numériques. Lisibilité prioritaire, hauteur de ligne 24px.",
+     "Corps de texte par défaut.",
+     "fr-text--md", 16, 24, 400, "Marianne"),
+    ("body-sm",
+     "Métadonnées et texte secondaire — date de mise à jour, légendes, mentions.",
+     "Texte secondaire ou métadonnées.",
+     "fr-text--sm", 14, 24, 400, "Marianne"),
+    ("body-xs",
+     "Microcopie, légendes de tableau, indications techniques.",
+     "Microcopie : légendes de tableau, indications techniques.",
+     "fr-text--xs", 12, 20, 400, "Marianne"),
+    ("label",
+     "Libellé de champ ou de bouton",
+     "Libellés de formulaires, textes de boutons.",
+     "—", 14, 24, 700, "Marianne"),
+    ("body-md-alt",
+     "Variante éditoriale pour distinguer un passage : citation, exergue, encadré littéraire.",
+     "Variante éditoriale serif (Spectral).",
+     "fr-text--alt + fr-text--md", 16, 24, 400, "Spectral"),
+    ("body-sm-alt",
+     "Note de bas de page ou source en serif.",
+     "Note de bas de page ou source en serif.",
+     "fr-text--alt + fr-text--sm", 14, 24, 400, "Spectral"),
+]
+
+
 def scheme_label(scheme: str) -> str:
     """French label suffix matching the DSFR doc captures."""
     return "(thème clair)" if scheme == "light" else "(thème sombre)"
@@ -641,6 +736,162 @@ def decision_table_html(scheme: str) -> str:
     return "\n".join(out)
 
 
+def _attr_cell(size_px: int, lh_px: int, mb_px: int) -> str:
+    """Render a 'Taille / Line-height / Margin-bottom' cell as the
+    DSFR docs do — three short labelled lines stacked vertically."""
+    return (
+        f'Taille&nbsp;: {size_px} px<br>'
+        f'Line-height&nbsp;: {lh_px} px<br>'
+        f'Margin-bottom&nbsp;: {mb_px} px'
+    )
+
+
+def _sample_style(size_px: int, lh_px: int, weight: int = 700,
+                  font: str = "Marianne") -> str:
+    """Inline `style=` for a live-rendered sample cell. Uses the
+    actual font-size/line-height so visual scale matches the row's
+    declared attributes (DSFR docs use a generic Aa; we do better
+    by rendering the row's own sample text at full size)."""
+    var_font = "var(--font-marianne)" if font == "Marianne" else "var(--font-spectral)"
+    # Cap the sample size so massive XL/LG displays don't blow out
+    # the table layout. The DSFR docs use a fixed-size "Aa" placeholder
+    # for the same reason; we stick with the row's font but limit the
+    # rendered size to a reasonable preview ceiling.
+    rendered_size = min(size_px, 56)
+    rendered_lh = lh_px if size_px <= 56 else int(lh_px * (rendered_size / size_px))
+    return (
+        f'font: {weight} {rendered_size}px/{rendered_lh}px {var_font};'
+        f' color: var(--c-text-default-grey);'
+        f' white-space: nowrap;'
+        f' overflow: hidden;'
+        f' text-overflow: ellipsis;'
+    )
+
+
+def typography_section_html() -> str:
+    """Render the three DSFR typography tables.
+
+    Section 1: Titres — semantic h1-h6, 6-column layout matching the
+        DSFR docs (Niveau / Aperçu / Usages / Balise / Desktop / Mobile).
+
+    Section 2: Titres alternatifs — display sizes (`fr-display--*`),
+        same shape but with a "Classe" column instead of "Balise".
+
+    Section 3: Corps de texte — body / lead / label / Spectral.
+        Body sizes are size-stable across breakpoints, so a single
+        attributes column suffices.
+
+    Output is the same in both preview files (typography is theme-stable).
+    """
+    out: list[str] = []
+    out.append('    <h2>Typographie</h2>')
+    out.append('    <p class="lede">Marianne est la fonte principale (sans-serif, dessinée pour l\'État&nbsp;; '
+               'weights 300/400/500/700). Spectral est la fonte secondaire (serif, 400/800), '
+               'réservée aux passages distinctifs ou éditoriaux via la classe '
+               '<code>fr-text--alt</code>.</p>')
+
+    # ---- Section 1: Titres ----
+    out.append('    <h3 style="margin-top:2rem;">Titres</h3>')
+    out.append('    <p>Les niveaux <code>h1</code>–<code>h6</code> sont rendus par les balises HTML '
+               'natives ou par la classe utilitaire <code>fr-h1</code>…<code>fr-h6</code>. '
+               'La taille bascule automatiquement sur le palier mobile au-dessous de '
+               '<code>48em</code> (768&nbsp;px). Couleur&nbsp;: '
+               '<code>text-title-grey</code> sur fond clair, blanc sur fond sombre.</p>')
+    out.append('    <table class="tokens typography">')
+    out.append('      <thead>')
+    out.append('        <tr>')
+    out.append('          <th style="width:8rem;">Niveau</th>')
+    out.append('          <th>Aperçu</th>')
+    out.append('          <th>Usages</th>')
+    out.append('          <th style="width:6rem;">Balise</th>')
+    out.append('          <th style="width:11rem;">Attributs desktop</th>')
+    out.append('          <th style="width:11rem;">Attributs mobile</th>')
+    out.append('        </tr>')
+    out.append('      </thead>')
+    out.append('      <tbody>')
+    for level, sample, usage, balise, desktop, mobile in TITRES:
+        out.append(
+            f'        <tr>'
+            f'<td><strong>{level}</strong></td>'
+            f'<td><span style="{_sample_style(*desktop[:2])}">{sample}</span></td>'
+            f'<td>{usage}</td>'
+            f'<td class="tok">{balise}</td>'
+            f'<td>{_attr_cell(*desktop)}</td>'
+            f'<td>{_attr_cell(*mobile)}</td>'
+            f'</tr>'
+        )
+    out.append('      </tbody>')
+    out.append('    </table>')
+
+    # ---- Section 2: Titres alternatifs ----
+    out.append('    <h3 style="margin-top:2.5rem;">Titres alternatifs</h3>')
+    out.append('    <p>Cinq tailles de titres oversize pour usages éditoriaux ou marketing. '
+               'Non sémantiques&nbsp;: à appliquer via la classe utilitaire '
+               '<code>fr-display--{size}</code> sur l\'élément de titre approprié '
+               '(le plus souvent <code>&lt;h1&gt;</code>). Couleur identique aux titres&nbsp;; '
+               'margin-bottom&nbsp;: 32&nbsp;px.</p>')
+    out.append('    <table class="tokens typography">')
+    out.append('      <thead>')
+    out.append('        <tr>')
+    out.append('          <th style="width:11rem;">Niveau</th>')
+    out.append('          <th>Aperçu</th>')
+    out.append('          <th style="width:9rem;">Classe</th>')
+    out.append('          <th style="width:11rem;">Attributs desktop</th>')
+    out.append('          <th style="width:11rem;">Attributs mobile</th>')
+    out.append('        </tr>')
+    out.append('      </thead>')
+    out.append('      <tbody>')
+    for level, sample, classe, desktop, mobile in TITRES_ALTERNATIFS:
+        out.append(
+            f'        <tr>'
+            f'<td><strong>{level}</strong></td>'
+            f'<td><span style="{_sample_style(*desktop[:2])}">{sample}</span></td>'
+            f'<td class="tok">{classe}</td>'
+            f'<td>{_attr_cell(*desktop)}</td>'
+            f'<td>{_attr_cell(*mobile)}</td>'
+            f'</tr>'
+        )
+    out.append('      </tbody>')
+    out.append('    </table>')
+
+    # ---- Section 3: Corps de texte ----
+    out.append('    <h3 style="margin-top:2.5rem;">Corps de texte</h3>')
+    out.append('    <p>Tailles stables sur tous les paliers (pas de surcharge mobile). '
+               'Les variantes <em>-alt</em> en Spectral s\'obtiennent en combinant '
+               '<code>fr-text--alt</code> avec la classe de taille.</p>')
+    out.append('    <table class="tokens typography">')
+    out.append('      <thead>')
+    out.append('        <tr>')
+    out.append('          <th style="width:8rem;">Token</th>')
+    out.append('          <th>Aperçu</th>')
+    out.append('          <th>Usages</th>')
+    out.append('          <th style="width:13rem;">Classe</th>')
+    out.append('          <th style="width:11rem;">Attributs</th>')
+    out.append('        </tr>')
+    out.append('      </thead>')
+    out.append('      <tbody>')
+    for token, sample, usage, classe, size, lh, weight, font in CORPS_DE_TEXTE:
+        attr = (
+            f'Taille&nbsp;: {size} px<br>'
+            f'Line-height&nbsp;: {lh} px<br>'
+            f'Weight&nbsp;: {weight}<br>'
+            f'Fonte&nbsp;: {font}'
+        )
+        out.append(
+            f'        <tr>'
+            f'<td class="tok">${token}</td>'
+            f'<td><span style="{_sample_style(size, lh, weight, font)}">{sample}</span></td>'
+            f'<td>{usage}</td>'
+            f'<td class="tok">{classe}</td>'
+            f'<td>{attr}</td>'
+            f'</tr>'
+        )
+    out.append('      </tbody>')
+    out.append('    </table>')
+
+    return "\n".join(out)
+
+
 # ---------------------------------------------------------------------
 # Replace markers in source files
 # ---------------------------------------------------------------------
@@ -682,6 +933,16 @@ def regenerate(scheme: str) -> None:
         "<!-- BEGIN GENERATED DECISION TABLE -->",
         "<!-- END GENERATED DECISION TABLE -->",
         table,
+    )
+
+    # 4. Replace the typography section (theme-stable; same body
+    #    in both preview files).
+    typo = typography_section_html()
+    src = replace_block(
+        src,
+        "<!-- BEGIN GENERATED TYPOGRAPHY -->",
+        "<!-- END GENERATED TYPOGRAPHY -->",
+        typo,
     )
 
     path.write_text(src)

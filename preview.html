@@ -705,6 +705,15 @@
       font-size: 0.75rem; color: var(--c-text-mention-grey);
     }
     table.tokens td.tok { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Typography table: stacked attribute cells read better with top
+       alignment, and the sample cell needs to clip overflow rather than
+       wrap so very large display sizes don't blow up the row. */
+    table.tokens.typography th,
+    table.tokens.typography td { vertical-align: top; }
+    table.tokens.typography td:nth-child(2) {
+      max-width: 24rem;
+      overflow: hidden;
+    }
     .dot {
       display: inline-block;
       width: 1rem; height: 1rem;
@@ -2758,61 +2767,75 @@
        Typographie
        ==================================================== -->
   <section id="typography">
+    <!-- BEGIN GENERATED TYPOGRAPHY -->
     <h2>Typographie</h2>
     <p class="lede">Marianne est la fonte principale (sans-serif, dessinée pour l'État&nbsp;; weights 300/400/500/700). Spectral est la fonte secondaire (serif, 400/800), réservée aux passages distinctifs ou éditoriaux via la classe <code>fr-text--alt</code>.</p>
-
-    <div class="type-row">
-      <span class="meta">display-xl · 2.5rem / 700 / Marianne</span>
-      <span class="sample t-display-xl">République numérique</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">h2 · 2rem / 700 / Marianne</span>
-      <span class="sample t-h2">Démarches en ligne</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">h3 · 1.75rem / 700 / Marianne</span>
-      <span class="sample t-h3">Vos services administratifs</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">h4 · 1.5rem / 700 / Marianne</span>
-      <span class="sample t-h4">Informations pratiques</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">h5 · 1.25rem / 700 / Marianne</span>
-      <span class="sample t-h5">Sous-titre de section</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">h6 · 1.125rem / 700 / Marianne</span>
-      <span class="sample t-h6">Intertitre minimal</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">body-lg · 1.125rem / 400 / Marianne</span>
-      <span class="sample t-body-lg">Le DSFR garantit la cohérence visuelle des sites de l'État et améliore l'expérience des usagers.</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">body-md · 1rem / 400 / Marianne</span>
-      <span class="sample t-body-md">Texte courant des services publics numériques. Lisibilité prioritaire, hauteur de ligne 1.5rem.</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">body-sm · 0.875rem / 400 / Marianne</span>
-      <span class="sample t-body-sm">Métadonnées et texte secondaire — date de mise à jour, légendes, mentions.</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">body-xs · 0.75rem / 400 / Marianne</span>
-      <span class="sample t-body-xs">Microcopie, légendes de tableau, indications techniques.</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">label · 0.875rem / 700 / Marianne</span>
-      <span class="sample t-label">Libellé de champ ou de bouton</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">body-md-alt · Spectral 1rem / 400</span>
-      <span class="sample t-body-md-alt">Variante éditoriale pour distinguer un passage : citation, exergue, encadré littéraire.</span>
-    </div>
-    <div class="type-row">
-      <span class="meta">body-sm-alt · Spectral 0.875rem / 400</span>
-      <span class="sample t-body-sm-alt">Note de bas de page ou source en serif.</span>
-    </div>
+    <h3 style="margin-top:2rem;">Titres</h3>
+    <p>Les niveaux <code>h1</code>–<code>h6</code> sont rendus par les balises HTML natives ou par la classe utilitaire <code>fr-h1</code>…<code>fr-h6</code>. La taille bascule automatiquement sur le palier mobile au-dessous de <code>48em</code> (768&nbsp;px). Couleur&nbsp;: <code>text-title-grey</code> sur fond clair, blanc sur fond sombre.</p>
+    <table class="tokens typography">
+      <thead>
+        <tr>
+          <th style="width:8rem;">Niveau</th>
+          <th>Aperçu</th>
+          <th>Usages</th>
+          <th style="width:6rem;">Balise</th>
+          <th style="width:11rem;">Attributs desktop</th>
+          <th style="width:11rem;">Attributs mobile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>H1</strong></td><td><span style="font: 700 40px/48px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">République numérique</span></td><td>Titre principal de la page : il ne peut y en avoir qu'un par page.</td><td class="tok">&lt;h1&gt;</td><td>Taille&nbsp;: 40 px<br>Line-height&nbsp;: 48 px<br>Margin-bottom&nbsp;: 24 px</td><td>Taille&nbsp;: 32 px<br>Line-height&nbsp;: 40 px<br>Margin-bottom&nbsp;: 24 px</td></tr>
+        <tr><td><strong>H2</strong></td><td><span style="font: 700 32px/40px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Démarches en ligne</span></td><td>Second niveau de titre de section ou de paragraphes. Leur nombre n'est pas limité.</td><td class="tok">&lt;h2&gt;</td><td>Taille&nbsp;: 32 px<br>Line-height&nbsp;: 40 px<br>Margin-bottom&nbsp;: 24 px</td><td>Taille&nbsp;: 28 px<br>Line-height&nbsp;: 36 px<br>Margin-bottom&nbsp;: 24 px</td></tr>
+        <tr><td><strong>H3</strong></td><td><span style="font: 700 28px/36px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Vos services administratifs</span></td><td>Troisième niveau de sous-titre. Leur nombre n'est pas limité.</td><td class="tok">&lt;h3&gt;</td><td>Taille&nbsp;: 28 px<br>Line-height&nbsp;: 36 px<br>Margin-bottom&nbsp;: 24 px</td><td>Taille&nbsp;: 24 px<br>Line-height&nbsp;: 32 px<br>Margin-bottom&nbsp;: 24 px</td></tr>
+        <tr><td><strong>H4</strong></td><td><span style="font: 700 24px/32px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Informations pratiques</span></td><td>Quatrième niveau de sous-titre. Leur nombre n'est pas limité.</td><td class="tok">&lt;h4&gt;</td><td>Taille&nbsp;: 24 px<br>Line-height&nbsp;: 32 px<br>Margin-bottom&nbsp;: 24 px</td><td>Taille&nbsp;: 22 px<br>Line-height&nbsp;: 28 px<br>Margin-bottom&nbsp;: 24 px</td></tr>
+        <tr><td><strong>H5</strong></td><td><span style="font: 700 22px/28px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Sous-titre de section</span></td><td>Cinquième niveau de sous-titre. Leur nombre n'est pas limité.</td><td class="tok">&lt;h5&gt;</td><td>Taille&nbsp;: 22 px<br>Line-height&nbsp;: 28 px<br>Margin-bottom&nbsp;: 24 px</td><td>Taille&nbsp;: 20 px<br>Line-height&nbsp;: 28 px<br>Margin-bottom&nbsp;: 24 px</td></tr>
+        <tr><td><strong>H6</strong></td><td><span style="font: 700 20px/28px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Intertitre minimal</span></td><td>Sixième et plus petit niveau de sous-titre. Leur nombre n'est pas limité.</td><td class="tok">&lt;h6&gt;</td><td>Taille&nbsp;: 20 px<br>Line-height&nbsp;: 28 px<br>Margin-bottom&nbsp;: 24 px</td><td>Taille&nbsp;: 18 px<br>Line-height&nbsp;: 24 px<br>Margin-bottom&nbsp;: 24 px</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:2.5rem;">Titres alternatifs</h3>
+    <p>Cinq tailles de titres oversize pour usages éditoriaux ou marketing. Non sémantiques&nbsp;: à appliquer via la classe utilitaire <code>fr-display--{size}</code> sur l'élément de titre approprié (le plus souvent <code>&lt;h1&gt;</code>). Couleur identique aux titres&nbsp;; margin-bottom&nbsp;: 32&nbsp;px.</p>
+    <table class="tokens typography">
+      <thead>
+        <tr>
+          <th style="width:11rem;">Niveau</th>
+          <th>Aperçu</th>
+          <th style="width:9rem;">Classe</th>
+          <th style="width:11rem;">Attributs desktop</th>
+          <th style="width:11rem;">Attributs mobile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Titre alternatif XL</strong></td><td><span style="font: 700 56px/61px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">République</span></td><td class="tok">fr-display--xl</td><td>Taille&nbsp;: 80 px<br>Line-height&nbsp;: 88 px<br>Margin-bottom&nbsp;: 32 px</td><td>Taille&nbsp;: 72 px<br>Line-height&nbsp;: 80 px<br>Margin-bottom&nbsp;: 32 px</td></tr>
+        <tr><td><strong>Titre alternatif LG</strong></td><td><span style="font: 700 56px/62px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">République</span></td><td class="tok">fr-display--lg</td><td>Taille&nbsp;: 72 px<br>Line-height&nbsp;: 80 px<br>Margin-bottom&nbsp;: 32 px</td><td>Taille&nbsp;: 64 px<br>Line-height&nbsp;: 72 px<br>Margin-bottom&nbsp;: 32 px</td></tr>
+        <tr><td><strong>Titre alternatif MD</strong></td><td><span style="font: 700 56px/63px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">République</span></td><td class="tok">fr-display--md</td><td>Taille&nbsp;: 64 px<br>Line-height&nbsp;: 72 px<br>Margin-bottom&nbsp;: 32 px</td><td>Taille&nbsp;: 56 px<br>Line-height&nbsp;: 64 px<br>Margin-bottom&nbsp;: 32 px</td></tr>
+        <tr><td><strong>Titre alternatif SM</strong></td><td><span style="font: 700 56px/64px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">République</span></td><td class="tok">fr-display--sm</td><td>Taille&nbsp;: 56 px<br>Line-height&nbsp;: 64 px<br>Margin-bottom&nbsp;: 32 px</td><td>Taille&nbsp;: 48 px<br>Line-height&nbsp;: 56 px<br>Margin-bottom&nbsp;: 32 px</td></tr>
+        <tr><td><strong>Titre alternatif XS</strong></td><td><span style="font: 700 48px/56px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">République</span></td><td class="tok">fr-display--xs</td><td>Taille&nbsp;: 48 px<br>Line-height&nbsp;: 56 px<br>Margin-bottom&nbsp;: 32 px</td><td>Taille&nbsp;: 40 px<br>Line-height&nbsp;: 48 px<br>Margin-bottom&nbsp;: 32 px</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:2.5rem;">Corps de texte</h3>
+    <p>Tailles stables sur tous les paliers (pas de surcharge mobile). Les variantes <em>-alt</em> en Spectral s'obtiennent en combinant <code>fr-text--alt</code> avec la classe de taille.</p>
+    <table class="tokens typography">
+      <thead>
+        <tr>
+          <th style="width:8rem;">Token</th>
+          <th>Aperçu</th>
+          <th>Usages</th>
+          <th style="width:13rem;">Classe</th>
+          <th style="width:11rem;">Attributs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="tok">$body-xl</td><td><span style="font: 400 20px/32px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Le DSFR garantit la cohérence visuelle des sites de l'État.</span></td><td>Paragraphe d'accroche (lead) en tête d'article ou de section.</td><td class="tok">fr-text--xl / fr-text--lead</td><td>Taille&nbsp;: 20 px<br>Line-height&nbsp;: 32 px<br>Weight&nbsp;: 400<br>Fonte&nbsp;: Marianne</td></tr>
+        <tr><td class="tok">$body-lg</td><td><span style="font: 400 18px/28px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Le DSFR garantit la cohérence visuelle des sites de l'État et améliore l'expérience des usagers.</span></td><td>Paragraphe mis en avant ou texte courant légèrement agrandi.</td><td class="tok">fr-text--lg</td><td>Taille&nbsp;: 18 px<br>Line-height&nbsp;: 28 px<br>Weight&nbsp;: 400<br>Fonte&nbsp;: Marianne</td></tr>
+        <tr><td class="tok">$body-md</td><td><span style="font: 400 16px/24px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Texte courant des services publics numériques. Lisibilité prioritaire, hauteur de ligne 24px.</span></td><td>Corps de texte par défaut.</td><td class="tok">fr-text--md</td><td>Taille&nbsp;: 16 px<br>Line-height&nbsp;: 24 px<br>Weight&nbsp;: 400<br>Fonte&nbsp;: Marianne</td></tr>
+        <tr><td class="tok">$body-sm</td><td><span style="font: 400 14px/24px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Métadonnées et texte secondaire — date de mise à jour, légendes, mentions.</span></td><td>Texte secondaire ou métadonnées.</td><td class="tok">fr-text--sm</td><td>Taille&nbsp;: 14 px<br>Line-height&nbsp;: 24 px<br>Weight&nbsp;: 400<br>Fonte&nbsp;: Marianne</td></tr>
+        <tr><td class="tok">$body-xs</td><td><span style="font: 400 12px/20px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Microcopie, légendes de tableau, indications techniques.</span></td><td>Microcopie : légendes de tableau, indications techniques.</td><td class="tok">fr-text--xs</td><td>Taille&nbsp;: 12 px<br>Line-height&nbsp;: 20 px<br>Weight&nbsp;: 400<br>Fonte&nbsp;: Marianne</td></tr>
+        <tr><td class="tok">$label</td><td><span style="font: 700 14px/24px var(--font-marianne); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Libellé de champ ou de bouton</span></td><td>Libellés de formulaires, textes de boutons.</td><td class="tok">—</td><td>Taille&nbsp;: 14 px<br>Line-height&nbsp;: 24 px<br>Weight&nbsp;: 700<br>Fonte&nbsp;: Marianne</td></tr>
+        <tr><td class="tok">$body-md-alt</td><td><span style="font: 400 16px/24px var(--font-spectral); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Variante éditoriale pour distinguer un passage : citation, exergue, encadré littéraire.</span></td><td>Variante éditoriale serif (Spectral).</td><td class="tok">fr-text--alt + fr-text--md</td><td>Taille&nbsp;: 16 px<br>Line-height&nbsp;: 24 px<br>Weight&nbsp;: 400<br>Fonte&nbsp;: Spectral</td></tr>
+        <tr><td class="tok">$body-sm-alt</td><td><span style="font: 400 14px/24px var(--font-spectral); color: var(--c-text-default-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Note de bas de page ou source en serif.</span></td><td>Note de bas de page ou source en serif.</td><td class="tok">fr-text--alt + fr-text--sm</td><td>Taille&nbsp;: 14 px<br>Line-height&nbsp;: 24 px<br>Weight&nbsp;: 400<br>Fonte&nbsp;: Spectral</td></tr>
+      </tbody>
+    </table>
+    <!-- END GENERATED TYPOGRAPHY -->
   </section>
 
   <!-- ====================================================
