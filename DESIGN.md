@@ -804,23 +804,60 @@ rounded:
   pill: 9999px     # tags / badges
 
 spacing:
-  # Built on the DSFR `v` base unit: 1v = 0.25rem = 4px.
-  # The Figma spec also references "W" units; W = 2v = 8px in this scale.
-  0v:    0px
-  0-5v:  0.125rem  # 2px
-  1v:    0.25rem   # 4px
-  1-5v:  0.375rem  # 6px
-  2v:    0.5rem    # 8px  (1W)
-  3v:    0.75rem   # 12px
-  4v:    1rem      # 16px (2W) — standard inter-component gap
-  5v:    1.25rem   # 20px
-  6v:    1.5rem    # 24px (3W) — typical card padding
-  7v:    1.75rem
-  8v:    2rem      # 32px (4W) — section spacing
-  10v:   2.5rem
-  12v:   3rem      # 48px
-  16v:   4rem      # 64px
-  32v:   8rem      # 128px
+  # ===========================================================
+  # DSFR `v` unit: 1v = 0.25rem = 4px. The ladder runs from 0v
+  # through 32v in 1v steps, plus two fractional steps (0-5v,
+  # 1-5v) for hairline spacing. Every step has matching DSFR
+  # utility classes (e.g. `fr-mb-Nv`, `fr-py-Nv`, `fr-gap-Nv`)
+  # so the full ladder is enumerated here for reference.
+  #
+  # The Figma / designer tooling also references a "W" unit
+  # where 1W = 2v = 8px. The W-aligned rows below are flagged
+  # in the trailing comment when the value also corresponds to
+  # an integer number of W; the canonical token name is always
+  # `Nv` regardless of W alignment.
+  #
+  # The DSFR also exposes a parallel negative ladder
+  # (`n0-5v` … `n8v`) for negative margins, but it is rarely
+  # used in practice and intentionally omitted here. Agents
+  # needing a negative offset should emit the corresponding
+  # `fr-m-nNv` utility class directly.
+  # ===========================================================
+  0v:    0px           # 0
+  0-5v:  0.125rem      # 2px   — hairline
+  1v:    0.25rem       # 4px
+  1-5v:  0.375rem      # 6px
+  2v:    0.5rem        # 8px   (1W)
+  3v:    0.75rem       # 12px
+  4v:    1rem          # 16px  (2W) — standard inter-component gap
+  5v:    1.25rem       # 20px
+  6v:    1.5rem        # 24px  (3W) — typical card padding
+  7v:    1.75rem       # 28px
+  8v:    2rem          # 32px  (4W) — section spacing
+  9v:    2.25rem       # 36px
+  10v:   2.5rem        # 40px  (5W)
+  11v:   2.75rem       # 44px
+  12v:   3rem          # 48px  (6W)
+  13v:   3.25rem       # 52px
+  14v:   3.5rem        # 56px  (7W)
+  15v:   3.75rem       # 60px
+  16v:   4rem          # 64px  (8W)
+  17v:   4.25rem       # 68px
+  18v:   4.5rem        # 72px  (9W)
+  19v:   4.75rem       # 76px
+  20v:   5rem          # 80px  (10W)
+  21v:   5.25rem       # 84px
+  22v:   5.5rem        # 88px  (11W)
+  23v:   5.75rem       # 92px
+  24v:   6rem          # 96px  (12W)
+  25v:   6.25rem       # 100px (≈ 12.5W)
+  26v:   6.5rem        # 104px (13W)
+  27v:   6.75rem       # 108px
+  28v:   7rem          # 112px (14W)
+  29v:   7.25rem       # 116px
+  30v:   7.5rem        # 120px (15W)
+  31v:   7.75rem       # 124px
+  32v:   8rem          # 128px (16W)
 
   # Semantic spacing aliases used by typography tokens. Mirrors
   # the canonical DSFR `--title-spacing` / `--display-spacing`
@@ -1258,18 +1295,29 @@ The DSFR class system uses suffixed modifiers (`fr-grid-row--gutters`, `fr-col-m
 
 ### Spacing system
 
-The DSFR is built on the **`v` unit**: `1v = 0.25rem = 4px`. The Figma library and the `fr-mb-Xv` / `fr-py-Xv` utility classes both reference this scale.
+The DSFR is built on the **`v` unit**: `1v = 0.25rem = 4px`. The full ladder runs in single-`v` steps from `0v` to `32v` (with two fractional steps `0-5v` and `1-5v` for hairlines), and every step has a matching `fr-{prop}-Nv` utility class — `fr-mb-4v`, `fr-py-2v`, `fr-gap-6v`, `fr-mt-12v`, etc. The same scale governs both **horizontal** (margin/padding-left, gap-x) and **vertical** (margin/padding-top, gap-y) axes; the DSFR docs separate them visually but the tokens are shared.
 
-| Token | Value | Common use |
-|-------|-------|------------|
-| `1v`  | 4px   | Hairline spacing |
-| `2v` (`1W`) | 8px | Tight inline gaps |
-| `3v`  | 12px | Compact stack |
-| `4v` (`2W`) | 16px | **Default inter-component gap** (button group, form rows) |
-| `6v` (`3W`) | 24px | Card / container padding |
-| `8v` (`4W`) | 32px | Section spacing |
-| `12v` | 48px | Large section gap |
-| `16v` | 64px | Hero / page-level rhythm |
+The Figma library uses a parallel "**W** unit" where `1W = 2v = 8px`. The W naming surfaces in design specs and in the visual ladder below; the canonical implementation name is always `Nv`.
+
+The most common stops, with their W aliases and typical use:
+
+| Token | W | Value | Common use |
+|-------|---|-------|------------|
+| `1v`  | — | 4px   | Hairline spacing |
+| `2v`  | `1W` | 8px | Tight inline gaps |
+| `3v`  | — | 12px  | Compact stack |
+| `4v`  | `2W` | 16px | **Default inter-component gap** (button group, form rows) |
+| `6v`  | `3W` | 24px | Card / container padding, `title-margin` |
+| `8v`  | `4W` | 32px | Section spacing, `display-margin` |
+| `10v` | `5W` | 40px | Wide section gap |
+| `12v` | `6W` | 48px | Large section gap |
+| `14v` | `7W` | 56px | Page-level rhythm |
+| `16v` | `8W` | 64px | Hero / page-level rhythm |
+| `18v` | `9W` | 72px | Generous hero margin |
+| `24v` | `12W` | 96px | Major editorial spacing |
+| `30v` | `15W` | 120px | Maximum section break |
+
+The DSFR also exposes a negative ladder (`n0-5v` … `n8v`) for negative margins, used sparingly — the YAML token block intentionally omits these; agents needing one should emit the corresponding `fr-m-nNv` class directly.
 
 > **Whitespace philosophy.** Generous but utilitarian — *espace pour respirer*, not *espace pour épater*. The State is sober; the layout reflects that.
 

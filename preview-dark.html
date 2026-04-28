@@ -753,20 +753,39 @@
     .t-body-sm-alt { font: 400 0.875rem/1.5rem var(--font-spectral); }
 
     /* ============================================================
-       8. Espacement — barres
+       8. Espacement — ladders (horizontal + vertical)
+       Both ladders source the same data; layout differs only.
        ============================================================ */
-    .space-row {
-      display: grid;
-      grid-template-columns: 6rem 1fr 6rem;
-      gap: var(--s-3v);
-      align-items: center;
-      padding: var(--s-2v) 0;
+    .space-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: var(--s-3v) var(--s-2v);
+      margin-top: var(--s-4v);
     }
-    .space-row .bar {
-      height: 1rem;
+    .space-grid--horizontal { flex-direction: column; align-items: flex-start; }
+    .space-cell { display: flex; flex-direction: column; gap: var(--s-1v); }
+    .space-cell__label {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+      color: var(--c-text-mention-grey);
+      line-height: 1.2;
+      min-width: 4rem;
+    }
+    .space-cell__label .muted { color: var(--c-text-default-grey); }
+    .space-cell__bar {
       background: var(--c-blue-france-sun-113-625);
+      border: 1px dashed var(--c-blue-france-sun-113-625);
+      opacity: 0.55;
     }
-    .space-row .meta { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; color: var(--c-text-mention-grey); }
+    /* Horizontal: each bar is a fixed-height pill, width = the
+       token's px value. Stacked one per row so the widening
+       sequence is immediately legible. */
+    .space-cell__bar--h { height: 1.25rem; }
+    /* Vertical: each bar is a fixed-width pill, height = the
+       token's px value. Cells lined up side-by-side so the
+       growing-tall sequence is the reading direction. */
+    .space-cell__bar--v { width: 1.5rem; }
 
     /* ============================================================
        9. Rayons
@@ -2846,18 +2865,44 @@
        Espacement
        ==================================================== -->
   <section id="spacing">
+    <!-- BEGIN GENERATED SPACING -->
     <h2>Espacement</h2>
-    <p class="lede">Échelle basée sur l'unité <code>v</code> (1v = 0.25rem = 4px). L'unité W de Figma correspond à 2v (8px). Le pas standard inter-composants est <code>4v</code> (2W).</p>
-
-    <div class="space-row"><span class="meta">1v</span><span class="bar" style="width:var(--s-1v)"></span><span class="meta">4 px</span></div>
-    <div class="space-row"><span class="meta">2v · 1W</span><span class="bar" style="width:var(--s-2v)"></span><span class="meta">8 px</span></div>
-    <div class="space-row"><span class="meta">3v</span><span class="bar" style="width:var(--s-3v)"></span><span class="meta">12 px</span></div>
-    <div class="space-row"><span class="meta">4v · 2W</span><span class="bar" style="width:var(--s-4v)"></span><span class="meta">16 px</span></div>
-    <div class="space-row"><span class="meta">6v · 3W</span><span class="bar" style="width:var(--s-6v)"></span><span class="meta">24 px</span></div>
-    <div class="space-row"><span class="meta">8v · 4W</span><span class="bar" style="width:var(--s-8v)"></span><span class="meta">32 px</span></div>
-    <div class="space-row"><span class="meta">12v</span><span class="bar" style="width:var(--s-12v)"></span><span class="meta">48 px</span></div>
-    <div class="space-row"><span class="meta">16v</span><span class="bar" style="width:var(--s-16v)"></span><span class="meta">64 px</span></div>
-    <div class="space-row"><span class="meta">32v</span><span class="bar" style="width:var(--s-32v)"></span><span class="meta">128 px</span></div>
+    <p class="lede">Échelle basée sur l'unité <code>v</code> (1v = 0.25rem = 4&nbsp;px), avec son alias designer <code>W</code> (1W = 2v = 8&nbsp;px). La même échelle gouverne les espacements horizontaux et verticaux&nbsp;; le pas standard inter-composants est <code>4v</code> (2W).</p>
+    <h3 style="margin-top:1.5rem;">Espacements horizontaux</h3>
+    <p>Marges et paddings horizontaux, gaps en flex-direction&nbsp;: row. Utiliser via <code>fr-mr-Nv</code>, <code>fr-pl-Nv</code>, <code>fr-px-Nv</code>, <code>fr-gap-Nv</code>.</p>
+    <div class="space-grid space-grid--horizontal">
+      <div class="space-cell"><div class="space-cell__label">1v<br><span class="muted">4 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 4px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">2v · 1W<br><span class="muted">8 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 8px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">3v<br><span class="muted">12 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 12px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">4v · 2W<br><span class="muted">16 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 16px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">6v · 3W<br><span class="muted">24 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 24px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">8v · 4W<br><span class="muted">32 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 32px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">10v · 5W<br><span class="muted">40 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 40px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">12v · 6W<br><span class="muted">48 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 48px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">14v · 7W<br><span class="muted">56 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 56px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">16v · 8W<br><span class="muted">64 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 64px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">18v · 9W<br><span class="muted">72 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 72px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">24v · 12W<br><span class="muted">96 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 96px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">30v · 15W<br><span class="muted">120 px</span></div><div class="space-cell__bar space-cell__bar--h" style="width: 120px;"></div></div>
+    </div>
+    <h3 style="margin-top:2.5rem;">Espacements verticaux</h3>
+    <p>Marges et paddings verticaux, gaps en flex-direction&nbsp;: column. Utiliser via <code>fr-mt-Nv</code>, <code>fr-mb-Nv</code>, <code>fr-py-Nv</code>, <code>fr-gap-Nv</code> (le même <code>gap</code> tient pour les deux axes).</p>
+    <div class="space-grid space-grid--vertical">
+      <div class="space-cell"><div class="space-cell__label">1v<br><span class="muted">4 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 4px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">2v · 1W<br><span class="muted">8 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 8px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">3v<br><span class="muted">12 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 12px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">4v · 2W<br><span class="muted">16 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 16px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">6v · 3W<br><span class="muted">24 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 24px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">8v · 4W<br><span class="muted">32 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 32px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">10v · 5W<br><span class="muted">40 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 40px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">12v · 6W<br><span class="muted">48 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 48px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">14v · 7W<br><span class="muted">56 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 56px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">16v · 8W<br><span class="muted">64 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 64px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">18v · 9W<br><span class="muted">72 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 72px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">24v · 12W<br><span class="muted">96 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 96px;"></div></div>
+      <div class="space-cell"><div class="space-cell__label">30v · 15W<br><span class="muted">120 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 120px;"></div></div>
+    </div>
+    <!-- END GENERATED SPACING -->
   </section>
 
   <!-- ====================================================

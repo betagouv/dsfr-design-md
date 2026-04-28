@@ -556,6 +556,34 @@ CORPS_DE_TEXTE = [
 ]
 
 
+# ---------------------------------------------------------------------
+# Spacing — visual ladder mirroring the DSFR `Espacement` page
+# (https://www.systeme-de-design.gouv.fr/version-courante/fr/fondamentaux/espacement).
+# The DSFR docs split the same scale into two visual sections —
+# `Espacements horizontaux` (widening bars) and `Espacements
+# verticaux` (taller bars) — to make horizontal vs vertical
+# rhythm intuitive. The tokens are shared across both axes.
+#
+# Format: (token, w_alias, px) where w_alias is the Figma "W"
+# alias (1W = 2v = 8px) shown alongside the canonical Nv name
+# when the value is W-aligned, or None / "—" otherwise.
+SPACING_LADDER = [
+    ("1v",  "1V",  4),    # docs label small values "1V" rather than "1v"
+    ("2v",  "1W",  8),
+    ("3v",  "3V",  12),   # 3V because 3v isn't a clean integer W
+    ("4v",  "2W",  16),
+    ("6v",  "3W",  24),
+    ("8v",  "4W",  32),
+    ("10v", "5W",  40),
+    ("12v", "6W",  48),
+    ("14v", "7W",  56),
+    ("16v", "8W",  64),
+    ("18v", "9W",  72),
+    ("24v", "12W", 96),
+    ("30v", "15W", 120),
+]
+
+
 def scheme_label(scheme: str) -> str:
     """French label suffix matching the DSFR doc captures."""
     return "(thème clair)" if scheme == "light" else "(thème sombre)"
@@ -892,6 +920,60 @@ def typography_section_html() -> str:
     return "\n".join(out)
 
 
+def spacing_section_html() -> str:
+    """Render the Espacement section as the DSFR docs lay it out:
+    a horizontal ladder of widening bars, then a vertical ladder
+    of growing tall bars. Both source from SPACING_LADDER, so the
+    two views stay in sync. Tokens are shared across both axes;
+    the split is purely visual.
+
+    Output is identical between light and dark previews (the
+    spacing scale is theme-stable).
+    """
+    out: list[str] = []
+    out.append('    <h2>Espacement</h2>')
+    out.append('    <p class="lede">Échelle basée sur l\'unité '
+               '<code>v</code> (1v = 0.25rem = 4&nbsp;px), avec son alias '
+               'designer <code>W</code> (1W = 2v = 8&nbsp;px). La même '
+               'échelle gouverne les espacements horizontaux et verticaux&nbsp;; '
+               'le pas standard inter-composants est <code>4v</code> (2W).</p>')
+
+    # ---- Horizontal: widening bars ----
+    out.append('    <h3 style="margin-top:1.5rem;">Espacements horizontaux</h3>')
+    out.append('    <p>Marges et paddings horizontaux, gaps en flex-direction&nbsp;: row. '
+               'Utiliser via <code>fr-mr-Nv</code>, <code>fr-pl-Nv</code>, '
+               '<code>fr-px-Nv</code>, <code>fr-gap-Nv</code>.</p>')
+    out.append('    <div class="space-grid space-grid--horizontal">')
+    for tok, w, px in SPACING_LADDER:
+        label = f"{tok} · {w}" if w and w != tok.upper() else tok
+        out.append(
+            f'      <div class="space-cell">'
+            f'<div class="space-cell__label">{label}<br><span class="muted">{px} px</span></div>'
+            f'<div class="space-cell__bar space-cell__bar--h" style="width: {px}px;"></div>'
+            f'</div>'
+        )
+    out.append('    </div>')
+
+    # ---- Vertical: growing tall bars ----
+    out.append('    <h3 style="margin-top:2.5rem;">Espacements verticaux</h3>')
+    out.append('    <p>Marges et paddings verticaux, gaps en flex-direction&nbsp;: column. '
+               'Utiliser via <code>fr-mt-Nv</code>, <code>fr-mb-Nv</code>, '
+               '<code>fr-py-Nv</code>, <code>fr-gap-Nv</code> (le même <code>gap</code> '
+               'tient pour les deux axes).</p>')
+    out.append('    <div class="space-grid space-grid--vertical">')
+    for tok, w, px in SPACING_LADDER:
+        label = f"{tok} · {w}" if w and w != tok.upper() else tok
+        out.append(
+            f'      <div class="space-cell">'
+            f'<div class="space-cell__label">{label}<br><span class="muted">{px} px</span></div>'
+            f'<div class="space-cell__bar space-cell__bar--v" style="height: {px}px;"></div>'
+            f'</div>'
+        )
+    out.append('    </div>')
+
+    return "\n".join(out)
+
+
 # ---------------------------------------------------------------------
 # Replace markers in source files
 # ---------------------------------------------------------------------
@@ -943,6 +1025,16 @@ def regenerate(scheme: str) -> None:
         "<!-- BEGIN GENERATED TYPOGRAPHY -->",
         "<!-- END GENERATED TYPOGRAPHY -->",
         typo,
+    )
+
+    # 5. Replace the spacing section (theme-stable; same body
+    #    in both preview files).
+    spc = spacing_section_html()
+    src = replace_block(
+        src,
+        "<!-- BEGIN GENERATED SPACING -->",
+        "<!-- END GENERATED SPACING -->",
+        spc,
     )
 
     path.write_text(src)
