@@ -1027,13 +1027,36 @@ components:
     backgroundColor: "{colors.background-contrast-grey}"
     textColor:       "{colors.text-disabled-grey}"
 
+  # ---- Select (`fr-select`)
+  #
+  # The select shares every surface, type, underline and state
+  # convention with the input — same `.fr-select-group--error /
+  # --valid / --disabled` modifiers, same `box-shadow: inset 0
+  # -2px 0 0 …` underline, same asymmetric corners. Differences
+  # vs input:
+  #   • Right padding is 2.5 rem (vs 1 rem) to leave room for
+  #     a 1 rem chevron-down SVG drawn via `background-image`
+  #     and anchored 1 rem from the right edge (mirror of the
+  #     date-input technique).
+  #   • Padding entry below records the LEFT/RIGHT base only,
+  #     since the schema does not capture per-side padding.
+  # ----
   select:
     backgroundColor: "{colors.background-contrast-grey}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.sm}"
-    padding:         12px
+    padding:         "8px 16px"
     height:          40px
+  select-error:
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-default-grey}"
+  select-success:
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-default-grey}"
+  select-disabled:
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-disabled-grey}"
 
   checkbox:
     backgroundColor: "{colors.background-default-grey}"
@@ -1601,6 +1624,46 @@ This is a deliberate trade-off: the field is consistent across browsers, the pop
     <span class="fr-hint-text">Format : jj/mm/aaaa</span>
   </label>
   <input class="fr-input" type="date" id="dob">
+</div>
+```
+
+#### Liste déroulante
+
+The select reuses every convention from the input — same surface tokens, same asymmetric corners, same `box-shadow: inset 0 -2px 0 0 <colour>` underline, same group-level `::before` accent strip, same hint-text and helper-text patterns. The state mapping is identical too:
+
+| State | YAML entry | Underline colour | Group modifier |
+|-------|------------|------------------|----------------|
+| Default | `select` | `{colors.border-plain-grey}` | — |
+| Focus | — *(global focus ring)* | unchanged | — |
+| Error | `select-error` | `{colors.border-plain-error}` | `.fr-select-group--error` |
+| Success | `select-success` | `{colors.border-plain-success}` | `.fr-select-group--valid` |
+| Disabled | `select-disabled` | `{colors.border-disabled-grey}` | `.fr-select-group--disabled` |
+
+The two select-specific differences:
+
+1. **Chevron icon.** A 1 rem chevron-down SVG is drawn on the right via `background-image` (light fill `#161616` / dark fill `#fff`), anchored 1 rem from the right edge — same technique as the date input. Right padding is bumped to `2.5 rem` to keep the option text from running under the icon. The browser's default `<select>` arrow is suppressed via `appearance: none`.
+
+2. **No `<input type=…>` axis.** A `<select>` is a single element — no twelve-way HTML-type axis to document. Composition is also narrower: hint text is the only common pattern. Inputs combined with a button use `.fr-input-wrap--addon`; selects do not have an equivalent addon recipe in the canonical CSS (use a separate `.fr-btn` placed beside the field via the grid).
+
+```html
+<!-- Default + hint -->
+<div class="fr-select-group">
+  <label class="fr-label" for="region">Libellé de la liste déroulante
+    <span class="fr-hint-text">Texte de description additionnel</span>
+  </label>
+  <select class="fr-select" id="region">
+    <option value="" disabled selected hidden>Sélectionnez une option</option>
+    <option>Île-de-France</option>
+    <option>Bretagne</option>
+    <option>Occitanie</option>
+  </select>
+</div>
+
+<!-- Error -->
+<div class="fr-select-group fr-select-group--error">
+  <label class="fr-label" for="region">Libellé de la liste déroulante</label>
+  <select class="fr-select" id="region" aria-describedby="region-error">…</select>
+  <p id="region-error" class="fr-error-text">Sélectionnez une option valide</p>
 </div>
 ```
 
