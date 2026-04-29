@@ -1268,21 +1268,74 @@
     fieldset.fr-fieldset.is-disabled > .toggle .toggle-text,
     fieldset.fr-fieldset.is-disabled > .toggle .toggle-state { color: var(--c-text-disabled-grey); }
 
-        /* ---- Card / tile ---- */
+        /* ---- Card (`fr-card`) ---------------------------------
+       Canonical structure: image (`__img`) + body (`__content`)
+       containing a title + optional description + arrow. The
+       arrow is anchored to the bottom-right of the body in
+       enlarge-link mode (the most common preset).
+       Sizes (`--sm`, default, `--lg`) modulate the body padding
+       and the title font-size; title weight stays 700 across
+       all sizes. The `--md` modifier exists in the canon but
+       is a no-op vs default. */
     .card {
+      display: flex; flex-direction: column;
       background: var(--c-bg-default);
       color: var(--c-text-default-grey);
       border: 1px solid var(--c-border-default-grey);
-      padding: var(--s-6v);
-      max-width: 22rem;
+      max-width: 24rem;
+      position: relative;
     }
+    .card-img {
+      aspect-ratio: 16 / 10;
+      background-color: var(--c-bg-alt-blue-france, #e3e3fd);
+      background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 50'><circle cx='34' cy='17' r='3' fill='%236a6af4'/><polygon points='30,32 36,24 42,32' fill='%23ddd1ed' opacity='0.7'/><polygon points='38,32 48,18 58,32' fill='%23a9a9e6' opacity='0.85'/></svg>");
+      background-size: 35% auto;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .card-body {
+      flex: 1; display: flex; flex-direction: column;
+      padding: var(--s-8v); /* 2rem (32 px) — md default */
+      position: relative;
+    }
+    .card-title {
+      font-size: 1.25rem; line-height: 1.75rem; font-weight: 700;
+      color: var(--c-text-title-blue-france);
+      margin: 0;
+    }
+    .card-desc {
+      font-size: 0.875rem; line-height: 1.5rem;
+      color: var(--c-text-default-grey);
+      margin-top: var(--s-3v); /* 0.75rem */
+      margin-bottom: 0;
+    }
+    .card-arrow {
+      position: absolute;
+      right: var(--s-8v); bottom: var(--s-8v);
+      width: 1rem; height: 1rem;
+      color: var(--c-text-action-high-blue-france);
+      display: inline-block;
+    }
+    .card-arrow svg { width: 100%; height: 100%; display: block; }
     .card .card-eyebrow {
       font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
       color: var(--c-text-mention-grey);
       margin-bottom: var(--s-2v);
     }
-    .card h4 { margin: 0 0 var(--s-2v); }
-    .card p { margin: 0; }
+    /* Sm — tighter padding (24 px), smaller title (18 / 24).
+       The DSFR demo also renders the placeholder image with a
+       grey tint at this size; we mimic that here for fidelity
+       (it's a demo asset choice, not a canonical token rule). */
+    .card--sm .card-body { padding: var(--s-6v); }
+    .card--sm .card-title { font-size: 1.125rem; line-height: 1.5rem; }
+    .card--sm .card-arrow { right: var(--s-6v); bottom: var(--s-6v); }
+    .card--sm .card-img { background-color: var(--c-bg-contrast-grey, #d4d4d4); }
+    /* Lg — wider padding (40 px), larger title (22 / 28),
+       larger description text (16 / 24) and bigger arrow icon. */
+    .card--lg .card-body { padding: var(--s-10v); /* 2.5rem */ }
+    .card--lg .card-title { font-size: 1.375rem; line-height: 1.75rem; }
+    .card--lg .card-desc { font-size: 1rem; line-height: 1.5rem; margin-top: var(--s-4v); }
+    .card--lg .card-arrow { width: 1.5rem; height: 1.5rem; right: var(--s-10v); bottom: var(--s-10v); }
 
     .tile {
       background: var(--c-bg-default);
@@ -3790,14 +3843,50 @@
       </div>
     </article>
 
-    <h3 class="component-group">Carte <span class="component-group__count">— `.fr-card` (à étendre).</span></h3>
+    <h3 class="component-group">Carte <span class="component-group__count">— Tailles (sm / md / lg) avec image, titre, description, flèche.</span></h3>
     <article class="component">
-      <header><h4>Carte</h4><span class="bem">.fr-card</span></header>
-      <div class="states">
-        <div class="card">
-          <div class="card-eyebrow">Démarche</div>
-          <h4>Demander un acte de naissance</h4>
-          <p class="muted">Pour les personnes nées en France ou à l'étranger, la demande se fait en ligne ou en mairie selon votre situation.</p>
+      <header><h4>Carte · tailles</h4><span class="bem">.fr-card · .fr-card--sm · .fr-card--md · .fr-card--lg</span></header>
+      <div class="states" style="grid-template-columns: 1fr 1fr; display: grid; gap: var(--s-6v); align-items: stretch;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Default — `.fr-card`</p>
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <p class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et</p>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Sm — `.fr-card--sm` (placeholder gris)</p>
+          <div class="card card--sm">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Md — `.fr-card--md` (no-op vs default)</p>
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Lg — `.fr-card--lg`</p>
+          <div class="card card--lg">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
         </div>
       </div>
     </article>

@@ -1188,12 +1188,46 @@ components:
   # ============================================================
   # SURFACES — card, tile
   # ============================================================
+  # ---- Card (`fr-card`)
+  #
+  # The card is composed of:
+  #   • `card__img` — illustration / cover (aspect 16/10 in
+  #     the demos; canon does not enforce a ratio, but the
+  #     placeholder asset is rendered at ~16/10).
+  #   • `card__content` — body with the title, optional
+  #     description, badges/tags ("start" slot), and the
+  #     arrow ("end" slot, anchored bottom-right).
+  #
+  # Three sizes modulate body padding + title:
+  #   • `card-sm` — 24 px padding, 18/24 title
+  #   • `card`    — 32 px padding, 20/28 title  (md baseline)
+  #   • `card-lg` — 40 px padding, 22/28 title, 16/24 desc
+  #
+  # The `--md` modifier exists in the canon but is a no-op
+  # vs default. Title weight is 700 across all sizes.
+  # ----
   card:
     backgroundColor: "{colors.background-default-grey}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
+    padding:         32px
+  card-title:
+    textColor:       "{colors.text-title-blue-france}"
+    typography:      "{typography.h6}"   # 1.25rem / 1.75rem
+  card-arrow:
+    textColor:       "{colors.text-action-high-blue-france}"
+    size:            16px
+  card-sm:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-grey}"
+    rounded:         "{rounded.none}"
     padding:         24px
+  card-lg:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-grey}"
+    rounded:         "{rounded.none}"
+    padding:         40px
   card-hover:
     backgroundColor: "{colors.background-alt-grey}"
     textColor:       "{colors.text-default-grey}"
@@ -1928,6 +1962,39 @@ The ON state's track fill stays blue even inside an error or success group — o
 | Callout (mise en avant) | `.fr-callout` |
 
 Cards are flat at rest; on `:hover` they may apply `e-3` to suggest interactivity if the entire card is a link.
+
+#### Carte
+
+The card has three sizes that modulate **body padding** and **title size** while keeping the same overall structure (image / title / optional description / arrow). The `--md` modifier exists in the canon but is a no-op vs default, so practical usage is `--sm`, default, `--lg`.
+
+| Story | Modifier | Body padding | Title (size / line-height) | Description size | Arrow icon |
+|-------|----------|--------------|----------------------------|------------------|-----------|
+| Default | *(none)* | `2rem` (32 px) | `1.25rem / 1.75rem` (20 / 28) | `0.875rem / 1.5rem` | 1 rem |
+| Sm | `.fr-card--sm` | `1.5rem` (24 px) | `1.125rem / 1.5rem` (18 / 24) | same | 1 rem |
+| Md | `.fr-card--md` | `2rem` (= default) | `1.25rem / 1.75rem` (= default) | same | 1 rem |
+| Lg | `.fr-card--lg` | `2.5rem` (40 px) | `1.375rem / 1.75rem` (22 / 28) | `1rem / 1.5rem` | 1.5 rem |
+
+Three visual constants across all sizes:
+
+- **Title** is rendered in `text-title-blue-france` with weight 700; the trailing `→` arrow is anchored to the bottom-right of the body via the `__end` slot in canon, drawn from the `arrow-right-line.svg` system icon at 1 rem (1.5 rem in `--lg`).
+- **Image** uses an aspect ratio of ~16/10 in the canonical demos. The image element itself is structurally `.fr-card__img > img` and has no token styling beyond `object-fit: cover`. *(Note: the DSFR demo's "Size Sm" story renders the placeholder asset with a grey tint while the other sizes show a light blue/lavender tint — this is a demo-asset choice, not a token rule. The preview reproduces it for fidelity.)*
+- **Border** is 1 px `border-default-grey` unless `.fr-card--no-border` or `.fr-card--shadow` is set.
+
+```html
+<div class="fr-card fr-enlarge-link fr-card--lg">
+  <div class="fr-card__body">
+    <div class="fr-card__content">
+      <h3 class="fr-card__title"><a href="…">Intitulé de la carte</a></h3>
+      <p class="fr-card__desc">Description optionnelle.</p>
+    </div>
+  </div>
+  <div class="fr-card__header">
+    <div class="fr-card__img">
+      <img src="…" alt="">
+    </div>
+  </div>
+</div>
+```
 
 ### Tags & badges
 
