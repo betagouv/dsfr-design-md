@@ -458,16 +458,23 @@
 
       --c-bg-default:                       var(--c-grey-1000-50);
       --c-bg-alt:                           var(--c-grey-975-100);
+      --c-bg-alt-hover:                     var(--c-grey-975-75-hover);
+      --c-bg-alt-active:                    var(--c-grey-975-75-active);
       --c-bg-contrast-grey:                 var(--c-grey-950-150);
       --c-bg-action-low-blue-france:        var(--c-blue-france-925-125);
       --c-bg-action-low-blue-france-hover:  var(--c-blue-france-925-125-hover);
       --c-bg-action-low-blue-france-active: var(--c-blue-france-925-125-active);
+      --c-bg-action-high-blue-france:        var(--c-blue-france-sun-113-625);
+      --c-bg-action-high-blue-france-hover:  var(--c-blue-france-sun-113-625-hover);
+      --c-bg-action-high-blue-france-active: var(--c-blue-france-sun-113-625-active);
+      --c-bg-disabled-grey:                 var(--c-grey-925-125);
 
       --c-text-default-grey:                var(--c-grey-50-1000);
       --c-text-mention-grey:                var(--c-grey-425-625);
       --c-text-title-blue-france:           var(--c-blue-france-sun-113-625);
       --c-text-action-high-blue-france:     var(--c-blue-france-sun-113-625);
       --c-text-inverted-blue-france:        var(--c-grey-1000-50);
+      --c-text-disabled-grey:               var(--c-grey-625-425);
 
       --c-border-default-grey:              var(--c-grey-900-175);
       --c-border-action-high-blue-france:   var(--c-blue-france-sun-113-625);
@@ -813,27 +820,54 @@
       margin-bottom: var(--s-1v);
     }
 
-    /* ---- Boutons ---- */
+    /* ---- Boutons ----
+       Default size = `md` (40 px min-height). `--sm` and `--lg`
+       modifiers override min-height + padding + font-size; the
+       canonical CSS implements outlines as `box-shadow: inset
+       0 0 0 1px <color>` (no layout shift), mirrored here. */
     .btn {
       font-family: var(--font-marianne); font-weight: 500;
       font-size: 1rem; line-height: 1.5rem;
       padding: 0.5rem 1rem;
       border-radius: var(--r-none);
-      border: 1px solid transparent;
+      border: 0;
       cursor: pointer;
       display: inline-flex; align-items: center; gap: var(--s-2v);
-      height: 2.5rem;
+      min-height: 2.5rem;
+      background: transparent;
+      color: var(--c-text-action-high-blue-france);
     }
-    .btn-primary               { background: var(--c-text-action-high-blue-france); color: var(--c-on-primary); }
-    .btn-primary.is-hover      { background: var(--c-primary-hover); }
-    .btn-primary.is-active     { background: var(--c-primary-active); }
-    .btn-primary.is-disabled   { background: var(--c-bg-contrast-grey); color: var(--c-text-mention-grey); cursor: not-allowed; }
-    .btn-secondary             { background: var(--c-bg-default); color: var(--c-text-action-high-blue-france); border-color: var(--c-border-action-high-blue-france); }
+    /* Variant 1/4 — Primary */
+    .btn-primary               { background: var(--c-bg-action-high-blue-france); color: var(--c-text-inverted-blue-france); }
+    .btn-primary.is-hover      { background: var(--c-bg-action-high-blue-france-hover); }
+    .btn-primary.is-active     { background: var(--c-bg-action-high-blue-france-active); }
+    .btn-primary.is-disabled   { background: var(--c-bg-disabled-grey); color: var(--c-text-disabled-grey); cursor: not-allowed; }
+    /* Variant 2/4 — Secondary (transparent fill, blue inset border).
+       Hover/active = very-faint blue tint (the DSFR overlays a 5%
+       black; the opaque equivalent on light is blue-france-950-100). */
+    .btn-secondary             { box-shadow: inset 0 0 0 1px var(--c-border-action-high-blue-france); }
     .btn-secondary.is-hover    { background: var(--c-blue-france-950-100-hover); }
     .btn-secondary.is-active   { background: var(--c-blue-france-950-100-active); }
-    .btn-secondary.is-disabled { background: var(--c-bg-default); color: var(--c-text-mention-grey); border-color: var(--c-border-default-grey); cursor: not-allowed; }
-    .btn-tertiary              { background: transparent; color: var(--c-text-action-high-blue-france); }
-    .btn-tertiary.is-hover     { background: var(--c-bg-alt); }
+    .btn-secondary.is-disabled { background: var(--c-bg-disabled-grey); color: var(--c-text-disabled-grey); box-shadow: none; cursor: not-allowed; }
+    /* Variant 3/4 — Tertiary (transparent fill, grey inset border) */
+    .btn-tertiary              { box-shadow: inset 0 0 0 1px var(--c-border-default-grey); }
+    .btn-tertiary.is-hover     { background: var(--c-bg-alt-hover); }
+    .btn-tertiary.is-active    { background: var(--c-bg-alt-active); }
+    .btn-tertiary.is-disabled  { background: var(--c-bg-disabled-grey); color: var(--c-text-disabled-grey); box-shadow: none; cursor: not-allowed; }
+    /* Variant 4/4 — Tertiary, no outline */
+    .btn-tertiary-no-outline             { /* identical defaults; just no inset shadow */ }
+    .btn-tertiary-no-outline.is-hover    { background: var(--c-bg-alt-hover); }
+    .btn-tertiary-no-outline.is-active   { background: var(--c-bg-alt-active); }
+    .btn-tertiary-no-outline.is-disabled { color: var(--c-text-disabled-grey); cursor: not-allowed; }
+    /* Sizes — deltas, compose with any variant */
+    .btn-sm { min-height: 2rem;   padding: 0.25rem 0.75rem; font-size: 0.875rem; }
+    .btn-lg { min-height: 3rem;   padding: 0.5rem 1.5rem;   font-size: 1.125rem; line-height: 1.75rem; }
+    /* Icons — square dot + glyph rendered inline; the
+       icon-only variant collapses to a square box. */
+    .btn-icon { width: 1rem; height: 1rem; flex: 0 0 1rem; }
+    .btn-icon-only { padding: 0.5rem; min-width: 2.5rem; gap: 0; justify-content: center; }
+    .btn-icon-only.btn-sm { padding: 0.25rem; min-width: 2rem; }
+    .btn-icon-only.btn-lg { padding: 0.5rem; min-width: 3rem; }
 
     /* ---- Champs ---- */
     .field {
@@ -2899,6 +2933,51 @@
       <div class="states">
         <div><span class="state-label">défaut</span><button class="btn btn-tertiary">En savoir plus</button></div>
         <div><span class="state-label">hover</span><button class="btn btn-tertiary is-hover">En savoir plus</button></div>
+        <div><span class="state-label">active</span><button class="btn btn-tertiary is-active">En savoir plus</button></div>
+        <div><span class="state-label">disabled</span><button class="btn btn-tertiary is-disabled" disabled>En savoir plus</button></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Bouton tertiaire sans contour</h3><span class="bem">.fr-btn.fr-btn--tertiary.fr-btn--no-outline</span></header>
+      <div class="states">
+        <div><span class="state-label">défaut</span><button class="btn btn-tertiary-no-outline">En savoir plus</button></div>
+        <div><span class="state-label">hover</span><button class="btn btn-tertiary-no-outline is-hover">En savoir plus</button></div>
+        <div><span class="state-label">active</span><button class="btn btn-tertiary-no-outline is-active">En savoir plus</button></div>
+        <div><span class="state-label">disabled</span><button class="btn btn-tertiary-no-outline is-disabled" disabled>En savoir plus</button></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Tailles</h3><span class="bem">.fr-btn--sm · (md) · .fr-btn--lg</span></header>
+      <div class="states">
+        <div><span class="state-label">sm · 32 px</span><button class="btn btn-primary btn-sm">Continuer</button></div>
+        <div><span class="state-label">md · 40 px</span><button class="btn btn-primary">Continuer</button></div>
+        <div><span class="state-label">lg · 48 px</span><button class="btn btn-primary btn-lg">Continuer</button></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h3>Composition avec icône</h3><span class="bem">.fr-btn--icon-left · .fr-btn--icon-right · icon-only</span></header>
+      <div class="states">
+        <div><span class="state-label">icon-left</span>
+          <button class="btn btn-primary">
+            <!-- The DSFR uses pseudo-element-injected SVG icons via fr-icon-* classes; we inline a 1rem checkmark to mirror the visual without the icon font. -->
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l3 3 7-7"/></svg>
+            Valider
+          </button>
+        </div>
+        <div><span class="state-label">icon-right</span>
+          <button class="btn btn-primary">
+            Continuer
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+        <div><span class="state-label">icon-only</span>
+          <button class="btn btn-primary btn-icon-only" title="Fermer" aria-label="Fermer">
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+          </button>
+        </div>
       </div>
     </article>
 

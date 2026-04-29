@@ -875,49 +875,120 @@ spacing:
 
 components:
   # ============================================================
-  # ACTIONS — Buttons (fr-btn, fr-btn--secondary, fr-btn--tertiary)
+  # ACTIONS — Buttons
+  #
+  # Four base variants × four states (default / hover / active /
+  # disabled) plus three sizes. The schema only recognises the
+  # core sub-tokens (backgroundColor / textColor / typography /
+  # rounded / padding / height); border styling, font-weight 500,
+  # and the canonical `box-shadow: inset` border-without-layout-
+  # shift trick all live in the `### Actions` prose below.
+  #
+  # The disabled state collapses every variant to the same
+  # background/text colours (`background-disabled-grey` /
+  # `text-disabled-grey`) and drops the inset border, so all
+  # four `*-disabled` entries share a single colour pair.
+  #
+  # Sizes are expressed as deltas (only the properties that
+  # change vs the default `md`). They compose with any base
+  # variant: `button-primary` + `button-sm` = primary small.
   # ============================================================
+
+  # ---- Variant 1 / 4 — Primary (`fr-btn`) ----
   button-primary:
-    backgroundColor: "{colors.text-action-high-blue-france}"
-    textColor:       "{colors.text-inverted-grey}"
+    backgroundColor: "{colors.background-action-high-blue-france}"
+    textColor:       "{colors.text-inverted-blue-france}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         16px
+    padding:         "8px 16px"
     height:          40px
   button-primary-hover:
     backgroundColor: "{colors.background-action-high-blue-france-hover}"
-    textColor:       "{colors.text-inverted-grey}"
+    textColor:       "{colors.text-inverted-blue-france}"
   button-primary-active:
     backgroundColor: "{colors.background-action-high-blue-france-active}"
-    textColor:       "{colors.text-inverted-grey}"
+    textColor:       "{colors.text-inverted-blue-france}"
   button-primary-disabled:
-    backgroundColor: "{colors.background-contrast-grey}"
-    textColor:       "{colors.text-mention-grey}"
+    backgroundColor: "{colors.background-disabled-grey}"
+    textColor:       "{colors.text-disabled-grey}"
 
+  # ---- Variant 2 / 4 — Secondary (`fr-btn fr-btn--secondary`).
+  #      Transparent fill + 1 px `border-action-high-blue-france`
+  #      inset border (drawn via box-shadow per the prose). ----
   button-secondary:
-    backgroundColor: "{colors.background-default-grey}"
+    backgroundColor: "transparent"
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         16px
+    padding:         "8px 16px"
     height:          40px
   button-secondary-hover:
+    # The DSFR overlays a faint translucent black on hover; the
+    # opaque equivalent on the light theme is blue-france-950-100-hover.
     backgroundColor: "{colors.blue-france-950-100-hover}"
     textColor:       "{colors.text-action-high-blue-france}"
   button-secondary-active:
     backgroundColor: "{colors.blue-france-950-100-active}"
     textColor:       "{colors.text-action-high-blue-france}"
+  button-secondary-disabled:
+    backgroundColor: "{colors.background-disabled-grey}"
+    textColor:       "{colors.text-disabled-grey}"
 
+  # ---- Variant 3 / 4 — Tertiary (`fr-btn fr-btn--tertiary`).
+  #      Transparent fill + 1 px `border-default-grey` inset
+  #      border (drawn via box-shadow per the prose). ----
   button-tertiary:
     backgroundColor: "transparent"
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         16px
+    padding:         "8px 16px"
     height:          40px
   button-tertiary-hover:
-    backgroundColor: "{colors.background-alt-grey}"
+    backgroundColor: "{colors.background-alt-grey-hover}"
     textColor:       "{colors.text-action-high-blue-france}"
+  button-tertiary-active:
+    backgroundColor: "{colors.background-alt-grey-active}"
+    textColor:       "{colors.text-action-high-blue-france}"
+  button-tertiary-disabled:
+    backgroundColor: "{colors.background-disabled-grey}"
+    textColor:       "{colors.text-disabled-grey}"
+
+  # ---- Variant 4 / 4 — Tertiary, no outline
+  #      (`fr-btn fr-btn--tertiary fr-btn--no-outline`).
+  #      Same as tertiary but without the inset border. Underlies
+  #      the DSFR's pre-baked icon buttons (close, display, team,
+  #      briefcase, account) which are not separate decisions —
+  #      just convenience shorthands over this variant. ----
+  button-tertiary-no-outline:
+    backgroundColor: "transparent"
+    textColor:       "{colors.text-action-high-blue-france}"
+    typography:      "{typography.body-md}"
+    rounded:         "{rounded.none}"
+    padding:         "8px 16px"
+    height:          40px
+  button-tertiary-no-outline-hover:
+    backgroundColor: "{colors.background-alt-grey-hover}"
+    textColor:       "{colors.text-action-high-blue-france}"
+  button-tertiary-no-outline-active:
+    backgroundColor: "{colors.background-alt-grey-active}"
+    textColor:       "{colors.text-action-high-blue-france}"
+  button-tertiary-no-outline-disabled:
+    backgroundColor: "transparent"
+    textColor:       "{colors.text-disabled-grey}"
+
+  # ---- Sizes — deltas applied on top of any variant.
+  #      Default size is the `button-*` base (40 px height,
+  #      body-md type, 8px/16px padding); sm and lg override only
+  #      the dimensional properties. ----
+  button-sm:
+    typography:      "{typography.body-sm}"
+    height:          32px
+    padding:         "4px 12px"
+  button-lg:
+    typography:      "{typography.body-lg}"
+    height:          48px
+    padding:         "8px 24px"
 
   # ============================================================
   # FORMS — input, select, checkbox, radio, toggle
@@ -1362,13 +1433,57 @@ For each component, the **BEM class** column gives the canonical `fr-*` name an 
 
 ### Actions
 
-| Component | BEM class | Notes |
-|-----------|-----------|-------|
-| Primary button | `.fr-btn` | Bleu France background, white text, no radius, 40 px height (`md`). Sizes: `--sm` (32 px), default `md`, `--lg` (48 px). |
-| Secondary button | `.fr-btn.fr-btn--secondary` | White background, Bleu France text + 1px border. |
-| Tertiary button | `.fr-btn.fr-btn--tertiary` (`--no-outline` for borderless) | Transparent background, Bleu France text. |
+#### Variants
 
-Group buttons with `.fr-btns-group` (default vertical with 2W gap; `--inline` for horizontal at a breakpoint; `--equisized` to match widths).
+The DSFR exposes four button variants. Each one has hover / active / disabled states; the disabled state collapses every variant to the same grey-on-grey rendering (`background-disabled-grey` / `text-disabled-grey`).
+
+| Variant | BEM class | Visual |
+|---------|-----------|--------|
+| Primary | `.fr-btn` | `background-action-high-blue-france` fill, `text-inverted-blue-france` label, no border. |
+| Secondary | `.fr-btn.fr-btn--secondary` | Transparent fill, blue label, 1 px `border-action-high-blue-france` outline. |
+| Tertiary | `.fr-btn.fr-btn--tertiary` | Transparent fill, blue label, 1 px `border-default-grey` outline. |
+| Tertiary, no outline | `.fr-btn.fr-btn--tertiary.fr-btn--no-outline` | Transparent fill, blue label, no border. Underlies the pre-baked icon buttons (see below). |
+
+> **Implementation notes.**
+>
+> 1. **Borders.** The DSFR draws variant outlines with `box-shadow: inset 0 0 0 1px <color>`, not a real `border`, so the box does not gain 1 px of layout when the outline appears. The schema's component sub-tokens do not include `border`, so border colour is not encoded in the YAML — agents should emit the canonical `fr-*` classes (which set the right inset shadow) or apply the shadow themselves: `box-shadow: inset 0 0 0 1px {colors.border-action-high-blue-france}` for secondary, `{colors.border-default-grey}` for tertiary, and none for primary or tertiary-no-outline.
+> 2. **Font weight.** All four variants render their label at `font-weight: 500` (500 = medium), one step heavier than the `body-md` default of 400. The schema does not surface font-weight as a component sub-token, so this lives in prose only.
+> 3. **Disabled contrast.** Every `*-disabled` variant lands on `#929292` text over `#e5e5e5` background (2.47:1, below WCAG AA's 4.5:1 active-text minimum). This is intentional — WCAG 2.1 §1.4.3 exempts inactive controls from the contrast requirement, and the DSFR uses this exact pair throughout the system to mark disabled state distinctly.
+
+#### Sizes
+
+Three sizes; `md` is the default and is what the YAML's `button-primary` / `button-secondary` / `button-tertiary` entries describe. Sizes are deltas — `button-sm` and `button-lg` override only the dimensional properties and compose with any variant.
+
+| Size | BEM modifier | min-height | padding | typography |
+|------|--------------|------------|---------|------------|
+| Small | `.fr-btn--sm` | 32 px | 4 px / 12 px | `body-sm` |
+| Medium (default) | *(none)* | 40 px | 8 px / 16 px | `body-md` |
+| Large | `.fr-btn--lg` | 48 px | 8 px / 24 px | `body-lg` |
+
+#### Icons
+
+Icon composition is markup-only — the same variant tokens apply, only the HTML changes. The DSFR uses `fr-btn--icon-left` / `fr-btn--icon-right` modifier classes plus an icon class (`fr-icon-*-line` or `fr-icon-*-fill`) to position a 16 px glyph next to the label.
+
+```html
+<!-- Icon on the left -->
+<button class="fr-btn fr-btn--icon-left fr-icon-checkbox-line">Valider</button>
+
+<!-- Icon on the right -->
+<button class="fr-btn fr-btn--icon-right fr-icon-arrow-right-line">Continuer</button>
+
+<!-- Icon only (square button — the label still exists for screen readers) -->
+<button class="fr-btn fr-icon-close-line" title="Fermer">Fermer</button>
+```
+
+Rule: square icon-only buttons must keep an accessible label via `title=` or visually-hidden text; never strip the label from the markup.
+
+#### Pre-baked icon buttons
+
+The DSFR ships several convenience classes that compose `fr-btn--tertiary-no-outline` with a specific icon: `.fr-btn--close` (×), `.fr-btn--display` (theme switcher), `.fr-btn--team` (people), `.fr-btn--briefcase` (recruitment), `.fr-btn--account` (user), `.fr-btn--fullscreen`, `.fr-btn--tooltip`. They are not new design decisions — they are shorthands over `button-tertiary-no-outline` — and so are not enumerated in the YAML. Use them when the surface they appear on already requires that exact icon-and-tone combination (closing a modal, opening the display-mode panel, etc.).
+
+#### Grouping
+
+Group buttons with `.fr-btns-group` — vertical 2W (16 px) gap by default; `--inline` for horizontal at a breakpoint; `--equisized` to match all widths to the widest member.
 
 ### Forms
 
