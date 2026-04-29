@@ -488,10 +488,10 @@
       --s-8v:  2rem;      --s-10v: 2.5rem;    --s-12v: 3rem;
       --s-16v: 4rem;      --s-32v: 8rem;
 
-      /* ---- Rayons ---- */
+      /* ---- Rayons (only the values actually referenced by the
+             DSFR's documented component-level exceptions) ---- */
       --r-none: 0;
       --r-sm:   0.25rem;
-      --r-md:   0.5rem;
       --r-pill: 9999px;
     }
 
@@ -786,40 +786,6 @@
        token's px value. Cells lined up side-by-side so the
        growing-tall sequence is the reading direction. */
     .space-cell__bar--v { width: 1.5rem; }
-
-    /* ============================================================
-       9. Rayons
-       ============================================================ */
-    .radius-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--s-4v);
-      align-items: center;
-    }
-    .radius-cell {
-      width: 6rem;
-      height: 6rem;
-      background: var(--c-blue-france-925-125);
-      border: 1px solid var(--c-border-default-grey);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding: var(--s-3v);
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.75rem;
-      color: var(--c-text-default-grey);
-    }
-    .radius-cell.r-none { border-radius: var(--r-none); }
-    .radius-cell.r-sm   { border-radius: var(--r-sm); }
-    .radius-cell.r-md   { border-radius: var(--r-md); }
-    /* pill is a horizontal stadium, not a circle — its width must
-       exceed its height for the rounded ends to read as a pill. */
-    .radius-cell.r-pill {
-      border-radius: var(--r-pill);
-      width: 12rem;
-      height: 3rem;
-      align-items: center;
-    }
 
     /* ============================================================
        10. Composants
@@ -2899,20 +2865,6 @@
       <div class="space-cell"><div class="space-cell__label">30v · 15W<br><span class="muted">120 px</span></div><div class="space-cell__bar space-cell__bar--v" style="height: 120px;"></div></div>
     </div>
     <!-- END GENERATED SPACING -->
-  </section>
-
-  <!-- ====================================================
-       Rayons de bord
-       ==================================================== -->
-  <section id="radius">
-    <h2>Rayons de bord</h2>
-    <p class="lede">Coins carrés par défaut. Les exceptions documentées sont&nbsp;: <code>sm</code> pour les coins supérieurs du champ de recherche et <code>pill</code> pour les tags, badges et l'interrupteur.</p>
-    <div class="radius-grid">
-      <div class="radius-cell r-none">none · 0</div>
-      <div class="radius-cell r-sm">sm · 4 px</div>
-      <div class="radius-cell r-md">md · 8 px</div>
-      <div class="radius-cell r-pill">pill · 9999 px</div>
-    </div>
   </section>
 
   <!-- ====================================================

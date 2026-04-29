@@ -798,10 +798,16 @@ typography:
     lineHeight: 1.5rem       # 24px
 
 rounded:
+  # The DSFR has no fundamentals-level border-radius scale —
+  # corners are square by convention and the few exceptions are
+  # specified at the component level. These three tokens cover
+  # every documented exception:
+  #   - `none` is the default for ~all components
+  #   - `sm`   is used only for the search input's top corners
+  #   - `pill` is used for tags, badges, the toggle switch
   none: 0px
-  sm:   0.25rem    # used sparingly (search input top corners)
-  md:   0.5rem
-  pill: 9999px     # tags / badges
+  sm:   0.25rem    # 4px — search input top corners only
+  pill: 9999px     # tags, badges, toggle switch
 
 spacing:
   # ===========================================================
@@ -1336,15 +1342,15 @@ The DSFR is **flat by default**. Shadows are reserved for ephemeral surfaces and
 
 ## Shapes
 
-Corners are **square by convention**. `rounded.none = 0` is the default for almost every component: buttons, cards, modals, alerts, inputs (mostly), tiles, panels.
-
-Documented exceptions:
+The DSFR has **no fundamentals-level border-radius spec**. Corners are square by convention — `rounded.none = 0` is the default for buttons, cards, modals, alerts, inputs, tiles, panels, and effectively everything else. Radius decisions live at the component level, where a small set of component-scoped exceptions are spelled out:
 
 | Component | Radius | Token |
 |-----------|--------|-------|
 | Search input (top corners) | 4px | `rounded.sm` |
-| Tags, badges, pills | full | `rounded.pill` |
+| Tags, badges | full | `rounded.pill` |
 | Toggle switch knob/track | full | `rounded.pill` |
+
+These three exceptions account for every non-zero radius in the DSFR. If you find yourself reaching for `rounded.sm` or `rounded.pill` on a component not listed above, you're out of step with the system.
 
 > **Rationale.** Angularity reinforces officiality, restraint, and republican neutrality. Rounded corners would soften the visual register away from the State register the DSFR is designed to preserve.
 
