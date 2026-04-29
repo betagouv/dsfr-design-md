@@ -959,8 +959,34 @@
       width: 1rem; height: 1rem; color: var(--c-text-default-grey); pointer-events: none;
     }
     .input-wrap__icon--cal { color: var(--c-text-default-grey); }
-    /* Date input — reserves room for the trailing calendar icon. */
-    .input--date { padding-right: 3rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Date input — mirrors the DSFR's canonical strategy:
+       (1) ALWAYS use type="date" so the browser provides the
+           popover; the DSFR ships no datepicker JS.
+       (2) Overlay our own SVG calendar via background-image so
+           the field looks identical on every browser, scoped to
+           browsers that expose ::-webkit-calendar-picker-indicator
+           (Chromium + Safari). Firefox falls back to its native
+           rendering.
+       (3) Hide the browser's default indicator (opacity: 0) but
+           keep it sized as the click target so the popover still
+           opens.
+       Dark theme uses a white-fill SVG (#ffffff) instead of
+       light's near-black (#161616). */
+    @supports selector(::-webkit-calendar-picker-indicator) {
+      .input--date {
+        background-repeat: no-repeat;
+        background-position: calc(100% - 1rem) 50%;
+        background-size: 1rem 1rem;
+        padding-right: 3rem;
+        background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ffffff' d='M17 3h4c.55 0 1 .45 1 1v16c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h4V1h2v2h6V1h2v2zm-2 2H9v2H7V5H4v4h16V5h-3v2h-2V5zm5 6H4v8h16v-8z'/></svg>");
+      }
+      .input--date::-webkit-calendar-picker-indicator {
+        display: block;
+        padding: 1rem;
+        margin-right: -2.5rem;
+        opacity: 0;
+      }
+    }
     /* Textarea — same tokens, just a taller min-height. */
     textarea.input {
       height: auto; min-height: 3.75rem; resize: vertical;
@@ -3135,16 +3161,12 @@
 
     <article class="component">
       <header><h4>Date</h4><span class="bem">type=date</span></header>
+      <p style="font-size:0.875rem; color:var(--c-text-mention-grey); margin-top:-0.25rem; margin-bottom:1rem;">La popover est rendue par le navigateur (Chrome, Edge, Safari, Firefox ont chacun leur propre interface). Le DSFR ne livre pas de datepicker JavaScript&nbsp;: il stylise uniquement le champ et l'icône calendrier.</p>
       <div class="states">
         <div class="field">
           <label>Date simple</label>
           <span class="hint">Format : jj/mm/aaaa</span>
-          <div class="input-wrap">
-            <input class="input input--date" type="text" placeholder="dd/mm/yyyy">
-            <svg class="input-wrap__icon input-wrap__icon--cal" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17 3h4c.55 0 1 .45 1 1v16c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h4V1h2v2h6V1h2v2zm-2 2H9v2H7V5H4v4h16V5h-3v2h-2V5zm5 6H4v8h16v-8z"/>
-            </svg>
-          </div>
+          <input class="input input--date" type="date">
         </div>
       </div>
     </article>

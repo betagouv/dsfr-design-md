@@ -1591,7 +1591,9 @@ The hint text uses `text-mention-grey` and inherits `body-sm`. Place it inside t
 
 For the action variant, swap the `<button class="fr-btn">` for a `<button class="fr-btn fr-btn--tertiary fr-icon-delete-line">…</button>` — this composes the *Tertiary, no outline* button variant (already in the components YAML) with an icon.
 
-**4. Date** — uses `<input type="date">` and lets the browser provide the popover. The DSFR overlays the calendar SVG over the native indicator so the visual is identical across browsers.
+**4. Date** — uses `<input type="date">` and lets the browser provide the popover. **The DSFR ships no datepicker JavaScript**; the calendar UI that opens on click is whatever the browser provides natively (Chrome, Edge, Safari, and Firefox each have their own interface, with their own translations and locale rules). The design system stylises only the *field* — same surface, same underline, plus an SVG calendar icon overlaid on the right via `background-image`, scoped to browsers that expose `::-webkit-calendar-picker-indicator` (Chromium + Safari). The browser's default indicator is hidden (`opacity: 0`) but kept as the click target so the popover still opens. Firefox falls back to its native rendering, which differs visually but works the same.
+
+This is a deliberate trade-off: the field is consistent across browsers, the popover is not. Pair `<input type="date">` with a hint text giving the expected format (e.g. *« Format : jj/mm/aaaa »*) because some browsers do not render the placeholder for `type="date"` inputs.
 
 ```html
 <div class="fr-input-group">
