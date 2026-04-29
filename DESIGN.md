@@ -1058,14 +1058,42 @@ components:
     backgroundColor: "{colors.background-contrast-grey}"
     textColor:       "{colors.text-disabled-grey}"
 
+  # ---- Checkbox (`fr-checkbox-group`)
+  #
+  # Default size is 24 px (1.5 rem); a sm modifier shrinks it
+  # to 16 px (1 rem). The box uses `rounded.sm` (0.25 rem) and
+  # carries the `border-action-high-blue-france` colour as its
+  # outline. Checked fill uses `background-active-blue-france`
+  # with a white check SVG (light) / blue check SVG (dark).
+  #
+  # Group states (`.fr-fieldset--error / --valid` and
+  # `<fieldset disabled>`) act on the legend and labels — the
+  # box itself stays mostly the same. The error/success state
+  # also draws a 2 px coloured strip on the left of the
+  # fieldset, matching the input/select group pattern.
+  # ----
   checkbox:
     backgroundColor: "{colors.background-default-grey}"
     textColor:       "{colors.text-default-grey}"
-    rounded:         "{rounded.none}"
+    rounded:         "{rounded.sm}"
+    size:            24px
+  checkbox-sm:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-grey}"
+    rounded:         "{rounded.sm}"
     size:            16px
   checkbox-checked:
     backgroundColor: "{colors.text-action-high-blue-france}"
     textColor:       "{colors.text-inverted-grey}"
+  checkbox-disabled:
+    backgroundColor: "{colors.background-disabled-grey}"
+    textColor:       "{colors.text-disabled-grey}"
+  checkbox-error:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-error}"
+  checkbox-success:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-success}"
 
   radio:
     backgroundColor: "{colors.background-default-grey}"
@@ -1665,6 +1693,58 @@ The two select-specific differences:
   <select class="fr-select" id="region" aria-describedby="region-error">…</select>
   <p id="region-error" class="fr-error-text">Sélectionnez une option valide</p>
 </div>
+```
+
+#### Case à cocher
+
+The checkbox is a multi-axis component. Standalone, it carries `checkbox` (default 24 px) and `checkbox-sm` (16 px) tokens; checked state swaps the fill to `background-active-blue-france` and overlays a white check SVG (light) / blue check SVG (dark). The box itself uses `rounded.sm` (`0.25 rem`) and a 1 px outline drawn from `border-action-high-blue-france`. Disabled state replaces both fill and outline with `background-disabled-grey` and dims the label to `text-disabled-grey`.
+
+Most production usage wraps multiple checkboxes inside a `<fieldset class="fr-fieldset">` with a `<legend class="fr-fieldset__legend">`. The fieldset adds the *group* axis:
+
+| Group state | YAML entry (label) | Modifier | Visual |
+|-------------|--------------------|----------|--------|
+| Default | — *(`checkbox` only)* | — | Black legend, default labels |
+| Hint | — | `<legend>` includes `.fr-hint-text` | Hint paragraph under legend |
+| Hint per item | — | each `<label>` includes `.fr-hint-text` | Hint paragraph under each box |
+| Inline | — | `.fr-fieldset--inline` | Boxes laid out horizontally |
+| Disabled | `checkbox-disabled` | `<fieldset disabled>` | Greyed-out legend + boxes |
+| Error | `checkbox-error` | `.fr-fieldset--error` | Red legend + 2 px red strip on left + `.fr-error-text` |
+| Success | `checkbox-success` | `.fr-fieldset--valid` | Green legend + 2 px green strip on left + `.fr-valid-text` |
+
+Two notes:
+
+1. **The boxes themselves do not change colour for error/success states** — only the surrounding legend, labels, and the 2 px left strip change. This mirrors the `.fr-fieldset` accent used by all other group-able form controls (radios, date-fields).
+
+2. **The fieldset's left strip is `position: absolute; left: -0.75 rem`** in the canonical CSS — it visually escapes the fieldset's content area to align with the form field's natural left edge. In our preview we collapse this into a 2 px `::before` inside the fieldset's left padding for simplicity; the visual is identical.
+
+```html
+<!-- Default group -->
+<fieldset class="fr-fieldset">
+  <legend class="fr-fieldset__legend">Légende pour l'ensemble des éléments</legend>
+  <div class="fr-fieldset__element">
+    <div class="fr-checkbox-group">
+      <input type="checkbox" id="cb-1">
+      <label class="fr-label" for="cb-1">Checkbox 1</label>
+    </div>
+  </div>
+  <!-- … -->
+</fieldset>
+
+<!-- Error group with hint per item -->
+<fieldset class="fr-fieldset fr-fieldset--error" aria-labelledby="cb-legend cb-error">
+  <legend class="fr-fieldset__legend" id="cb-legend">Légende pour l'ensemble des éléments</legend>
+  <div class="fr-fieldset__element">
+    <div class="fr-checkbox-group">
+      <input type="checkbox" id="cb-1">
+      <label class="fr-label" for="cb-1">Checkbox 1
+        <span class="fr-hint-text">Texte additionnel</span>
+      </label>
+    </div>
+  </div>
+  <div class="fr-messages-group" id="cb-error">
+    <p class="fr-message fr-message--error">Texte d'erreur</p>
+  </div>
+</fieldset>
 ```
 
 ### Surfaces

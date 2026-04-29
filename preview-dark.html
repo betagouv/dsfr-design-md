@@ -1018,32 +1018,101 @@
     .input-wrap--addon .input { flex: 1 1 auto; box-shadow: inset 0 -2px 0 0 var(--c-border-action-high-blue-france); }
     .input-wrap--addon .btn   { flex: 0 0 auto; }
 
-    /* ---- Cases / radios / toggle ---- */
+    /* ---- Cases / radios / toggle ----
+       Canonical sizes:
+         • md (default) — 1.5 rem (24 px) box
+         • sm           — 1 rem   (16 px) box
+       Border colour is `border-action-high-blue-france`,
+       drawn here as a 1 px border for fidelity (canon uses
+       a complex radial-gradient + linear-gradient stack so
+       the corners stay perfectly square; preview can use
+       a flat border without losing token meaning).
+       Box radius is `0.25 rem` (rounded.sm) — NOT none. */
     .check, .radio {
-      display: inline-flex; align-items: center; gap: var(--s-2v);
-      font-size: 0.875rem;
+      display: inline-flex; align-items: flex-start; gap: var(--s-2v);
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
     .check .box, .radio .box {
-      width: 1rem; height: 1rem;
+      flex: 0 0 auto;
+      width: 1.5rem; height: 1.5rem;
       background: var(--c-bg-default);
-      border: 1px solid var(--c-text-default-grey);
+      border: 1px solid var(--c-border-action-high-blue-france);
+      border-radius: var(--r-sm);
       display: inline-block;
       position: relative;
     }
+    .check--sm .box, .radio--sm .box {
+      width: 1rem; height: 1rem;
+      margin-top: 0.25rem;
+    }
+    .check--sm, .radio--sm { font-size: 0.875rem; }
     .radio .box { border-radius: var(--r-pill); }
     .check.is-checked .box { background: var(--c-text-action-high-blue-france); border-color: var(--c-text-action-high-blue-france); }
     .check.is-checked .box::after {
-      content: ""; position: absolute; left: 3px; top: 0;
-      width: 6px; height: 10px;
+      content: ""; position: absolute; left: 5px; top: 1px;
+      width: 9px; height: 14px;
       border: solid var(--c-on-primary);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
+    .check--sm.is-checked .box::after {
+      left: 3px; top: 0;
+      width: 6px; height: 10px;
+    }
+    .check.is-disabled .box, .radio.is-disabled .box {
+      background: var(--c-bg-disabled-grey);
+      border-color: var(--c-bg-disabled-grey);
+    }
+    .check.is-checked.is-disabled .box::after { border-color: var(--c-text-disabled-grey); }
+    .check.is-disabled, .radio.is-disabled { color: var(--c-text-disabled-grey); cursor: not-allowed; }
     .radio.is-checked .box {
       background:
-        radial-gradient(circle at center, var(--c-text-action-high-blue-france) 0 30%, var(--c-bg-default) 40%);
+        radial-gradient(circle at center, var(--c-text-action-high-blue-france) 0 32%, var(--c-bg-default) 40%);
       border-color: var(--c-text-action-high-blue-france);
     }
+    /* Fieldset — groups checkbox/radio together with a legend
+       and (optionally) a 2 px coloured strip on the left for
+       error/success/info states. The strip is drawn via
+       `::before` exactly like input-group + select-group. */
+    fieldset.fr-fieldset {
+      position: relative;
+      border: 0; margin: 0; padding: 0 0 0 var(--s-3v);
+      display: flex; flex-direction: column; gap: var(--s-2v);
+    }
+    fieldset.fr-fieldset > legend {
+      font-weight: 700; font-size: 1rem; line-height: 1.5rem;
+      color: var(--c-text-label-grey); margin-bottom: var(--s-2v); padding: 0;
+    }
+    fieldset.fr-fieldset > legend .hint {
+      display: block; font-weight: 400; font-size: 0.75rem;
+      color: var(--c-text-mention-grey); margin-top: var(--s-1v);
+    }
+    fieldset.fr-fieldset > .check + .hint,
+    fieldset.fr-fieldset > .radio + .hint {
+      font-size: 0.75rem; color: var(--c-text-mention-grey);
+      margin-top: -0.25rem; margin-left: 2rem;
+    }
+    fieldset.fr-fieldset.is-error::before,
+    fieldset.fr-fieldset.is-success::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    }
+    fieldset.fr-fieldset.is-error::before   { background: var(--c-border-plain-error); }
+    fieldset.fr-fieldset.is-success::before { background: var(--c-border-plain-success); }
+    fieldset.fr-fieldset.is-error > legend,
+    fieldset.fr-fieldset.is-error > .check,
+    fieldset.fr-fieldset.is-error > .radio   { color: var(--c-text-default-error); }
+    fieldset.fr-fieldset.is-success > legend,
+    fieldset.fr-fieldset.is-success > .check,
+    fieldset.fr-fieldset.is-success > .radio { color: var(--c-text-default-success); }
+    fieldset.fr-fieldset.is-disabled > legend,
+    fieldset.fr-fieldset.is-disabled > .check,
+    fieldset.fr-fieldset.is-disabled > .radio { color: var(--c-text-disabled-grey); }
+    fieldset.fr-fieldset--inline {
+      flex-direction: row; flex-wrap: wrap; align-items: baseline;
+      gap: var(--s-4v);
+    }
+    fieldset.fr-fieldset--inline > legend { flex: 1 0 100%; }
 
     .toggle {
       display: inline-flex; align-items: center; gap: var(--s-2v);
@@ -3037,9 +3106,9 @@
        ==================================================== -->
   <section id="components">
     <h2>Composants</h2>
-    <p class="lede">Composants centraux du DSFR rendus avec leurs principales variantes et états, regroupés par famille. Chaque carte indique la classe BEM officielle — référence pour le code de production.</p>
+    <p class="lede">Composants centraux du DSFR. Chaque sous-titre correspond à <strong>un composant</strong> de la documentation officielle (1 page DSFR = 1 section ici), et regroupe ses <em>stories</em> — états, tailles, compositions. Chaque carte indique la classe BEM officielle — référence pour le code de production.</p>
 
-    <h3 class="component-group">Actions <span class="component-group__count">— Boutons, tailles, et compositions avec icône.</span></h3>
+    <h3 class="component-group">Bouton <span class="component-group__count">— Variantes, tailles, et compositions avec icône.</span></h3>
     <article class="component">
       <header><h4>Bouton primaire</h4><span class="bem">.fr-btn</span></header>
       <div class="states">
@@ -3113,7 +3182,7 @@
       </div>
     </article>
 
-    <h3 class="component-group">Formulaires <span class="component-group__count">— Champs de saisie, sélecteurs, cases et interrupteurs.</span></h3>
+    <h3 class="component-group">Champ de saisie <span class="component-group__count">— États, types HTML, et patterns de composition.</span></h3>
     <article class="component">
       <header><h4>Champ de saisie — états</h4><span class="bem">.fr-input · .fr-input-group--{error,valid,disabled}</span></header>
       <div class="states">
@@ -3224,6 +3293,7 @@
       </div>
     </article>
 
+    <h3 class="component-group">Liste déroulante <span class="component-group__count">— États et texte d'aide.</span></h3>
     <article class="component">
       <header><h4>Liste déroulante — états</h4><span class="bem">.fr-select · .fr-select-group--{error,valid,disabled}</span></header>
       <div class="states">
@@ -3264,19 +3334,115 @@
       </div>
     </article>
 
-    <article class="component">
-      <header><h4>Cases à cocher · boutons radio · interrupteur</h4><span class="bem">.fr-checkbox-group · .fr-radio-group · .fr-toggle</span></header>
+    <h3 class="component-group">Case à cocher <span class="component-group__count">— États, groupes, sizes, hint, inline, error, success.</span></h3>
+<article class="component">
+      <header><h4>Case à cocher · états</h4><span class="bem">.fr-checkbox-group · .fr-checkbox-group--sm</span></header>
       <div class="states">
-        <span class="check"><span class="box"></span> J'accepte les conditions</span>
-        <span class="check is-checked"><span class="box"></span> J'accepte les conditions</span>
+        <div><span class="state-label">défaut</span><span class="check"><span class="box"></span> Libellé checkbox</span></div>
+        <div><span class="state-label">cochée</span><span class="check is-checked"><span class="box"></span> Libellé checkbox</span></div>
+        <div><span class="state-label">désactivée</span><span class="check is-disabled"><span class="box"></span> Libellé checkbox</span></div>
+        <div><span class="state-label">cochée + désactivée</span><span class="check is-checked is-disabled"><span class="box"></span> Libellé checkbox</span></div>
+        <div><span class="state-label">sm</span><span class="check check--sm"><span class="box"></span> Libellé checkbox</span></div>
+        <div><span class="state-label">sm cochée</span><span class="check check--sm is-checked"><span class="box"></span> Libellé checkbox</span></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Case à cocher · groupe</h4><span class="bem">.fr-fieldset > legend.fr-fieldset__legend + .fr-fieldset__element</span></header>
+      <div class="states" style="grid-template-columns: 1fr 1fr; display: grid; gap: var(--s-6v);">
+        <fieldset class="fr-fieldset">
+          <legend>Légende pour l'ensemble des éléments</legend>
+          <span class="check"><span class="box"></span> Checkbox 1</span>
+          <span class="check"><span class="box"></span> Checkbox 2</span>
+          <span class="check"><span class="box"></span> Checkbox 3</span>
+        </fieldset>
+        <fieldset class="fr-fieldset">
+          <legend>Légende pour l'ensemble des éléments<span class="hint">Texte de description additionnel</span></legend>
+          <span class="check"><span class="box"></span> Checkbox 1</span>
+          <span class="check"><span class="box"></span> Checkbox 2</span>
+          <span class="check"><span class="box"></span> Checkbox 3</span>
+        </fieldset>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Case à cocher · texte d'aide par élément</h4><span class="bem">.fr-checkbox-group label > .fr-hint-text</span></header>
+      <div class="states">
+        <fieldset class="fr-fieldset">
+          <legend>Légende pour l'ensemble des éléments</legend>
+          <span class="check"><span class="box"></span> Checkbox 1</span>
+          <span class="hint">Texte additionnel</span>
+          <span class="check"><span class="box"></span> Checkbox 2</span>
+          <span class="hint">Texte additionnel</span>
+          <span class="check"><span class="box"></span> Checkbox 3</span>
+          <span class="hint">Texte additionnel</span>
+        </fieldset>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Case à cocher · inline</h4><span class="bem">.fr-fieldset--inline</span></header>
+      <div class="states">
+        <fieldset class="fr-fieldset fr-fieldset--inline">
+          <legend>Légende pour l'ensemble des éléments</legend>
+          <span class="check"><span class="box"></span> Checkbox 1</span>
+          <span class="check"><span class="box"></span> Checkbox 2</span>
+        </fieldset>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Case à cocher · états du groupe</h4><span class="bem">.fr-fieldset:disabled · .fr-fieldset--error · .fr-fieldset--valid</span></header>
+      <div class="states" style="grid-template-columns: repeat(3, 1fr); display: grid; gap: var(--s-6v);">
+        <fieldset class="fr-fieldset is-disabled">
+          <legend>Désactivé — Légende</legend>
+          <span class="check is-disabled"><span class="box"></span> Checkbox 1</span>
+          <span class="check is-disabled"><span class="box"></span> Checkbox 2</span>
+          <span class="check is-disabled"><span class="box"></span> Checkbox 3</span>
+        </fieldset>
+        <fieldset class="fr-fieldset is-error">
+          <legend>Erreur — Légende</legend>
+          <span class="check"><span class="box"></span> Checkbox 1</span>
+          <span class="check"><span class="box"></span> Checkbox 2</span>
+          <span class="check"><span class="box"></span> Checkbox 3</span>
+          <span class="helper helper--error">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm0 4a1 1 0 011 1v4a1 1 0 11-2 0V5a1 1 0 011-1zm0 7a1 1 0 110 2 1 1 0 010-2z"/></svg>
+            Texte d'erreur
+          </span>
+        </fieldset>
+        <fieldset class="fr-fieldset is-success">
+          <legend>Succès — Légende</legend>
+          <span class="check"><span class="box"></span> Checkbox 1</span>
+          <span class="check"><span class="box"></span> Checkbox 2</span>
+          <span class="check"><span class="box"></span> Checkbox 3</span>
+          <span class="helper helper--success">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.7 6.3l-4 4a1 1 0 01-1.4 0l-2-2a1 1 0 111.4-1.4L7 8.6l3.3-3.3a1 1 0 111.4 1.4z"/></svg>
+            Texte de succès
+          </span>
+        </fieldset>
+      </div>
+    </article>
+
+    <h3 class="component-group">Bouton radio <span class="component-group__count">— `.fr-radio-group` (à étendre).</span></h3>
+    <article class="component">
+      <header><h4>Bouton radio · états (placeholder)</h4><span class="bem">.fr-radio-group</span></header>
+      <div class="states">
         <span class="radio"><span class="box"></span> Particulier</span>
         <span class="radio is-checked"><span class="box"></span> Professionnel</span>
+        <span class="radio is-disabled"><span class="box"></span> Indisponible</span>
+      </div>
+    </article>
+
+    <h3 class="component-group">Interrupteur <span class="component-group__count">— `.fr-toggle` (à étendre).</span></h3>
+    <article class="component">
+      <header><h4>Interrupteur · états (placeholder)</h4><span class="bem">.fr-toggle</span></header>
+      <div class="states">
         <span class="toggle"><span class="track"></span> Notifications</span>
         <span class="toggle is-on"><span class="track"></span> Notifications</span>
       </div>
     </article>
 
-    <h3 class="component-group">Surfaces <span class="component-group__count">— Cartes, tuiles, et mises en avant.</span></h3>
+    <h3 class="component-group">Carte <span class="component-group__count">— `.fr-card` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Carte</h4><span class="bem">.fr-card</span></header>
       <div class="states">
@@ -3288,6 +3454,7 @@
       </div>
     </article>
 
+    <h3 class="component-group">Tuile <span class="component-group__count">— `.fr-tile` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Tuile</h4><span class="bem">.fr-tile</span></header>
       <div class="states">
@@ -3295,6 +3462,7 @@
       </div>
     </article>
 
+    <h3 class="component-group">Mise en avant <span class="component-group__count">— `.fr-callout` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Mise en avant</h4><span class="bem">.fr-callout</span></header>
       <div class="callout">
@@ -3303,7 +3471,7 @@
       </div>
     </article>
 
-    <h3 class="component-group">Tags & médaillons <span class="component-group__count">— Indicateurs courts, étiquettes et statuts.</span></h3>
+    <h3 class="component-group">Tag <span class="component-group__count">— `.fr-tag` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Tag</h4><span class="bem">.fr-tag</span></header>
       <div class="states">
@@ -3312,6 +3480,7 @@
       </div>
     </article>
 
+    <h3 class="component-group">Badge <span class="component-group__count">— `.fr-badge` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Badge</h4><span class="bem">.fr-badge</span></header>
       <div class="states">
@@ -3323,7 +3492,7 @@
       </div>
     </article>
 
-    <h3 class="component-group">Feedback <span class="component-group__count">— Alertes et messages système.</span></h3>
+    <h3 class="component-group">Alerte <span class="component-group__count">— `.fr-alert` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Alertes</h4><span class="bem">.fr-alert</span></header>
       <div class="states" style="flex-direction: column; align-items: stretch;">
@@ -3334,7 +3503,7 @@
       </div>
     </article>
 
-    <h3 class="component-group">Navigation & marque <span class="component-group__count">— Fil d’Ariane, modales, en-tête et pied de page.</span></h3>
+    <h3 class="component-group">Fil d'Ariane <span class="component-group__count">— `.fr-breadcrumb` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Fil d'Ariane</h4><span class="bem">.fr-breadcrumb</span></header>
       <nav class="breadcrumb" aria-label="Vous êtes ici :">
@@ -3345,6 +3514,7 @@
       </nav>
     </article>
 
+    <h3 class="component-group">Modale <span class="component-group__count">— `.fr-modal` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Modale (rendue inline)</h4><span class="bem">.fr-modal</span></header>
       <div class="modal-demo">
@@ -3357,6 +3527,7 @@
       </div>
     </article>
 
+    <h3 class="component-group">En-tête <span class="component-group__count">— `.fr-header` (à étendre).</span></h3>
     <article class="component">
       <header><h4>En-tête (bloc-marque)</h4><span class="bem">.fr-header</span></header>
       <div class="demo-header">
@@ -3377,6 +3548,7 @@
       </div>
     </article>
 
+    <h3 class="component-group">Pied de page <span class="component-group__count">— `.fr-footer` (à étendre).</span></h3>
     <article class="component">
       <header><h4>Pied de page</h4><span class="bem">.fr-footer</span></header>
       <footer class="demo-footer">
