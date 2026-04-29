@@ -993,22 +993,39 @@ components:
   # ============================================================
   # FORMS — input, select, checkbox, radio, toggle
   # ============================================================
+  # ---- Input (`fr-input`)
+  #
+  # The input lives on a contrast-grey surface with an
+  # asymmetric border-radius (sm at the top corners, none at the
+  # bottom) and a 2 px bottom underline drawn via
+  # `box-shadow: inset 0 -2px 0 0 <colour>`. The schema only
+  # captures a single `rounded` value and no shadow/underline;
+  # the underline-by-state mapping (grey / red / green /
+  # disabled-grey) lives in the `### Forms` prose. Focus is
+  # handled by the global focus ring and adds no token
+  # overrides, so there is no `input-focus` entry.
+  #
+  # State entries record only the colour overrides that apply
+  # to the input surface itself — accompanying `<label>` and
+  # `.fr-error-text` / `.fr-valid-text` colour shifts are
+  # documented in prose.
+  # ----
   input:
     backgroundColor: "{colors.background-contrast-grey}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.sm}"
-    padding:         12px
+    padding:         "8px 16px"
     height:          40px
-  input-focus:
+  input-error:
     backgroundColor: "{colors.background-contrast-grey}"
     textColor:       "{colors.text-default-grey}"
-  input-error:
+  input-success:
     backgroundColor: "{colors.background-contrast-grey}"
     textColor:       "{colors.text-default-grey}"
   input-disabled:
     backgroundColor: "{colors.background-contrast-grey}"
-    textColor:       "{colors.text-mention-grey}"
+    textColor:       "{colors.text-disabled-grey}"
 
   select:
     backgroundColor: "{colors.background-contrast-grey}"
@@ -1489,13 +1506,101 @@ Group buttons with `.fr-btns-group` — vertical 2W (16 px) gap by default; `--i
 
 | Component | BEM class |
 |-----------|-----------|
-| Input | `.fr-input` (wrap in `.fr-input-group`; add `.fr-input-group--error` / `--valid` for state) |
-| Select | `.fr-select` |
-| Checkbox | `.fr-checkbox-group` + native `<input type="checkbox">` |
-| Radio | `.fr-radio-group` + native `<input type="radio">` |
+| Input (champ de saisie) | `.fr-input` (wrap in `.fr-input-group`; add `.fr-input-group--error` / `--valid` / `--disabled` for state) |
+| Select (liste déroulante) | `.fr-select` |
+| Checkbox (case à cocher) | `.fr-checkbox-group` + native `<input type="checkbox">` |
+| Radio (bouton radio) | `.fr-radio-group` + native `<input type="radio">` |
 | Toggle (interrupteur) | `.fr-toggle` |
 
-Form rules: every input has a visible `<label>`; error messages use `.fr-error-text` with the `error` colour and a 16 px top margin from the input.
+Every form control must have a visible `<label>`; help and error messages live below the input as `.fr-hint-text`, `.fr-error-text`, or `.fr-valid-text`. The DSFR's *Champ de saisie* covers a fairly large surface (default text + 7 HTML input types + 4 composition patterns), so the rest of this section is dedicated to it.
+
+#### Champ de saisie — states
+
+| State | YAML entry | Underline (`box-shadow: inset 0 -2px 0 0 …`) | Label colour | Helper colour |
+|-------|------------|--------------|--------------|---------------|
+| Default | `input` | `{colors.border-plain-grey}` | `{colors.text-label-grey}` | `{colors.text-mention-grey}` (hint) |
+| Focus | — *(uses global focus ring; no token override)* | unchanged | unchanged | unchanged |
+| Error | `input-error` (group adds `.fr-input-group--error`) | `{colors.border-plain-error}` | `{colors.text-default-error}` | `{colors.text-default-error}` (`.fr-error-text`) |
+| Success | `input-success` (group adds `.fr-input-group--valid`) | `{colors.border-plain-success}` | `{colors.text-default-success}` | `{colors.text-default-success}` (`.fr-valid-text`) |
+| Disabled | `input-disabled` (group adds `.fr-input-group--disabled`) | `{colors.border-disabled-grey}` | `{colors.text-disabled-grey}` | `{colors.text-disabled-grey}` |
+
+Three points the schema cannot express directly:
+
+1. **Asymmetric corners.** The input rounds only its top corners (`border-radius: 0.25rem 0.25rem 0 0`). The YAML records `rounded: "{rounded.sm}"` because that is the closest single-value approximation; agents emitting `.fr-input` get the asymmetric form for free, anything custom should reproduce the half-rounding.
+2. **Underline as box-shadow.** The 2 px bottom rule is drawn with `box-shadow: inset 0 -2px 0 0 <colour>`, not a real `border-bottom`, so the input's content area never shifts when the underline changes colour by state. The underline colour is the primary state signal — see the table above.
+3. **Group-level error/success accent.** `.fr-input-group--error` and `--valid` add a 2 px coloured strip on the *left* of the whole group via a `::before` pseudo-element (offset −0.75 rem). It marks the entire field cluster (label + input + helper) as one validation unit.
+
+#### Champ de saisie — HTML types
+
+The `.fr-input` class applies the same tokens to every text-like form control. Switching `type=` only changes browser behaviour (keyboard, validation, native picker), never tokens. Stories on the DSFR demo page:
+
+| `type` | Use case | Notes |
+|--------|----------|-------|
+| `text` (default) | Free text | — |
+| `email` | E-mail | Native validation; `inputmode="email"` recommended |
+| `tel` | Telephone | `inputmode="tel"` recommended; pair with hint *« Exemple : 0123456789 »* |
+| `number` | Integer / decimal | Pair with hint *« Saisissez un nombre entier »* |
+| `password` | Password | Native masking |
+| `search` | Search query | Visually identical to `text`; the **search bar** component (`.fr-search-bar`) is a different composition that wraps an input + a primary button |
+| `url` | URL | Pair with placeholder `https://` and hint *« Saisissez une url valide, commençant par https:// »* |
+| `date` | Date | The DSFR injects a calendar SVG via `background-image` on the right (1 rem icon, 1 rem from the right edge) and reserves `padding-right: 3rem` so the native `::-webkit-calendar-picker-indicator` overlays it |
+
+`<textarea>` reuses `.fr-input` directly (`textarea.fr-input`) and only changes `min-height` to `3.75rem` (60 px). All other tokens — colours, padding, underline, asymmetric corners — are identical.
+
+#### Champ de saisie — composition
+
+Four patterns from the DSFR demo page that combine `.fr-input` with surrounding markup. None of these introduce new tokens; they are layout/markup recipes.
+
+**1. Hint text** — small caption between the label and the input.
+
+```html
+<div class="fr-input-group">
+  <label class="fr-label" for="phone">Numéro de téléphone
+    <span class="fr-hint-text">Exemple : 0123456789</span>
+  </label>
+  <input class="fr-input" type="tel" id="phone">
+</div>
+```
+
+The hint text uses `text-mention-grey` and inherits `body-sm`. Place it inside the `<label>` so screen readers announce it as part of the field name.
+
+**2. Trailing icon** — a 1 rem glyph anchored to the right of the input, used to surface a secondary signal (e.g. `fr-icon-warning-line` for a soft warning that does not warrant the full error state).
+
+```html
+<div class="fr-input-group">
+  <label class="fr-label" for="city">Champ avec une icône</label>
+  <div class="fr-input-wrap fr-icon-warning-line">
+    <input class="fr-input" type="text" id="city">
+  </div>
+</div>
+```
+
+`.fr-input-wrap` is the positioning context; the icon is rendered via the `fr-icon-*` pseudo-element on the wrap, sized at 1 rem and offset 1 rem from the right edge. The input itself reserves no extra padding for it, so keep the icon purely decorative — never put critical information here.
+
+**3. Combined with a button** (envoi or action) — input and button sit side-by-side inside `.fr-input-wrap--addon`. The input's underline switches to `border-action-high-blue-france` (blue) to signal the bound action, and the button squares to the input's height.
+
+```html
+<div class="fr-input-group">
+  <label class="fr-label" for="newsletter">Champ avec bouton d'envoi associé</label>
+  <div class="fr-input-wrap fr-input-wrap--addon">
+    <input class="fr-input" type="email" id="newsletter">
+    <button class="fr-btn">Envoyer</button>
+  </div>
+</div>
+```
+
+For the action variant, swap the `<button class="fr-btn">` for a `<button class="fr-btn fr-btn--tertiary fr-icon-delete-line">…</button>` — this composes the *Tertiary, no outline* button variant (already in the components YAML) with an icon.
+
+**4. Date** — uses `<input type="date">` and lets the browser provide the popover. The DSFR overlays the calendar SVG over the native indicator so the visual is identical across browsers.
+
+```html
+<div class="fr-input-group">
+  <label class="fr-label" for="dob">Date simple
+    <span class="fr-hint-text">Format : jj/mm/aaaa</span>
+  </label>
+  <input class="fr-input" type="date" id="dob">
+</div>
+```
 
 ### Surfaces
 

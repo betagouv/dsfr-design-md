@@ -478,10 +478,18 @@
 
       --c-border-default-grey:              var(--c-grey-900-175);
       --c-border-action-high-blue-france:   var(--c-blue-france-sun-113-625);
+      --c-border-plain-grey:                var(--c-grey-200-850);
+      --c-border-disabled-grey:             var(--c-grey-925-125);
       --c-border-plain-success:             var(--c-success-425-625);
       --c-border-plain-warning:             var(--c-warning-425-625);
       --c-border-plain-error:               var(--c-error-425-625);
       --c-border-plain-info:                var(--c-info-425-625);
+
+      --c-text-label-grey:                  var(--c-grey-50-1000);
+      --c-text-default-success:             var(--c-success-425-625);
+      --c-text-default-error:               var(--c-error-425-625);
+      --c-text-default-warning:             var(--c-warning-425-625);
+      --c-text-default-info:                var(--c-info-425-625);
 
       --c-focus-ring: #0a76f6;
 
@@ -797,6 +805,29 @@
     /* ============================================================
        10. Composants
        ============================================================ */
+    /* Group heading — visually breaks the components stream into
+       Actions / Formulaires / Surfaces / etc. and labels the group. */
+    .component-group {
+      margin-top: var(--s-12v);
+      margin-bottom: var(--s-2v);
+      padding-top: var(--s-4v);
+      border-top: 2px solid var(--c-text-action-high-blue-france);
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-weight: 700;
+      color: var(--c-text-default-grey);
+    }
+    .component-group:first-of-type {
+      margin-top: var(--s-8v);
+    }
+    .component-group__count {
+      display: inline-block;
+      margin-left: var(--s-2v);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--c-text-mention-grey);
+    }
     .component {
       border: 1px solid var(--c-border-default-grey);
       background: var(--c-bg-default);
@@ -807,7 +838,7 @@
       display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3v);
       margin-bottom: var(--s-4v);
     }
-    .component header h3 { margin: 0; font-size: 1.125rem; line-height: 1.5rem; }
+    .component header h4 { margin: 0; font-size: 1.125rem; line-height: 1.5rem; }
     .component header .bem { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; color: var(--c-text-mention-grey); }
     .states { display: flex; flex-wrap: wrap; gap: var(--s-4v); align-items: center; }
     .state-label {
@@ -869,27 +900,79 @@
     .btn-icon-only.btn-sm { padding: 0.25rem; min-width: 2rem; }
     .btn-icon-only.btn-lg { padding: 0.5rem; min-width: 3rem; }
 
-    /* ---- Champs ---- */
+    /* ---- Champs ----
+       Canonical .fr-input draws its 2 px bottom rule via
+       `box-shadow: inset 0 -2px 0 0 <colour>`, not `border-bottom`,
+       so the content area never shifts when the colour changes.
+       The state colour mapping is the primary visual signal. */
     .field {
       display: flex; flex-direction: column; gap: var(--s-1v);
-      max-width: 18rem;
+      max-width: 22rem;
     }
-    .field label { font-weight: 700; font-size: 0.875rem; }
+    .field > label,
+    .field > .label { font-weight: 700; font-size: 0.875rem; color: var(--c-text-label-grey); }
+    .field .hint { font-size: 0.75rem; color: var(--c-text-mention-grey); margin-top: -0.125rem; }
+    .field .helper { font-size: 0.75rem; font-weight: 500; display: inline-flex; align-items: center; gap: var(--s-1v); margin-top: var(--s-1v); }
+    .field .helper--error   { color: var(--c-text-default-error); }
+    .field .helper--success { color: var(--c-text-default-success); }
+    .field .helper svg { width: 0.875rem; height: 0.875rem; flex: 0 0 0.875rem; }
     .input, .select {
       font-family: var(--font-marianne); font-size: 1rem;
       background: var(--c-bg-contrast-grey);
       color: var(--c-text-default-grey);
       border: 0;
-      border-bottom: 2px solid var(--c-text-default-grey);
       border-radius: var(--r-sm) var(--r-sm) 0 0;
-      padding: 0.5rem 0.75rem;
+      padding: 0.5rem 1rem;
       height: 2.5rem;
       width: 100%;
+      box-shadow: inset 0 -2px 0 0 var(--c-border-plain-grey);
     }
+    .input::placeholder, .select::placeholder { color: var(--c-text-mention-grey); font-style: italic; }
     .input.is-focus            { outline: 2px solid var(--c-focus-ring); outline-offset: 2px; }
-    .input.is-error            { border-bottom-color: var(--c-error-425-625); }
-    .input.is-disabled         { color: var(--c-text-mention-grey); border-bottom-color: var(--c-text-mention-grey); cursor: not-allowed; }
-    .field .err { color: var(--c-error-425-625); font-size: 0.875rem; font-weight: 700; }
+    .input.is-error            { box-shadow: inset 0 -2px 0 0 var(--c-border-plain-error); }
+    .input.is-success          { box-shadow: inset 0 -2px 0 0 var(--c-border-plain-success); }
+    .input.is-disabled         { color: var(--c-text-disabled-grey); box-shadow: inset 0 -2px 0 0 var(--c-border-disabled-grey); cursor: not-allowed; }
+    .field .err { color: var(--c-text-default-error); font-size: 0.875rem; font-weight: 700; }
+    /* Group-level error/success — adds a 2px coloured strip on
+       the left, marking the entire field cluster as a unit. */
+    .field--group {
+      position: relative; padding-left: var(--s-3v);
+    }
+    .field--group::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    }
+    .field--group.is-error::before   { background: var(--c-border-plain-error); }
+    .field--group.is-success::before { background: var(--c-border-plain-success); }
+    .field--group.is-error label,
+    .field--group.is-error .label    { color: var(--c-text-default-error); }
+    .field--group.is-success label,
+    .field--group.is-success .label  { color: var(--c-text-default-success); }
+    .field--group.is-disabled label,
+    .field--group.is-disabled .label,
+    .field--group.is-disabled .hint  { color: var(--c-text-disabled-grey); }
+    /* Trailing icon — anchored to the right of the input wrap. */
+    .input-wrap {
+      position: relative; display: block;
+    }
+    .input-wrap__icon {
+      position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+      width: 1rem; height: 1rem; color: var(--c-text-default-grey); pointer-events: none;
+    }
+    .input-wrap__icon--cal { color: var(--c-text-default-grey); }
+    /* Date input — reserves room for the trailing calendar icon. */
+    .input--date { padding-right: 3rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Textarea — same tokens, just a taller min-height. */
+    textarea.input {
+      height: auto; min-height: 3.75rem; resize: vertical;
+      font-family: var(--font-marianne); line-height: 1.5rem;
+    }
+    /* Addon — input + button square against each other; the
+       input's underline turns blue to mark the bound action. */
+    .input-wrap--addon {
+      display: flex; width: 100%;
+    }
+    .input-wrap--addon .input { flex: 1 1 auto; box-shadow: inset 0 -2px 0 0 var(--c-border-action-high-blue-france); }
+    .input-wrap--addon .btn   { flex: 0 0 auto; }
 
     /* ---- Cases / radios / toggle ---- */
     .check, .radio {
@@ -2906,10 +2989,11 @@
        ==================================================== -->
   <section id="components">
     <h2>Composants</h2>
-    <p class="lede">15 composants centraux rendus avec leurs principales variantes d'état. Chaque carte indique la classe BEM du DSFR officiel — référence pour le code de production.</p>
+    <p class="lede">Composants centraux du DSFR rendus avec leurs principales variantes et états, regroupés par famille. Chaque carte indique la classe BEM officielle — référence pour le code de production.</p>
 
+    <h3 class="component-group">Actions <span class="component-group__count">— Boutons, tailles, et compositions avec icône.</span></h3>
     <article class="component">
-      <header><h3>Bouton primaire</h3><span class="bem">.fr-btn</span></header>
+      <header><h4>Bouton primaire</h4><span class="bem">.fr-btn</span></header>
       <div class="states">
         <div><span class="state-label">défaut</span><button class="btn btn-primary">Continuer</button></div>
         <div><span class="state-label">hover</span><button class="btn btn-primary is-hover">Continuer</button></div>
@@ -2919,7 +3003,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Bouton secondaire</h3><span class="bem">.fr-btn.fr-btn--secondary</span></header>
+      <header><h4>Bouton secondaire</h4><span class="bem">.fr-btn.fr-btn--secondary</span></header>
       <div class="states">
         <div><span class="state-label">défaut</span><button class="btn btn-secondary">Annuler</button></div>
         <div><span class="state-label">hover</span><button class="btn btn-secondary is-hover">Annuler</button></div>
@@ -2929,7 +3013,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Bouton tertiaire</h3><span class="bem">.fr-btn.fr-btn--tertiary</span></header>
+      <header><h4>Bouton tertiaire</h4><span class="bem">.fr-btn.fr-btn--tertiary</span></header>
       <div class="states">
         <div><span class="state-label">défaut</span><button class="btn btn-tertiary">En savoir plus</button></div>
         <div><span class="state-label">hover</span><button class="btn btn-tertiary is-hover">En savoir plus</button></div>
@@ -2939,7 +3023,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Bouton tertiaire sans contour</h3><span class="bem">.fr-btn.fr-btn--tertiary.fr-btn--no-outline</span></header>
+      <header><h4>Bouton tertiaire sans contour</h4><span class="bem">.fr-btn.fr-btn--tertiary.fr-btn--no-outline</span></header>
       <div class="states">
         <div><span class="state-label">défaut</span><button class="btn btn-tertiary-no-outline">En savoir plus</button></div>
         <div><span class="state-label">hover</span><button class="btn btn-tertiary-no-outline is-hover">En savoir plus</button></div>
@@ -2949,7 +3033,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Tailles</h3><span class="bem">.fr-btn--sm · (md) · .fr-btn--lg</span></header>
+      <header><h4>Tailles</h4><span class="bem">.fr-btn--sm · (md) · .fr-btn--lg</span></header>
       <div class="states">
         <div><span class="state-label">sm · 32 px</span><button class="btn btn-primary btn-sm">Continuer</button></div>
         <div><span class="state-label">md · 40 px</span><button class="btn btn-primary">Continuer</button></div>
@@ -2958,7 +3042,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Composition avec icône</h3><span class="bem">.fr-btn--icon-left · .fr-btn--icon-right · icon-only</span></header>
+      <header><h4>Composition avec icône</h4><span class="bem">.fr-btn--icon-left · .fr-btn--icon-right · icon-only</span></header>
       <div class="states">
         <div><span class="state-label">icon-left</span>
           <button class="btn btn-primary">
@@ -2981,18 +3065,123 @@
       </div>
     </article>
 
+    <h3 class="component-group">Formulaires <span class="component-group__count">— Champs de saisie, sélecteurs, cases et interrupteurs.</span></h3>
     <article class="component">
-      <header><h3>Champ de saisie</h3><span class="bem">.fr-input</span></header>
+      <header><h4>Champ de saisie — états</h4><span class="bem">.fr-input · .fr-input-group--{error,valid,disabled}</span></header>
       <div class="states">
-        <div class="field"><label>Adresse e-mail</label><input class="input" placeholder="prenom.nom@gouv.fr"></div>
-        <div class="field"><label>Adresse e-mail (focus)</label><input class="input is-focus" value="prenom.nom@gouv.fr"></div>
-        <div class="field"><label>Adresse e-mail (erreur)</label><input class="input is-error" value="prenom.nom"><span class="err">Format d'e-mail invalide</span></div>
-        <div class="field"><label>Adresse e-mail (désactivé)</label><input class="input is-disabled" value="—" disabled></div>
+        <div class="field"><span class="state-label">défaut</span><label>Adresse e-mail</label><input class="input" placeholder="prenom.nom@gouv.fr"></div>
+        <div class="field"><span class="state-label">focus</span><label>Adresse e-mail</label><input class="input is-focus" value="prenom.nom@gouv.fr"></div>
+        <div class="field field--group is-error"><span class="state-label">erreur</span><label>Adresse e-mail</label><input class="input is-error" value="prenom.nom">
+          <span class="helper helper--error">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm0 4a1 1 0 011 1v4a1 1 0 11-2 0V5a1 1 0 011-1zm0 7a1 1 0 110 2 1 1 0 010-2z"/></svg>
+            Format d'e-mail invalide
+          </span>
+        </div>
+        <div class="field field--group is-success"><span class="state-label">succès</span><label>Adresse e-mail</label><input class="input is-success" value="prenom.nom@gouv.fr">
+          <span class="helper helper--success">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.7 6.3l-4 4a1 1 0 01-1.4 0l-2-2a1 1 0 111.4-1.4L7 8.6l3.3-3.3a1 1 0 111.4 1.4z"/></svg>
+            Adresse vérifiée
+          </span>
+        </div>
+        <div class="field field--group is-disabled"><span class="state-label">désactivé</span><label>Adresse e-mail</label><input class="input is-disabled" value="—" disabled></div>
       </div>
     </article>
 
     <article class="component">
-      <header><h3>Liste déroulante</h3><span class="bem">.fr-select</span></header>
+      <header><h4>Avec texte d'aide</h4><span class="bem">.fr-input + .fr-hint-text</span></header>
+      <div class="states">
+        <div class="field">
+          <label>Numéro de téléphone</label>
+          <span class="hint">Exemple : 0123456789</span>
+          <input class="input" type="tel" placeholder="0123456789">
+        </div>
+        <div class="field">
+          <label>Adresse du site</label>
+          <span class="hint">Saisissez une URL valide, commençant par https://</span>
+          <input class="input" type="url" placeholder="https://">
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Avec icône en suffixe</h4><span class="bem">.fr-input-wrap.fr-icon-*</span></header>
+      <div class="states">
+        <div class="field">
+          <label>Champ avec une icône</label>
+          <div class="input-wrap">
+            <input class="input" type="text">
+            <svg class="input-wrap__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M8 1.5L1 14h14L8 1.5z"/><path d="M8 6v3"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Types HTML</h4><span class="bem">type=tel · number · password · search · url</span></header>
+      <p style="font-size:0.875rem; color:var(--c-text-mention-grey); margin-top:-0.25rem; margin-bottom:1rem;">Le sélecteur <code>type=</code> ne change pas les jetons : seuls le clavier mobile et la validation native diffèrent. Visuellement, ces stories sont identiques au champ par défaut.</p>
+      <div class="states" style="grid-template-columns: 1fr 1fr; display: grid; gap: 1rem;">
+        <div class="field"><label>Numéro de téléphone</label><span class="hint">type=tel · inputmode=tel</span><input class="input" type="tel" placeholder="0123456789"></div>
+        <div class="field"><label>Champ de saisie de nombre</label><span class="hint">type=number · saisissez un nombre entier</span><input class="input" type="number" placeholder="42"></div>
+        <div class="field"><label>Champ type mot de passe</label><span class="hint">type=password</span><input class="input" type="password" value="********"></div>
+        <div class="field"><label>Champ type recherche</label><span class="hint">type=search</span><input class="input" type="search" placeholder="rechercher…"></div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Date</h4><span class="bem">type=date</span></header>
+      <div class="states">
+        <div class="field">
+          <label>Date simple</label>
+          <span class="hint">Format : jj/mm/aaaa</span>
+          <div class="input-wrap">
+            <input class="input input--date" type="text" placeholder="dd/mm/yyyy">
+            <svg class="input-wrap__icon input-wrap__icon--cal" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17 3h4c.55 0 1 .45 1 1v16c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h4V1h2v2h6V1h2v2zm-2 2H9v2H7V5H4v4h16V5h-3v2h-2V5zm5 6H4v8h16v-8z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Zone de texte</h4><span class="bem">textarea.fr-input</span></header>
+      <div class="states">
+        <div class="field" style="max-width: 32rem;">
+          <label>Champ de saisie de texte long</label>
+          <span class="hint">Multi-ligne. Mêmes jetons que .fr-input ; min-height = 60 px.</span>
+          <textarea class="input" rows="3" placeholder="Saisissez votre message…"></textarea>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Combiné avec un bouton</h4><span class="bem">.fr-input-wrap--addon</span></header>
+      <div class="states" style="flex-direction: column; align-items: stretch; gap: var(--s-6v); max-width: 32rem;">
+        <div class="field">
+          <label>Champ avec bouton d'envoi associé</label>
+          <div class="input-wrap--addon">
+            <input class="input" type="email" placeholder="prenom.nom@gouv.fr">
+            <button class="btn btn-primary">Envoyer</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Champ avec bouton d'action associé</label>
+          <div class="input-wrap--addon">
+            <input class="input" type="text" value="Texte à supprimer">
+            <button class="btn btn-tertiary btn-icon-only" title="Supprimer" aria-label="Supprimer">
+              <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 4h10M5 4V3a1 1 0 011-1h4a1 1 0 011 1v1M6 7v5M10 7v5M4 4l1 9a1 1 0 001 1h4a1 1 0 001-1l1-9"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Liste déroulante</h4><span class="bem">.fr-select</span></header>
       <div class="states">
         <div class="field"><label>Région</label>
           <select class="select"><option>Île-de-France</option><option>Bretagne</option><option>Occitanie</option></select>
@@ -3001,7 +3190,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Cases à cocher · boutons radio · interrupteur</h3><span class="bem">.fr-checkbox-group · .fr-radio-group · .fr-toggle</span></header>
+      <header><h4>Cases à cocher · boutons radio · interrupteur</h4><span class="bem">.fr-checkbox-group · .fr-radio-group · .fr-toggle</span></header>
       <div class="states">
         <span class="check"><span class="box"></span> J'accepte les conditions</span>
         <span class="check is-checked"><span class="box"></span> J'accepte les conditions</span>
@@ -3012,8 +3201,9 @@
       </div>
     </article>
 
+    <h3 class="component-group">Surfaces <span class="component-group__count">— Cartes, tuiles, et mises en avant.</span></h3>
     <article class="component">
-      <header><h3>Carte</h3><span class="bem">.fr-card</span></header>
+      <header><h4>Carte</h4><span class="bem">.fr-card</span></header>
       <div class="states">
         <div class="card">
           <div class="card-eyebrow">Démarche</div>
@@ -3024,14 +3214,23 @@
     </article>
 
     <article class="component">
-      <header><h3>Tuile</h3><span class="bem">.fr-tile</span></header>
+      <header><h4>Tuile</h4><span class="bem">.fr-tile</span></header>
       <div class="states">
         <div class="tile">Service public <span class="arrow">→</span></div>
       </div>
     </article>
 
     <article class="component">
-      <header><h3>Tag</h3><span class="bem">.fr-tag</span></header>
+      <header><h4>Mise en avant</h4><span class="bem">.fr-callout</span></header>
+      <div class="callout">
+        <h4>Information importante</h4>
+        <p>Depuis le 1er janvier, certaines démarches peuvent être réalisées via FranceConnect+ pour une vérification renforcée.</p>
+      </div>
+    </article>
+
+    <h3 class="component-group">Tags & médaillons <span class="component-group__count">— Indicateurs courts, étiquettes et statuts.</span></h3>
+    <article class="component">
+      <header><h4>Tag</h4><span class="bem">.fr-tag</span></header>
       <div class="states">
         <span class="tag">Catégorie</span>
         <span class="tag tag-sm">Petit</span>
@@ -3039,7 +3238,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Badge</h3><span class="bem">.fr-badge</span></header>
+      <header><h4>Badge</h4><span class="bem">.fr-badge</span></header>
       <div class="states">
         <span class="badge badge-default">Nouveau</span>
         <span class="badge badge-success">Succès</span>
@@ -3049,8 +3248,9 @@
       </div>
     </article>
 
+    <h3 class="component-group">Feedback <span class="component-group__count">— Alertes et messages système.</span></h3>
     <article class="component">
-      <header><h3>Alertes</h3><span class="bem">.fr-alert</span></header>
+      <header><h4>Alertes</h4><span class="bem">.fr-alert</span></header>
       <div class="states" style="flex-direction: column; align-items: stretch;">
         <div class="alert alert-success"><span class="pad"></span><div><h4>Demande enregistrée</h4><p>Vous recevrez un accusé de réception par courriel.</p></div></div>
         <div class="alert alert-warning"><span class="pad"></span><div><h4>Pièce justificative manquante</h4><p>Téléversez le justificatif de domicile pour finaliser.</p></div></div>
@@ -3059,8 +3259,9 @@
       </div>
     </article>
 
+    <h3 class="component-group">Navigation & marque <span class="component-group__count">— Fil d’Ariane, modales, en-tête et pied de page.</span></h3>
     <article class="component">
-      <header><h3>Fil d'Ariane</h3><span class="bem">.fr-breadcrumb</span></header>
+      <header><h4>Fil d'Ariane</h4><span class="bem">.fr-breadcrumb</span></header>
       <nav class="breadcrumb" aria-label="Vous êtes ici :">
         <a href="#">Accueil</a><span class="sep">›</span>
         <a href="#">Démarches</a><span class="sep">›</span>
@@ -3070,7 +3271,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Modale (rendue inline)</h3><span class="bem">.fr-modal</span></header>
+      <header><h4>Modale (rendue inline)</h4><span class="bem">.fr-modal</span></header>
       <div class="modal-demo">
         <h4>Confirmer la suppression</h4>
         <p>Cette action est irréversible. Le brouillon de votre demande sera définitivement supprimé.</p>
@@ -3082,15 +3283,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Mise en avant</h3><span class="bem">.fr-callout</span></header>
-      <div class="callout">
-        <h4>Information importante</h4>
-        <p>Depuis le 1er janvier, certaines démarches peuvent être réalisées via FranceConnect+ pour une vérification renforcée.</p>
-      </div>
-    </article>
-
-    <article class="component">
-      <header><h3>En-tête (bloc-marque)</h3><span class="bem">.fr-header</span></header>
+      <header><h4>En-tête (bloc-marque)</h4><span class="bem">.fr-header</span></header>
       <div class="demo-header">
         <div class="brand">
           République<br>
@@ -3110,7 +3303,7 @@
     </article>
 
     <article class="component">
-      <header><h3>Pied de page</h3><span class="bem">.fr-footer</span></header>
+      <header><h4>Pied de page</h4><span class="bem">.fr-footer</span></header>
       <footer class="demo-footer">
         <div class="brand">
           République<br>
