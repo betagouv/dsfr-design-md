@@ -1174,27 +1174,97 @@
     }
     fieldset.fr-fieldset--inline > legend { flex: 1 0 100%; }
 
+    /* ---- Toggle (`fr-toggle`) ----
+       Canonical: 2.5 rem × 1.5 rem track with a full 1 px
+       blue-france stroke (NOT a filled grey track), 1.5 rem
+       round thumb that translates +1 rem on activation. The
+       thumb keeps a 1 px blue-france inset ring at all times;
+       in ON state a small blue check-line ✓ is overlaid in
+       the centre of the thumb.
+       Optional `.toggle-state` shows the textual microstate
+       ("Activé"/"Désactivé") below the track, in
+       text-active-blue-france.
+       Optional `.toggle--border-bottom` adds a 1 px bottom
+       separator (used by the Border Group Story). */
     .toggle {
-      display: inline-flex; align-items: center; gap: var(--s-2v);
-      font-size: 0.875rem;
+      display: inline-flex; align-items: flex-start;
+      flex-wrap: wrap;
+      column-gap: var(--s-4v);
+      font-size: 1rem; line-height: 1.5rem;
     }
     .toggle .track {
+      flex: 0 0 2.5rem;
       width: 2.5rem; height: 1.5rem;
-      background: var(--c-bg-contrast-grey);
-      border-radius: var(--r-pill);
+      background: var(--c-bg-default);
+      border-radius: 0.75rem;
+      box-shadow: inset 0 0 0 1px var(--c-border-action-high-blue-france);
       position: relative;
-      transition: background 120ms ease;
+      transition: background 120ms ease, box-shadow 120ms ease;
     }
     .toggle .track::after {
-      content: ""; position: absolute; top: 2px; left: 2px;
-      width: 1.25rem; height: 1.25rem;
+      /* The thumb: 1.5 rem circle with its OWN inset ring,
+         translated 0 → 1 rem on activation, with a check
+         icon revealed when ON. */
+      content: ""; position: absolute; top: 0; left: 0;
+      width: 1.5rem; height: 1.5rem;
       border-radius: var(--r-pill);
       background: var(--c-bg-default);
-      box-shadow: 0 1px 2px rgba(0, 0, 18, 0.16);
-      transition: transform 120ms ease;
+      box-shadow: inset 0 0 0 1px var(--c-border-action-high-blue-france);
+      transition: transform 120ms ease, background-image 120ms ease;
+      background-repeat: no-repeat;
+      background-size: 1rem 1rem;
+      background-position: center center;
     }
-    .toggle.is-on .track { background: var(--c-text-action-high-blue-france); }
-    .toggle.is-on .track::after { transform: translateX(1rem); }
+    .toggle.is-on .track {
+      background: var(--c-text-action-high-blue-france);
+    }
+    .toggle.is-on .track::after {
+      transform: translateX(1rem);
+      background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23000091' d='M10 15.17l9.2-9.2 1.4 1.42L10 18l-6.36-6.36 1.4-1.42z'/></svg>");
+    }
+    .toggle.is-disabled .track {
+      box-shadow: inset 0 0 0 1px var(--c-bg-disabled-grey);
+      background: var(--c-bg-default);
+    }
+    .toggle.is-disabled.is-on .track {
+      background: var(--c-bg-disabled-grey);
+    }
+    .toggle.is-disabled .track::after {
+      box-shadow: inset 0 0 0 1px var(--c-bg-disabled-grey);
+    }
+    .toggle.is-disabled.is-on .track::after {
+      background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23929292' d='M10 15.17l9.2-9.2 1.4 1.42L10 18l-6.36-6.36 1.4-1.42z'/></svg>");
+    }
+    .toggle.is-disabled, .toggle.is-disabled .toggle-text { color: var(--c-text-disabled-grey); cursor: not-allowed; }
+    .toggle .toggle-text { flex: 1 1 auto; min-width: 0; color: var(--c-text-label-grey); }
+    .toggle .toggle-state {
+      flex: 0 0 2.5rem;
+      font-size: 0.75rem; line-height: 1.25rem;
+      color: var(--c-text-active-blue-france, var(--c-text-action-high-blue-france));
+      margin-top: var(--s-1v);
+      text-align: center;
+    }
+    .toggle.is-disabled .toggle-state { color: var(--c-text-disabled-grey); }
+    .toggle .hint {
+      flex-basis: 100%;
+      font-size: 0.75rem; line-height: 1.25rem;
+      color: var(--c-text-mention-grey);
+      margin-top: var(--s-2v);
+    }
+    .toggle--border-bottom {
+      width: 100%;
+      padding-bottom: var(--s-4v);
+      box-shadow: inset 0 -1px 0 0 var(--c-border-default-grey);
+    }
+    /* Toggles inside an error/success fieldset get the colour
+       propagated to label + state text (the track stays
+       blue/grey per canon, like the radio's inner dot). */
+    fieldset.fr-fieldset.is-error > .toggle .toggle-text,
+    fieldset.fr-fieldset.is-error > .toggle .toggle-state    { color: var(--c-text-default-error); }
+    fieldset.fr-fieldset.is-success > .toggle .toggle-text,
+    fieldset.fr-fieldset.is-success > .toggle .toggle-state  { color: var(--c-text-default-success); }
+    fieldset.fr-fieldset.is-disabled > .toggle .toggle-text,
+    fieldset.fr-fieldset.is-disabled > .toggle .toggle-state { color: var(--c-text-disabled-grey); }
 
     /* ---- Card / tile ---- */
     .card {
@@ -3600,12 +3670,117 @@
       </div>
     </article>
 
-    <h3 class="component-group">Interrupteur <span class="component-group__count">— `.fr-toggle` (à étendre).</span></h3>
+    <h3 class="component-group">Interrupteur <span class="component-group__count">— États, description, libellé d'état, fieldset, groupe, séparateurs.</span></h3>
     <article class="component">
-      <header><h4>Interrupteur · états (placeholder)</h4><span class="bem">.fr-toggle</span></header>
+      <header><h4>Interrupteur · états</h4><span class="bem">.fr-toggle</span></header>
       <div class="states">
-        <span class="toggle"><span class="track"></span> Notifications</span>
-        <span class="toggle is-on"><span class="track"></span> Notifications</span>
+        <div><span class="state-label">défaut (off)</span>
+          <span class="toggle"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur</span></span>
+        </div>
+        <div><span class="state-label">activé (on)</span>
+          <span class="toggle is-on"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur</span></span>
+        </div>
+        <div><span class="state-label">désactivé (off)</span>
+          <span class="toggle is-disabled"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur</span></span>
+        </div>
+        <div><span class="state-label">désactivé + activé</span>
+          <span class="toggle is-disabled is-on"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur</span></span>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Interrupteur · avec description</h4><span class="bem">.fr-toggle + .fr-hint-text</span></header>
+      <div class="states">
+        <span class="toggle">
+          <span class="track"></span>
+          <span class="toggle-text">Libellé de l'interrupteur</span>
+          <span class="hint">Texte additionnel de l'interrupteur</span>
+        </span>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Interrupteur · libellé d'état</h4><span class="bem">label[data-fr-checked-label][data-fr-unchecked-label]</span></header>
+      <div class="states" style="grid-template-columns: 1fr 1fr; display: grid; gap: var(--s-6v);">
+        <span class="toggle">
+          <span class="track"></span>
+          <span class="toggle-text">Libellé de l'interrupteur</span>
+          <span class="toggle-state">Désactivé</span>
+        </span>
+        <span class="toggle is-on">
+          <span class="track"></span>
+          <span class="toggle-text">Libellé de l'interrupteur</span>
+          <span class="toggle-state">Activé</span>
+        </span>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Interrupteur · états du fieldset</h4><span class="bem">.fr-fieldset--error · .fr-fieldset--valid</span></header>
+      <div class="states" style="grid-template-columns: repeat(2, 1fr); display: grid; gap: var(--s-6v);">
+        <fieldset class="fr-fieldset is-error">
+          <span class="toggle">
+            <span class="track"></span>
+            <span class="toggle-text">Libellé de l'interrupteur</span>
+          </span>
+          <span class="helper helper--error">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm0 4a1 1 0 011 1v4a1 1 0 11-2 0V5a1 1 0 011-1zm0 7a1 1 0 110 2 1 1 0 010-2z"/></svg>
+            Texte d'erreur
+          </span>
+        </fieldset>
+        <fieldset class="fr-fieldset is-success">
+          <span class="toggle">
+            <span class="track"></span>
+            <span class="toggle-text">Libellé de l'interrupteur</span>
+          </span>
+          <span class="helper helper--success">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.7 6.3l-4 4a1 1 0 01-1.4 0l-2-2a1 1 0 111.4-1.4L7 8.6l3.3-3.3a1 1 0 111.4 1.4z"/></svg>
+            Texte de succès
+          </span>
+        </fieldset>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Interrupteur · groupe</h4><span class="bem">.fr-fieldset > legend + .fr-toggle</span></header>
+      <div class="states" style="grid-template-columns: 1fr 1fr; display: grid; gap: var(--s-6v);">
+        <fieldset class="fr-fieldset">
+          <legend>Légende pour l'ensemble des éléments</legend>
+          <span class="toggle is-on"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur 1</span></span>
+          <span class="toggle"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur 2</span></span>
+          <span class="toggle"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur 3</span></span>
+        </fieldset>
+        <fieldset class="fr-fieldset">
+          <legend>Légende pour l'ensemble des éléments</legend>
+          <span class="toggle is-on">
+            <span class="track"></span>
+            <span class="toggle-text">Libellé de l'interrupteur 1</span>
+            <span class="toggle-state">Activé</span>
+          </span>
+          <span class="toggle">
+            <span class="track"></span>
+            <span class="toggle-text">Libellé de l'interrupteur 2</span>
+            <span class="toggle-state">Désactivé</span>
+          </span>
+          <span class="toggle">
+            <span class="track"></span>
+            <span class="toggle-text">Libellé de l'interrupteur 3</span>
+            <span class="toggle-state">Désactivé</span>
+          </span>
+        </fieldset>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Interrupteur · groupe avec séparateurs</h4><span class="bem">.fr-toggle--border-bottom</span></header>
+      <div class="states">
+        <fieldset class="fr-fieldset">
+          <legend>Légende pour l'ensemble des éléments</legend>
+          <span class="toggle toggle--border-bottom is-on"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur 1</span></span>
+          <span class="toggle toggle--border-bottom"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur 2</span></span>
+          <span class="toggle toggle--border-bottom"><span class="track"></span><span class="toggle-text">Libellé de l'interrupteur 3</span></span>
+        </fieldset>
       </div>
     </article>
 

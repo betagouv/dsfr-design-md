@@ -1140,15 +1140,50 @@ components:
     rounded:         "{rounded.none}"
     padding:         "12px 16px"
 
+  # ---- Toggle (`fr-toggle`)
+  #
+  # The toggle's OFF state is a STROKED track (white interior,
+  # 1 px blue-france border) — NOT a filled grey track. Both
+  # the track and the thumb carry that 1 px border separately;
+  # turning the toggle ON fills the track with `text-action-
+  # high-blue-france` and reveals a small blue check ✓ inside
+  # the still-white thumb (which translates +1 rem right).
+  #
+  # Track 2.5 rem × 1.5 rem (40 × 24 px), border-radius
+  # 0.75 rem. Thumb 1.5 rem × 1.5 rem circle. The thumb does
+  # not change colour between OFF and ON — only the track does
+  # (and an icon appears inside the thumb).
+  #
+  # Optional axes:
+  #   • `toggle-state` — microstate text (Activé / Désactivé)
+  #     rendered below the track in `text-active-blue-france`.
+  #   • `.fr-toggle--label-left` — flips the order so the track
+  #     ends up flush right.
+  #   • `.fr-toggle--border-bottom` — adds a 1 px bottom rule;
+  #     used to separate toggles in a fieldset.
+  # ----
   toggle:
-    backgroundColor: "{colors.background-contrast-grey}"
-    textColor:       "{colors.text-default-grey}"
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-label-grey}"
     rounded:         "{rounded.pill}"
     width:           40px
     height:          24px
   toggle-on:
     backgroundColor: "{colors.text-action-high-blue-france}"
     textColor:       "{colors.text-inverted-grey}"
+  toggle-disabled:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-disabled-grey}"
+  toggle-error:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-error}"
+  toggle-success:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-success}"
+  toggle-state:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-active-blue-france}"
+    typography:      "{typography.body-xs}"
 
   # ============================================================
   # SURFACES — card, tile
@@ -1832,6 +1867,56 @@ Selection lights up the entire tile border in `border-action-high-blue-france` (
     <svg class="fr-artwork" aria-hidden="true" viewBox="0 0 80 80">…</svg>
   </div>
 </div>
+```
+
+#### Interrupteur
+
+The toggle (`fr-toggle`) is structurally a `<input type="checkbox">` rendered as a 40 × 24 px sliding pill. Three details set it apart from the other form controls:
+
+1. **OFF state is stroked, not filled.** The track in OFF state is a *white interior* with a 1 px `border-action-high-blue-france` outline — turning it ON fills the track with `text-action-high-blue-france` and reveals a small blue check ✓ inside the still-white thumb. The thumb keeps its 1 px blue-france ring at all times.
+2. **Optional microstate label.** A small "Activé" / "Désactivé" caption can render *below* the track in `text-active-blue-france` — exposed via the `data-fr-checked-label` / `data-fr-unchecked-label` attributes on the `<label>` and rendered through `::before` in canon. Useful for longer-form toggles where a screen-only state caption helps clarity.
+3. **Border-bottom modifier.** `.fr-toggle--border-bottom` adds a single 1 px `border-default-grey` rule under the toggle row — used to visually separate stacked toggles in a fieldset (the *Border Group Story*).
+
+| Story | YAML entry | Modifier | Visual |
+|-------|------------|----------|--------|
+| Default (off) | `toggle` | — | White track, blue stroke, white thumb left |
+| Activé (on) | `toggle-on` | `<input>:checked` | Blue track, white thumb right with blue ✓ |
+| Description | — | `+ .fr-hint-text` | Hint paragraph below toggle row |
+| Microstate | `toggle-state` | label has `data-fr-{un,}checked-label` | "Activé" / "Désactivé" caption below track |
+| Disabled | `toggle-disabled` | `<input>:disabled` | Grey track stroke, grey thumb ring, grey label |
+| Error (group) | `toggle-error` | `.fr-fieldset--error` (or `.fr-toggle--error`) | Red label, 2 px red strip on left, helper text |
+| Success (group) | `toggle-success` | `.fr-fieldset--valid` | Green label, 2 px green strip on left, helper text |
+| Border-bottom | — | `.fr-toggle--border-bottom` | 1 px bottom rule under each toggle |
+
+The ON state's track fill stays blue even inside an error or success group — only the *label* and the *strip* take the state colour. This mirrors the radio's blue inner dot.
+
+```html
+<!-- Default toggle -->
+<div class="fr-toggle">
+  <input type="checkbox" class="fr-toggle__input" id="t-1">
+  <label class="fr-toggle__label" for="t-1">Libellé de l'interrupteur</label>
+</div>
+
+<!-- With microstate caption + hint -->
+<div class="fr-toggle">
+  <input type="checkbox" class="fr-toggle__input" id="t-2">
+  <label class="fr-toggle__label" for="t-2"
+         data-fr-checked-label="Activé" data-fr-unchecked-label="Désactivé">
+    Libellé de l'interrupteur
+  </label>
+  <span class="fr-hint-text">Texte additionnel</span>
+</div>
+
+<!-- Border group: stack with separators -->
+<fieldset class="fr-fieldset">
+  <legend class="fr-fieldset__legend">Légende pour l'ensemble des éléments</legend>
+  <div class="fr-fieldset__element">
+    <div class="fr-toggle fr-toggle--border-bottom">
+      <input type="checkbox" id="t-g-1"><label for="t-g-1">Libellé 1</label>
+    </div>
+  </div>
+  <!-- … -->
+</fieldset>
 ```
 
 ### Surfaces
