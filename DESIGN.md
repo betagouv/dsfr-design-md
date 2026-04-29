@@ -1095,7 +1095,29 @@ components:
     backgroundColor: "{colors.background-default-grey}"
     textColor:       "{colors.text-default-success}"
 
+  # ---- Radio (`fr-radio-group`)
+  #
+  # Mirror of the checkbox structure: same default 24 px / sm
+  # 16 px sizes, same `border-action-high-blue-france` outline,
+  # same group-state mechanics (legend + 2 px left strip + ring
+  # colour swap on error/success). The differences:
+  #   • `rounded.pill` (full circle) instead of rounded.sm
+  #   • Checked state replaces the *fill* with a small inner
+  #     dot (radial-gradient) rather than a check SVG
+  #   • The inner dot stays blue even in error/success groups
+  #     — only the *ring* turns red/green; canon does it via
+  #     stacked radial-gradients
+  #   • `radio-rich` is a card-like composition unique to this
+  #     component: a bordered tile with a pictogram + label;
+  #     the radio circle is anchored to the top-right and the
+  #     entire card border lights up blue when selected.
+  # ----
   radio:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-grey}"
+    rounded:         "{rounded.pill}"
+    size:            24px
+  radio-sm:
     backgroundColor: "{colors.background-default-grey}"
     textColor:       "{colors.text-default-grey}"
     rounded:         "{rounded.pill}"
@@ -1103,6 +1125,20 @@ components:
   radio-checked:
     backgroundColor: "{colors.text-action-high-blue-france}"
     textColor:       "{colors.text-inverted-grey}"
+  radio-disabled:
+    backgroundColor: "{colors.background-disabled-grey}"
+    textColor:       "{colors.text-disabled-grey}"
+  radio-error:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-error}"
+  radio-success:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-success}"
+  radio-rich:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-label-grey}"
+    rounded:         "{rounded.none}"
+    padding:         "12px 16px"
 
   toggle:
     backgroundColor: "{colors.background-contrast-grey}"
@@ -1745,6 +1781,57 @@ Two notes:
     <p class="fr-message fr-message--error">Texte d'erreur</p>
   </div>
 </fieldset>
+```
+
+#### Bouton radio
+
+The radio button mirrors the checkbox structurally: same `<fieldset>/<legend>` group composition, same `--inline` modifier, same hint patterns, same disabled / error / success group states with the 2 px left strip. Differences are purely visual:
+
+1. **Pill-shaped, not square.** `rounded.pill` instead of `rounded.sm`. Default size is still 24 px (`md`); sm is 16 px.
+2. **Checked indicator is an inner dot, not a check SVG.** Canon stacks two radial gradients: the outer ring (transparent core, blue ring at 11–12 px), and the inner dot (blue fill at 5–6 px). In our preview we use a single `radial-gradient(circle at center, blue 0 32%, white 40%)` to fake the same visual.
+3. **Inner dot stays blue in error/success groups.** Only the *ring* changes colour — canon achieves this by re-emitting the outer radial-gradient with `border-plain-error` / `border-plain-success` while leaving the dot's gradient unchanged. Functionally equivalent: red/green ring around a blue dot.
+
+| Group state | YAML entry | Modifier | Visual |
+|-------------|------------|----------|--------|
+| Default | — *(`radio` only)* | — | Black legend + black labels + blue ring |
+| Hint | — | `<legend>` + `.fr-hint-text` | Hint paragraph under legend |
+| Hint per item | — | each `<label>` + `.fr-hint-text` | Hint paragraph under each radio |
+| Inline | — | `.fr-fieldset--inline` | Radios laid out horizontally |
+| Disabled | `radio-disabled` | `<fieldset disabled>` | Greyed legend + greyed rings |
+| Error | `radio-error` | `.fr-fieldset--error` | Red legend, red ring, blue dot, 2 px red strip on left |
+| Success | `radio-success` | `.fr-fieldset--valid` | Green legend, green ring, blue dot, 2 px green strip on left |
+
+##### Bouton radio riche (`fr-radio-rich`)
+
+A composition pattern unique to radio. The radio is wrapped in a tile-like container that includes:
+- A 5.5 rem × 5.5 rem **pictogram cell** on the side (canon defaults to flush-left; an `--align-right` variant flips it).
+- A **title + optional hint** stack in the body.
+- The actual radio circle anchored to the top-right of the tile.
+
+Selection lights up the entire tile border in `border-action-high-blue-france` (canon adds an inset 1 px shadow to keep the border weight stable while the colour transitions). Hover and active states tint the body and pictogram cells via `background-default-grey-hover` / `-active`.
+
+```html
+<!-- Default radio group -->
+<fieldset class="fr-fieldset">
+  <legend class="fr-fieldset__legend">Légende pour l'ensemble des éléments</legend>
+  <div class="fr-fieldset__element">
+    <div class="fr-radio-group">
+      <input type="radio" id="r-1" name="r"><label class="fr-label" for="r-1">Radio 1</label>
+    </div>
+  </div>
+  <!-- … -->
+</fieldset>
+
+<!-- Bouton radio riche -->
+<div class="fr-radio-group fr-radio-rich">
+  <input type="radio" id="rr-1" name="rr">
+  <label class="fr-label" for="rr-1">Titre
+    <span class="fr-hint-text">Description courte</span>
+  </label>
+  <div class="fr-radio-rich__pictogram">
+    <svg class="fr-artwork" aria-hidden="true" viewBox="0 0 80 80">…</svg>
+  </div>
+</div>
 ```
 
 ### Surfaces
