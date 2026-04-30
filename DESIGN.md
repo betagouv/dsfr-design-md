@@ -1977,8 +1977,10 @@ The card has three sizes that modulate **body padding** and **title size** while
 Three visual constants across all sizes:
 
 - **Title** is rendered in `text-title-blue-france` with weight 700; the trailing `→` arrow is anchored to the bottom-right of the body via the `__end` slot in canon, drawn from the `arrow-right-line.svg` system icon at 1 rem (1.5 rem in `--lg`).
-- **Image** uses an aspect ratio of ~16/10 in the canonical demos. The image element itself is structurally `.fr-card__img > img` and has no token styling beyond `object-fit: cover`. *(Note: the DSFR demo's "Size Sm" story renders the placeholder asset with a grey tint while the other sizes show a light blue/lavender tint — this is a demo-asset choice, not a token rule. The preview reproduces it for fidelity.)*
+- **Image** uses an aspect ratio of ~16/10 in the canonical demos. The image element itself is structurally `.fr-card__img > img` and has no token styling beyond `object-fit: cover`. The placeholder asset is the same lavender mountain SVG across all sizes — the size modifiers do not change the image styling.
 - **Border** is 1 px `border-default-grey` unless `.fr-card--no-border` or `.fr-card--shadow` is set.
+
+**Hover & active states.** When the entire card is interactive (`.fr-enlarge-link` or `.fr-enlarge-button` — the most common preset), hovering darkens the image via a `filter: brightness()` (canon decrements 10 % in light theme, increments 10 % in dark theme — a unified "darken" perception thanks to the `--brighten` direction-aware variable), and tints the card body background to `background-default-grey-hover`. Active state pushes the same delta to 20 %. The two effects together produce a clearly perceptible interactivity feedback: the image area appears to gain a grey overlay, and the body background shifts from white to a faint warm grey.
 
 ```html
 <div class="fr-card fr-enlarge-link fr-card--lg">

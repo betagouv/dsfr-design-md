@@ -1322,14 +1322,21 @@
       color: var(--c-text-mention-grey);
       margin-bottom: var(--s-2v);
     }
-    /* Sm — tighter padding (24 px), smaller title (18 / 24).
-       The DSFR demo also renders the placeholder image with a
-       grey tint at this size; we mimic that here for fidelity
-       (it's a demo asset choice, not a canonical token rule). */
+    /* Sm — tighter padding (24 px), smaller title (18 / 24). */
     .card--sm .card-body { padding: var(--s-6v); }
     .card--sm .card-title { font-size: 1.125rem; line-height: 1.5rem; }
     .card--sm .card-arrow { right: var(--s-6v); bottom: var(--s-6v); }
-    .card--sm .card-img { background-color: var(--c-bg-contrast-grey, #d4d4d4); }
+    /* Hover state — canon darkens the image via a `filter:
+       brightness()` driven by a calc that subtracts 10 % at
+       hover and 20 % at active in light theme (and adds in
+       dark theme). The body background also tints to
+       `background-default-grey-hover`. We approximate the
+       same dual visual: image gets a light grey overlay,
+       body background shifts to a faint grey. */
+    .card:hover { background-color: var(--c-bg-default-grey-hover, var(--c-bg-default)); }
+    .card:hover .card-img { filter: brightness(1.07); }
+    .card:active { background-color: var(--c-bg-default-grey-active, var(--c-bg-default)); }
+    .card:active .card-img { filter: brightness(1.14); }
     /* Lg — wider padding (40 px), larger title (22 / 28),
        larger description text (16 / 24) and bigger arrow icon. */
     .card--lg .card-body { padding: var(--s-10v); /* 2.5rem */ }
@@ -3859,7 +3866,7 @@
           </div>
         </div>
         <div>
-          <p class="state-label" style="margin: 0 0 var(--s-2v);">Sm — `.fr-card--sm` (placeholder gris)</p>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Sm — `.fr-card--sm`</p>
           <div class="card card--sm">
             <div class="card-img"></div>
             <div class="card-body">
