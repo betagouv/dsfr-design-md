@@ -457,6 +457,8 @@
       --c-on-secondary:                     var(--c-grey-1000-50);
 
       --c-bg-default:                       var(--c-grey-1000-50);
+      --c-bg-default-grey-hover:            var(--c-grey-1000-50-hover);
+      --c-bg-default-grey-active:           var(--c-grey-1000-50-active);
       --c-bg-alt:                           var(--c-grey-975-100);
       --c-bg-alt-hover:                     var(--c-grey-975-75-hover);
       --c-bg-alt-active:                    var(--c-grey-975-75-active);
@@ -1324,17 +1326,20 @@
     .card--sm .card-body { padding: var(--s-6v); }
     .card--sm .card-title { font-size: 1.125rem; line-height: 1.5rem; }
     .card--sm .card-arrow { right: var(--s-6v); bottom: var(--s-6v); }
-    /* Hover state — canon darkens the image via a `filter:
-       brightness()` driven by a calc that subtracts 10 % at
-       hover and 20 % at active in light theme (and adds in
-       dark theme). The body background also tints to
-       `background-default-grey-hover`. We approximate the
-       same dual visual: image gets a light grey overlay,
-       body background shifts to a faint grey. */
-    .card:hover { background-color: var(--c-bg-default-grey-hover, var(--c-bg-default)); }
-    .card:hover .card-img { filter: brightness(0.93); }
-    .card:active { background-color: var(--c-bg-default-grey-active, var(--c-bg-default)); }
-    .card:active .card-img { filter: brightness(0.86); }
+    /* Hover & active states — full canon parity.
+       Canon defines `--brighten: -1` in light theme and `+1`
+       in dark theme, then runs `filter: brightness(calc(100%
+       + var(--brighten) * X%))` on the image element with
+       X = 10 at :hover and X = 20 at :active.
+       Result: light theme dims to 90 % / 80 %, dark theme
+       brightens to 110 % / 120 %. The card body background
+       also tints to `background-default-grey-hover` /
+       `-active` — `#f6f6f6` / `#ededed` in light, `#343434`
+       / `#474747` in dark. */
+    .card:hover  { background-color: var(--c-bg-default-grey-hover); }
+    .card:active { background-color: var(--c-bg-default-grey-active); }
+    .card:hover  .card-img { filter: brightness(0.90); }
+    .card:active .card-img { filter: brightness(0.80); }
     /* Lg — wider padding (40 px), larger title (22 / 28),
        larger description text (16 / 24) and bigger arrow icon. */
     .card--lg .card-body { padding: var(--s-10v); /* 2.5rem */ }
