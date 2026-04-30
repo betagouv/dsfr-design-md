@@ -1697,19 +1697,106 @@
     .breadcrumb .sep { margin: 0 var(--s-2v); color: var(--c-text-mention-grey); }
     .breadcrumb [aria-current="page"] { color: var(--c-text-default-grey); }
 
-    /* ---- Modale (rendue inline pour démonstration) ---- */
-    .modal-demo {
-      border: 1px solid var(--c-border-default-grey);
-      background: var(--c-bg-default);
-      padding: var(--s-8v);
-      max-width: 32rem;
-      box-shadow: 0 8px 16px rgba(0, 0, 18, 0.16);
+    /* ---- Modale (état ouvert, sans JS via :target) ---- */
+    .modal-story { position: relative; }
+    .modal-trigger {
+      display: inline-flex;
+      align-items: center;
+      background: var(--c-bg-action-high-blue-france);
+      color: var(--c-text-inverted-blue-france);
+      border: none;
+      min-height: 2.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 500;
+      text-decoration: none;
     }
-    .modal-demo h4 { margin-top: 0; }
-    .modal-demo .actions {
-      display: flex; gap: var(--s-3v);
-      margin-top: var(--s-6v);
+    .modal-overlay {
+      display: none;
+      margin-top: 0.5rem;
+      border: 1px solid var(--c-border-default-grey);
+      background: rgba(22, 22, 22, 0.64);
+      padding: 1rem;
+      min-height: 28rem;
+      position: relative;
+    }
+    .modal-overlay:target { display: block; }
+    .modal-open {
+      margin: 0 auto;
+      background: var(--c-bg-default);
+      box-shadow: 0 0 0 1px rgba(0, 0, 18, 0.16);
+      border: none;
+      display: flex;
+      flex-direction: column;
+      max-height: 52rem;
+    }
+    .modal-sm { width: min(100%, 40rem); }
+    .modal-md { width: min(100%, 52rem); }
+    .modal-lg { width: min(100%, 64rem); }
+    .modal-head {
+      display: flex;
       justify-content: flex-end;
+      padding: 1rem 2rem 0.5rem;
+    }
+    .modal-close {
+      border: none;
+      background: transparent;
+      color: var(--c-text-action-high-blue-france);
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      min-height: 2rem;
+      padding: 0.25rem 0.75rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      margin-left: auto;
+    }
+    .modal-close::after {
+      content: "×";
+      font-size: 1rem;
+      line-height: 1;
+      margin-left: 0.5rem;
+    }
+    .modal-content {
+      padding: 0 2rem 2rem;
+      overflow: auto;
+    }
+    .modal-title {
+      margin: 0 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-weight: 700;
+    }
+    .modal-title .icon {
+      width: 2rem;
+      height: 2rem;
+      border: 2px solid currentColor;
+      border-radius: 0.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+    .modal-copy {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      color: var(--c-text-default-grey);
+    }
+    .modal-copy + .modal-copy { margin-top: 1.5rem; }
+    .modal-footer {
+      margin-top: 1.75rem;
+      border-top: 1px solid var(--c-border-default-grey);
+      padding-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     /* ---- Mise en avant (callout) ----
@@ -4990,15 +5077,83 @@
       </nav>
     </article>
 
-    <h3 class="component-group">Modale <span class="component-group__count">— `.fr-modal` (à étendre).</span></h3>
+    <h3 class="component-group">Modale <span class="component-group__count">— état ouvert, tailles sm/md/lg, footer d'actions.</span></h3>
     <article class="component">
-      <header><h4>Modale (rendue inline)</h4><span class="bem">.fr-modal</span></header>
-      <div class="modal-demo">
-        <h4>Confirmer la suppression</h4>
-        <p>Cette action est irréversible. Le brouillon de votre demande sera définitivement supprimé.</p>
-        <div class="actions">
-          <button class="btn btn-secondary">Annuler</button>
-          <button class="btn btn-primary">Supprimer</button>
+      <header><h4>Modale · size sm (ouverte)</h4><span class="bem">.fr-modal.fr-modal--sm</span></header>
+      <div class="states" style="display:block;">
+        <div class="modal-story">
+          <a href="#modal-sm-story" class="modal-trigger">Ouvrir la modale</a>
+          <div id="modal-sm-story" class="modal-overlay">
+            <div class="modal-open modal-sm">
+              <div class="modal-head"><a href="#" class="modal-close" aria-label="Fermer">Fermer</a></div>
+              <div class="modal-content">
+                <h4 class="modal-title"><span class="icon">i</span>Titre de la modale</h4>
+                <p class="modal-copy">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et. Diam maecenas sed enim ut.</p>
+                <p class="modal-copy">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Modale · size md (ouverte)</h4><span class="bem">.fr-modal.fr-modal--md</span></header>
+      <div class="states" style="display:block;">
+        <div class="modal-story">
+          <a href="#modal-md-story" class="modal-trigger">Ouvrir la modale</a>
+          <div id="modal-md-story" class="modal-overlay">
+            <div class="modal-open modal-md">
+              <div class="modal-head"><a href="#" class="modal-close" aria-label="Fermer">Fermer</a></div>
+              <div class="modal-content">
+                <h4 class="modal-title"><span class="icon">i</span>Titre de la modale</h4>
+                <p class="modal-copy">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et. Diam maecenas sed enim ut. Accumsan lacus vel facilisis volutpat est.</p>
+                <p class="modal-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit ut. Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Modale · size lg (ouverte)</h4><span class="bem">.fr-modal.fr-modal--lg</span></header>
+      <div class="states" style="display:block;">
+        <div class="modal-story">
+          <a href="#modal-lg-story" class="modal-trigger">Ouvrir la modale</a>
+          <div id="modal-lg-story" class="modal-overlay">
+            <div class="modal-open modal-lg">
+              <div class="modal-head"><a href="#" class="modal-close" aria-label="Fermer">Fermer</a></div>
+              <div class="modal-content">
+                <h4 class="modal-title"><span class="icon">i</span>Titre de la modale</h4>
+                <p class="modal-copy">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et. Diam maecenas sed enim ut. Accumsan lacus vel facilisis volutpat est. Ut aliquam purus sit amet luctus.</p>
+                <p class="modal-copy">Lorem ipsum dolor sit amet consectetur adipiscing elit ut. Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua.</p>
+                <p class="modal-copy">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Modale · footer</h4><span class="bem">.fr-modal + zone d'actions</span></header>
+      <div class="states" style="display:block;">
+        <div class="modal-story">
+          <a href="#modal-footer-story" class="modal-trigger">Ouvrir la modale</a>
+          <div id="modal-footer-story" class="modal-overlay">
+            <div class="modal-open modal-md">
+              <div class="modal-head"><a href="#" class="modal-close" aria-label="Fermer">Fermer</a></div>
+              <div class="modal-content">
+                <h4 class="modal-title"><span class="icon">i</span>Titre de la modale</h4>
+                <p class="modal-copy">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et.</p>
+                <div class="modal-footer">
+                  <button class="btn btn-primary">Libellé bouton</button>
+                  <button class="btn btn-secondary">Libellé bouton</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </article>

@@ -1542,6 +1542,21 @@ components:
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
     padding:         32px
+  modal-title:
+    textColor:       "{colors.text-title-grey}"
+    typography:      "{typography.h3}"
+  modal-body:
+    textColor:       "{colors.text-default-grey}"
+    typography:      "{typography.body-lg}"
+  modal-sm:
+    padding:         24px
+  modal-md:
+    padding:         32px
+  modal-lg:
+    padding:         40px
+  modal-footer:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-grey}"
 
   # ---- Callout (`fr-callout`) — Mise en avant
   #
@@ -2651,6 +2666,51 @@ The title should include the status noun (e.g. *Succès*, *Erreur*, *Information
 | Notice (bandeau d'information) | `.fr-notice` |
 
 Alerts include a leading icon (info/check/exclamation/cross) and an optional close button (`.fr-btn--close`).
+
+#### Modal
+
+The modal (`fr-modal`) is primarily differentiated in its **opened state**: backdrop, centered panel, size, and optional footer actions. The trigger button is not the variant axis.
+
+| Axis | Toggle | Effect |
+|------|--------|--------|
+| Size | `.fr-modal--sm|--md|--lg` | Changes panel max width in opened state |
+| Content density | short / long body | Affects scroll behavior in modal body |
+| Footer | with / without action area | Optional separated action slot |
+| Dismiss | close button (`.fr-btn--close`) | Top-right close affordance |
+
+Canonical opened-state anatomy:
+- backdrop overlay (`rgba(0,0,0,0.55)`-like dim)
+- centered white panel with square corners
+- close action in the top-right
+- title row (often with icon)
+- scrollable body when content exceeds viewport
+- optional footer separator + stacked actions
+
+```html
+<!-- Opened modal (md) -->
+<div class="fr-modal fr-modal--opened fr-modal--md" role="dialog" aria-modal="true">
+  <div class="fr-modal__content">
+    <button class="fr-btn fr-btn--close" aria-label="Fermer">Fermer</button>
+    <h1 class="fr-modal__title">Titre de la modale</h1>
+    <div class="fr-modal__body">
+      <p>Lorem ipsum…</p>
+    </div>
+  </div>
+</div>
+
+<!-- Opened modal with footer actions -->
+<div class="fr-modal fr-modal--opened fr-modal--lg" role="dialog" aria-modal="true">
+  <div class="fr-modal__content">
+    <button class="fr-btn fr-btn--close" aria-label="Fermer">Fermer</button>
+    <h1 class="fr-modal__title">Titre de la modale</h1>
+    <div class="fr-modal__body"><p>Lorem ipsum…</p></div>
+    <div class="fr-modal__footer">
+      <button class="fr-btn">Libellé bouton</button>
+      <button class="fr-btn fr-btn--secondary">Libellé bouton</button>
+    </div>
+  </div>
+</div>
+```
 
 ### Navigation & branding
 
