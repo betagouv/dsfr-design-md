@@ -1456,17 +1456,97 @@
     .tile--no-link .tile-title { color: var(--c-text-title-grey); }
     .tile--no-link .tile-arrow { display: none; }
 
-    /* ---- Tags & badges ---- */
+/* ---- Tags & badges ---- */
+    /* ---- Tag (`fr-tag`) ----
+       Pill-shaped label. Variant determined by HTML element
+       + modifier, NOT by a single class:
+         • <span>/<p>           = static    (grey)
+         • <a>/<button>         = clickable (lavender + dark blue text)
+         • + [aria-pressed=true]= pressed   (filled dark navy + white + corner check)
+         • + .tag--dismiss      = dismiss   (filled dark navy + white + inline ×)
+       Five orthogonal axes: size · variant · icon · thematic · group. */
     .tag {
       display: inline-flex; align-items: center;
-      background: var(--c-bg-action-low-blue-france);
-      color: var(--c-text-action-high-blue-france);
-      font-size: 0.875rem; line-height: 1rem;
+      background-color: var(--c-bg-contrast-grey);
+      color: var(--c-text-label-grey);
+      font-size: 0.875rem; line-height: 1.5rem;
+      min-height: 2rem;
       padding: 0.25rem 0.75rem;
-      border-radius: var(--r-pill);
-      height: 1.5rem;
+      border-radius: 1rem;
+      width: fit-content;
+      text-decoration: none;
+      border: none;
+      cursor: default;
+      font-family: inherit;
     }
-    .tag.tag-sm { font-size: 0.75rem; padding: 0.125rem 0.5rem; height: 1.25rem; }
+    .tag.tag-sm {
+      font-size: 0.75rem; line-height: 1.25rem;
+      min-height: 1.5rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.75rem;
+    }
+    /* Clickable — anchor/button styling. */
+    .tag.tag-clickable {
+      background-color: var(--c-bg-action-low-blue-france);
+      color: var(--c-text-action-high-blue-france);
+      cursor: pointer;
+    }
+    .tag.tag-clickable:hover  { background-color: var(--c-bg-action-low-blue-france-hover); }
+    .tag.tag-clickable:active { background-color: var(--c-bg-action-low-blue-france-active); }
+    /* Pressed — filled dark navy + white text + check
+       badge in top-right corner. Canon punches a transparent
+       hole around the badge with a radial-gradient on the
+       background. We mimic with a layered linear-gradient
+       (solid colour) + a positioned ::after badge. */
+    .tag.tag-pressed {
+      position: relative;
+      overflow: visible;
+      background-color: transparent;
+      background-image: radial-gradient(circle at 100% 0.25rem,
+                          transparent 0.578125rem,
+                          var(--c-bg-action-high-blue-france) 0.625rem);
+      color: var(--c-text-inverted-blue-france);
+      cursor: pointer;
+    }
+    .tag.tag-pressed::after {
+      content: "✓";
+      position: absolute; top: 0; right: 0;
+      width: 1rem; height: 1rem;
+      margin: -0.5rem -0.5rem 0 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--c-text-action-high-blue-france);
+      background: var(--c-bg-default);
+      border-radius: 50%;
+      font-size: 0.75rem; font-weight: 700;
+      box-shadow: 0 0 0 1px var(--c-text-action-high-blue-france);
+    }
+    .tag.tag-pressed.tag-sm::after { width: 0.75rem; height: 0.75rem; margin: -0.375rem -0.375rem 0 0; font-size: 0.625rem; }
+    /* Dismissible — same fill as pressed + inline × icon. */
+    .tag.tag-dismiss {
+      background-color: var(--c-bg-action-high-blue-france);
+      color: var(--c-text-inverted-blue-france);
+      cursor: pointer;
+    }
+    .tag.tag-dismiss::after {
+      content: "×";
+      margin-left: 0.25rem; margin-right: -0.25rem;
+      font-size: 1rem; line-height: 1;
+    }
+    /* Icon-left — leading arrow / glyph. */
+    .tag .tag-icon { width: 1rem; height: 1rem; margin-left: -0.125rem; margin-right: 0.25rem; display: inline-flex; align-items: center; }
+    .tag .tag-icon svg { width: 100%; height: 100%; fill: currentColor; }
+    /* Thematic palette (clickable only) — 3 representative variants shown. */
+    .tag.tag-themed-purple-glycine    { background-color: var(--c-purple-glycine-925-125, #ede5fa); color: var(--c-purple-glycine-sun-319-moon-630, #6e445a); }
+    .tag.tag-themed-green-menthe      { background-color: var(--c-green-menthe-925-125,    #cdf6e1); color: var(--c-green-menthe-sun-373-moon-652, #37635f); }
+    .tag.tag-themed-orange-terre-battue{ background-color: var(--c-orange-terre-battue-925-125, #fadcc4); color: var(--c-orange-terre-battue-sun-370-moon-672, #755348); }
+    /* Group (fr-tags-group) — flex-wrap row with gutters. */
+    .tags-group {
+      display: flex; flex-direction: row; flex-wrap: wrap;
+      list-style: none;
+      margin: 0 -0.25rem; padding: 0;
+    }
+    .tags-group > li { line-height: 2.75rem; margin: 0; padding: 0; }
+    .tags-group .tag { margin: 0 0.25rem 0.5rem 0.25rem; }
 
     .badge {
       display: inline-flex; align-items: center;
@@ -4494,13 +4574,94 @@
       <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">DSFR fournit 17 variantes thématiques (`--green-tilleul-verveine`, `--pink-tuile`, etc.). Chacune remplace simultanément le fond (`background-contrast-{name}`) et la règle gauche (`border-default-{name}`). Voir la table dans la spec pour la liste complète et les usages typiques.</p>
     </article>
 
-    <h3 class="component-group">Tag <span class="component-group__count">— `.fr-tag` (à étendre).</span></h3>
+    <h3 class="component-group">Tag <span class="component-group__count">— Tailles, variantes (static / clickable / pressable / dismiss), icône, palette thématique, groupe.</span></h3>
+
     <article class="component">
-      <header><h4>Tag</h4><span class="bem">.fr-tag</span></header>
-      <div class="states">
-        <span class="tag">Catégorie</span>
-        <span class="tag tag-sm">Petit</span>
+      <header><h4>Tag · tailles</h4><span class="bem">.fr-tag (md) · .fr-tag.fr-tag--sm</span></header>
+      <div class="states" style="gap: var(--s-4v); align-items: center;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Default — md (32 px)</p>
+          <span class="tag">libellé tag</span>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Sm — `--sm` (24 px)</p>
+          <span class="tag tag-sm">libellé tag</span>
+        </div>
       </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Md : 32 px de hauteur, font-size 14/24, radius 1 rem, padding 4 / 12. Sm : 24 px, font-size 12/20, radius 0.75 rem, padding 2 / 8.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Tag · variantes</h4><span class="bem">static · clickable · pressable · dismissible</span></header>
+      <div class="states" style="gap: var(--s-4v); align-items: center; flex-wrap: wrap;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Static — `&lt;span&gt; .fr-tag`</p>
+          <span class="tag">libellé tag</span>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Clickable — `&lt;a&gt; .fr-tag`</p>
+          <a class="tag tag-clickable" href="#" onclick="return false">libellé tag</a>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Pressed — `[aria-pressed=true]`</p>
+          <button class="tag tag-pressed" aria-pressed="true">libellé tag</button>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Dismiss — `--dismiss`</p>
+          <button class="tag tag-dismiss">libellé tag</button>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Le variant est défini par l'élément HTML (`&lt;span&gt;` static vs `&lt;a&gt;` / `&lt;button&gt;` interactif) plus modificateurs `[aria-pressed]` ou `--dismiss`. Pressed : badge ✓ en coin via radial-gradient « troué » dans le canon. Dismiss : icône `×` ajoutée en `::after`.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Tag · icône & couleurs thématiques</h4><span class="bem">.fr-tag--icon-left · .fr-tag--&lt;name&gt; (17 variantes)</span></header>
+      <div class="states" style="gap: var(--s-4v); align-items: center; flex-wrap: wrap;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Avec icône — `--icon-left`</p>
+          <a class="tag tag-clickable" href="#" onclick="return false"><span class="tag-icon"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>libellé tag</a>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Thématique — purple-glycine / green-menthe / orange-terre-battue</p>
+          <div style="display: flex; gap: var(--s-2v); flex-wrap: wrap;">
+            <a class="tag tag-clickable tag-themed-purple-glycine" href="#" onclick="return false">libellé tag</a>
+            <a class="tag tag-clickable tag-themed-green-menthe" href="#" onclick="return false">libellé tag</a>
+            <a class="tag tag-clickable tag-themed-orange-terre-battue" href="#" onclick="return false">libellé tag</a>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">L'icône s'ajoute via `fr-tag--icon-left` + une classe `fr-icon-*` (rendue via `::before`, 1 rem). 17 variantes thématiques disponibles (`fr-tag--green-tilleul-verveine`, `--pink-tuile`, etc.) — uniquement sur tags cliquables (a/button), même palette que la mise en avant.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Tag · groupe</h4><span class="bem">.fr-tags-group · `--sm`</span></header>
+      <div class="states" style="flex-direction: column; align-items: stretch;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Default — `&lt;ul class=&quot;fr-tags-group&quot;&gt;`</p>
+          <ul class="tags-group">
+            <li><span class="tag">libellé tag 1</span></li>
+            <li><span class="tag">libellé tag 2</span></li>
+            <li><span class="tag">libellé tag 3</span></li>
+          </ul>
+        </div>
+        <div>
+          <p class="state-label" style="margin: var(--s-3v) 0 var(--s-2v);">Cliquables — pressed sur le tag du milieu</p>
+          <ul class="tags-group">
+            <li><a class="tag tag-clickable" href="#" onclick="return false">libellé tag 1</a></li>
+            <li><button class="tag tag-pressed" aria-pressed="true">libellé tag 2</button></li>
+            <li><a class="tag tag-clickable" href="#" onclick="return false">libellé tag 3</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="state-label" style="margin: var(--s-3v) 0 var(--s-2v);">Dismissibles</p>
+          <ul class="tags-group">
+            <li><button class="tag tag-dismiss">libellé tag 1</button></li>
+            <li><button class="tag tag-dismiss">libellé tag 2</button></li>
+            <li><button class="tag tag-dismiss">libellé tag 3</button></li>
+          </ul>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">`fr-tags-group` est un conteneur flex-wrap qui aligne et espace les enfants. Modificateur `--sm` pour forcer tous les tags en sm depuis le groupe.</p>
     </article>
 
     <h3 class="component-group">Badge <span class="component-group__count">— `.fr-badge` (à étendre).</span></h3>

@@ -1345,20 +1345,81 @@ components:
   # ============================================================
   # TAGS & BADGES
   # ============================================================
+  # ---- Tag (`fr-tag`)
+  #
+  # Pill-shaped label component. Five orthogonal axes:
+  #   1. Size      — md (default) vs `--sm`
+  #   2. Variant   — static (`<span>`/`<p>`) vs clickable
+  #                  (`<a>`/`<button>`) vs pressable
+  #                  (clickable + `[aria-pressed]`) vs
+  #                  dismissible (clickable + `--dismiss`)
+  #   3. Icon      — leading `fr-tag--icon-left` + `fr-icon-*`
+  #                  (rendered via `::before`, 1 rem)
+  #   4. Thematic  — 17 colour variants `fr-tag--<name>`
+  #                  (clickable only; same palette as callout)
+  #   5. Group     — wrap multiple tags in `fr-tags-group`
+  #                  (flex-wrap row with -0.25 rem negative
+  #                  side margins and 0.25 rem item margins)
+  #
+  # Variant colour pairs (light theme):
+  #   • static:       bg-contrast-grey               × text-label-grey
+  #   • clickable:    bg-action-low-blue-france      × text-action-high-blue-france (lavender × dark blue)
+  #   • pressed:      bg-active-blue-france (filled) × text-inverted-blue-france (dark navy × white)
+  #                   + checkbox-circle-line.svg badge in the top-right corner;
+  #                   the bg is a radial-gradient that "punches" a transparent
+  #                   hole around the badge (canon's signature trick).
+  #   • dismissible:  same fill as pressed (filled dark navy + white)
+  #                   + close-line.svg ::after icon inline.
+  # ----
   tag:
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-label-grey}"
+    typography:      "{typography.body-sm}"      # 0.875rem / 1.5rem
+    rounded:         "{rounded.pill}"            # border-radius 1rem
+    padding:         12px                        # 4px 12px (0.25rem 0.75rem)
+    height:          32px                        # min-height 2rem
+  tag-sm:
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-label-grey}"
+    typography:      "{typography.body-xs}"      # 0.75rem / 1.25rem
+    rounded:         "{rounded.pill}"            # border-radius 0.75rem
+    padding:         8px                         # 2px 8px (0.125rem 0.5rem)
+    height:          24px                        # min-height 1.5rem
+  # Clickable: a/button gets a coloured fill (lavender-ish)
+  # and a dark-blue text. Same layout as static.
+  tag-clickable:
     backgroundColor: "{colors.background-action-low-blue-france}"
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-sm}"
     rounded:         "{rounded.pill}"
     padding:         12px
-    height:          24px
-  tag-sm:
-    backgroundColor: "{colors.background-action-low-blue-france}"
-    textColor:       "{colors.text-action-high-blue-france}"
-    typography:      "{typography.body-xs}"
+    height:          32px
+  # Pressed (toggled-on): filled dark navy + white text +
+  # corner check badge.
+  tag-pressed:
+    backgroundColor: "{colors.background-active-blue-france}"
+    textColor:       "{colors.text-inverted-blue-france}"
+    typography:      "{typography.body-sm}"
     rounded:         "{rounded.pill}"
-    padding:         8px
-    height:          20px
+    padding:         12px
+    height:          32px
+  # Dismissible: same fill as pressed + inline `×` close
+  # icon. The DSFR demos show dismissible tags in this filled
+  # state, mirroring the pressed visual.
+  tag-dismiss:
+    backgroundColor: "{colors.background-active-blue-france}"
+    textColor:       "{colors.text-inverted-blue-france}"
+    typography:      "{typography.body-sm}"
+    rounded:         "{rounded.pill}"
+    padding:         12px
+    height:          32px
+  # Group: pure layout container (flex-wrap row + 0.25 rem
+  # gutters). No colour or rounded — children carry their
+  # own tokens. Acts on `<ul>` typography vars to flatten
+  # default list spacing.
+  tag-group:
+    rounded:         "{rounded.none}"
+    padding:         0px
 
   badge:
     backgroundColor: "{colors.background-action-low-blue-france}"
@@ -2360,6 +2421,62 @@ The thematic colour names map to French ministerial / administrative palettes �
 | Badge | `.fr-badge` (variants `--success`, `--warning`, `--error`, `--info`, `--new`) |
 
 Tags and badges are the **only** components that use `rounded.pill`.
+
+#### Tag
+
+The tag (`fr-tag`) is a pill-shaped label. Five orthogonal axes drive every variant DSFR ships:
+
+| Axis | Toggle | Effect |
+|------|--------|--------|
+| Size | `.fr-tag--sm` | min-height 32 → 24, font 14/24 → 12/20, radius 1rem → 0.75rem, padding 4/12 → 2/8 |
+| Variant | element + modifiers | static / clickable / pressable / dismissible (see table below) |
+| Icon | `.fr-tag--icon-left` + `fr-icon-*` | leading 1 rem icon (`::before`) with `margin-right: 0.25rem` |
+| Thematic | `.fr-tag--<colour>` (clickable only) | swap colour pair to thematic palette (17 variants — same names as callout) |
+| Group | wrap children in `<ul class="fr-tags-group">` | flex-wrap row, 0.25 rem gutters; flattens `<ul>` defaults |
+
+**Variants (the type axis).** The variant is determined by the **HTML element** and modifiers — *not* by a single class:
+
+| Variant | Element | Modifier | Background | Text | Trailing icon |
+|---------|---------|----------|------------|------|---------------|
+| Static | `<span>`, `<p>` | — | `background-contrast-grey` (light grey) | `text-label-grey` | none |
+| Clickable | `<a>`, `<button>` | — | `background-action-low-blue-france` (lavender) | `text-action-high-blue-france` (`#000091`) | none |
+| Pressed (toggled-on) | `<button>` | `[aria-pressed="true"]` | `background-active-blue-france` (filled dark navy) | `text-inverted-blue-france` (white) | `checkbox-circle-line.svg` 1 rem badge in the **top-right corner**, with the bg drawn as a `radial-gradient` "punching" a transparent hole around the badge |
+| Dismissible | `<a>`, `<button>` | `.fr-tag--dismiss` | filled dark navy (matches pressed) | white | `close-line.svg` ::after icon, inline after the label |
+
+The pressed-state corner-badge trick is the tag's most distinctive piece of CSS: the canon doesn't use a separate decorator element — it draws a `radial-gradient` background that is opaque except for a small hole at top-right, then overlays the check SVG via `::after` inside that hole. This produces a coherent visual where the badge appears "cut out" of the pill.
+
+**Icon placement.** Two patterns:
+
+* `.fr-tag--icon-left` paired with an `fr-icon-*` class on the tag puts a leading icon (`::before`, 1 rem, margin-right 0.25 rem) before the label.
+* For `target="_blank"` external links, the canon adds an external-link `::after` icon automatically (no opt-in modifier).
+
+**Thematic palette.** Clickable tags expose the same 17 colour variants as the callout (`fr-tag--green-tilleul-verveine`, `fr-tag--pink-tuile`, etc.). Each swaps both `color` (to `text-action-high-{name}`) and `background-color` (to `background-action-low-{name}`). Thematic variants apply only to anchor/button tags — static tags stay grey.
+
+**Group (`fr-tags-group`).** A `<ul>` (or `<ol>`) wrapper that lays children out as a flex-wrap row with 0.25 rem inter-tag spacing (achieved via `-0.25rem` outer margins and `0.25rem` per-child margins, so the group sits flush with surrounding content). The group exposes one modifier — `.fr-tags-group--sm` — which forces all children to the sm size in one place.
+
+```html
+<!-- Static -->
+<p class="fr-tag">Libellé</p>
+
+<!-- Clickable -->
+<a class="fr-tag" href="…">Libellé</a>
+
+<!-- Pressable (toggle button) -->
+<button class="fr-tag" aria-pressed="true">Libellé</button>
+
+<!-- Dismissible -->
+<button class="fr-tag fr-tag--dismiss">Libellé</button>
+
+<!-- With leading icon -->
+<a class="fr-tag fr-tag--icon-left fr-icon-arrow-right-line" href="…">Libellé</a>
+
+<!-- Group -->
+<ul class="fr-tags-group">
+  <li><p class="fr-tag">Libellé 1</p></li>
+  <li><p class="fr-tag">Libellé 2</p></li>
+  <li><p class="fr-tag">Libellé 3</p></li>
+</ul>
+```
 
 ### Feedback
 
