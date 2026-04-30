@@ -1273,14 +1273,73 @@ components:
     backgroundColor: "{colors.background-alt-grey}"
     textColor:       "{colors.text-default-grey}"
 
+  # ---- Tile (`fr-tile`)
+  #
+  # The tile is a denser sibling of the card, optimised for
+  # category navigation grids and document cards. Compared
+  # to the card it adds two distinguishing details:
+  #   • A pictogram slot (5 rem default, 3.5 rem in `--sm`,
+  #     4 rem in `--horizontal`) instead of a hero image.
+  #   • A 4 px coloured rule on the bottom edge — drawn via
+  #     a `linear-gradient` background on `__title::before`.
+  #     Colour:
+  #       · `border-active-blue-france` when the title wraps
+  #         an `<a>` or `<button>` (the canon's hint that the
+  #         tile is interactive).
+  #       · `border-plain-grey` when the title is static
+  #         (no-link variant).
+  #
+  # Sizes (`--sm` only, no `--md` or `--lg`):
+  #   • tile-sm — padding 24/24/28 px, title 16/24, picto 56 px
+  #   • tile    — padding 32/32/36 px, title 18/24, picto 80 px
+  # ----
   tile:
     backgroundColor: "{colors.background-default-grey}"
-    textColor:       "{colors.text-action-high-blue-france}"
+    textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
-    padding:         16px
+    padding:         32px       # 2rem 2rem 2.25rem (top/sides/bottom 36)
+  tile-title:
+    textColor:       "{colors.text-title-grey}"   # static title
+    typography:      "{typography.h6}"            # 1.125rem / 1.5rem in canon (slightly smaller than card)
+  tile-title-link:
+    textColor:       "{colors.text-action-high-blue-france}"   # title wrapped in <a>/<button>
+  tile-detail:
+    textColor:       "{colors.text-mention-grey}"
+    typography:      "{typography.body-xs}"      # 0.75rem / 1.25rem
+  tile-arrow:
+    textColor:       "{colors.text-action-high-blue-france}"
+    size:            16px                        # 1.5rem in canon for default tile, 1rem in --sm
+  # The bottom rule — a 4 px linear-gradient drawn behind
+  # `__title`. Colour reflects interactivity.
+  tile-rule:
+    backgroundColor: "{colors.border-active-blue-france}"
+    height:          4px
+  tile-rule-static:
+    backgroundColor: "{colors.border-plain-grey}"   # no-link variant
+    height:          4px
+  tile-pictogram:
+    size:            80px      # 5rem default, 56px (--sm), 64px (--horizontal), 40px (--sm.--horizontal)
+  tile-sm:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-grey}"
+    rounded:         "{rounded.none}"
+    padding:         24px      # 1.5rem 1.5rem 1.75rem
+  # Decoration variants — same pattern as card.
+  tile-grey:
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-default-grey}"
+  tile-shadow:
+    backgroundColor: "{colors.background-raised-grey}"
+    textColor:       "{colors.text-default-grey}"
+  tile-shadow-grey:
+    backgroundColor: "{colors.background-contrast-raised-grey}"
+    textColor:       "{colors.text-default-grey}"
+  tile-no-background:
+    backgroundColor: transparent
+    textColor:       "{colors.text-default-grey}"
   tile-hover:
-    backgroundColor: "{colors.background-alt-grey}"
+    backgroundColor: "{colors.background-default-grey-hover}"
     textColor:       "{colors.text-action-high-blue-france}"
 
   # ============================================================
@@ -2082,6 +2141,95 @@ The border-vs-shadow split is handled by the canonical selector `.fr-card:not(.f
     <div class="fr-card__img">
       <img src="…" alt="">
     </div>
+  </div>
+</div>
+```
+
+#### Tuile
+
+The tile (`fr-tile`) is the card's denser sibling. It carries a **pictogram** (an SVG illustration sized 5 rem × 5 rem) instead of a hero image, and is decorated by a **4 px coloured rule on its bottom edge** that signals interactivity. Unlike the card, the tile only ships in two sizes (default and `--sm`).
+
+**Sizes.**
+
+| Story | Modifier | Padding | Title | Pictogram | Detail |
+|-------|----------|---------|-------|-----------|--------|
+| Default | *(none)* | `2rem 2rem 2.25rem` (32 / 32 / 36) | `1.125rem / 1.5rem` (18 / 24) | 5 rem × 5 rem | `0.75rem / 1.25rem` |
+| Sm | `.fr-tile--sm` | `1.5rem 1.5rem 1.75rem` (24 / 24 / 28) | `1rem / 1.5rem` (16 / 24) | 3.5 rem × 3.5 rem | same |
+| Horizontal | `.fr-tile--horizontal` | same as default | same | 4 rem × 4 rem | margin-bottom: -2.5 rem |
+| Sm + Horizontal | combo | sm padding | sm title | 2.5 rem × 2.5 rem | sm spacing |
+
+**The bottom rule.** Drawn via a `linear-gradient` background on `__title::before` (4 px high, full-width). Two colours:
+
+| Variant | Title element | Rule colour | Title text colour |
+|---------|---------------|-------------|-------------------|
+| Interactive | `__title > a` or `__title > button` | `border-active-blue-france` (`#000091` / `#8585f6`) | `text-action-high-blue-france` |
+| Static / no-link | `__title` (text only, no nested anchor) | `border-plain-grey` (`#3a3a3a` / `#cecece`) | `text-title-grey` |
+
+This is the tile's most distinctive token: it is the only common surface in DSFR where the bottom 4 px is a coloured rule, and the colour carries semantic weight (blue = clickable, dark grey = decorative).
+
+**Layout axis.** Vertical (default — pictogram on top, content centred) vs horizontal (pictogram left, content right, text left-aligned). The horizontal modifier reduces the pictogram to 4 rem so the row stays compact. A responsive variant `.fr-tile--horizontal.fr-tile--vertical@md` (and `@lg`) starts horizontal and switches to vertical above the breakpoint — useful for grids that flow from compact list-style on mobile to picto-on-top above the fold on desktop.
+
+**Decoration axis.** Identical mechanism to the card — same 5 modifiers, same colour pairs:
+
+| Modifier | Background |
+|----------|------------|
+| *(none)* | `background-default-grey` (white) |
+| `.fr-tile--grey` | `background-contrast-grey` |
+| `.fr-tile--shadow` | `background-raised-grey` + drop-shadow, no border |
+| `.fr-tile--shadow.fr-tile--grey` | `background-contrast-raised-grey` + drop-shadow |
+| `.fr-tile--no-border` | white, no border |
+| `.fr-tile--no-background` | transparent |
+
+By DSFR convention, **tiles carrying a `__start` badge** are typically paired with `--grey` (the badge sits more clearly on the tinted body). Tiles with a `__start` tag use the default white background.
+
+**Slots & composition.**
+
+| Slot | BEM | Order | Typical content |
+|------|-----|-------|-----------------|
+| Header | `.fr-tile__header` | 1 (top) | `.fr-tile__pictogram > svg` |
+| Start | `.fr-tile__start` (inside `__body`) | 1 (above title) | `fr-badges-group`, `fr-tags-group` |
+| Body | `.fr-tile__body > __title + __desc + __detail` | 2 | Title (h3 wrapping `<a>`), description, detail |
+| Detail | `.fr-tile__detail` | 4 (bottom of body) | Caption — date, file metadata (Extension - Poids - Langue), author |
+
+**Action variants.**
+
+| Modifier | Trailing icon | Title element | Rule colour | Use case |
+|----------|---------------|---------------|-------------|----------|
+| `.fr-enlarge-link` *(default in canon demos)* | `→` (1.5 rem; 1 rem in `--sm`) | `<a>` inside title | blue | Tile linking to a page |
+| `.fr-enlarge-button` | `→` | `<button>` inside title | blue | Tile triggering an action |
+| `.fr-tile--download` | `↓` (download-line.svg) | `<a>` (download attribute) | blue | File tile — `__detail` carries Extension / Weight / Language |
+| `.fr-tile--no-icon` | *(none)* | `<a>`/`<button>` | blue | Decorative tile without explicit affordance |
+| *no nested link* | *(none)* | text only | grey | Static informational tile (DSFR's "No Link Story") |
+
+The `--download` modifier also forces horizontal layout (`flex-direction: row`) and overrides the trailing icon to the download glyph. When stacked with `--sm` it produces the canon's "Download Sm" preset.
+
+```html
+<!-- Default tile -->
+<div class="fr-tile fr-enlarge-link">
+  <div class="fr-tile__body">
+    <div class="fr-tile__content">
+      <h3 class="fr-tile__title"><a href="…">Intitulé de la tuile</a></h3>
+      <p class="fr-tile__desc">Description (optionnelle)</p>
+      <p class="fr-tile__detail">Détail (optionnel)</p>
+    </div>
+  </div>
+  <div class="fr-tile__header">
+    <div class="fr-tile__pictogram">
+      <svg class="fr-artwork" aria-hidden="true" viewBox="0 0 80 80">…</svg>
+    </div>
+  </div>
+</div>
+
+<!-- Download tile -->
+<div class="fr-tile fr-tile--download fr-enlarge-link">
+  <div class="fr-tile__body">
+    <div class="fr-tile__content">
+      <h3 class="fr-tile__title"><a download href="…">Télécharger le document XX</a></h3>
+      <p class="fr-tile__detail">PDF — 1,2 Mo — Français</p>
+    </div>
+  </div>
+  <div class="fr-tile__header">
+    <div class="fr-tile__pictogram">…</div>
   </div>
 </div>
 ```

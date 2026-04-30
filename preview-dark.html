@@ -1375,16 +1375,86 @@
     .card--lg .card-desc { font-size: 1rem; line-height: 1.5rem; margin-top: var(--s-4v); }
     .card--lg .card-arrow { width: 1.5rem; height: 1.5rem; right: var(--s-10v); bottom: var(--s-10v); }
 
+    /* ---- Tuile (`fr-tile`) ----
+       The tile is a denser sibling of the card. Three
+       traits set it apart in CSS:
+         1. A pictogram slot (5 rem default, 3.5 rem in --sm,
+            4 rem in --horizontal) instead of a hero image.
+         2. A 4 px coloured rule on the bottom edge — drawn
+            via a linear-gradient on `__title::before` in
+            canon. We mimic this with `box-shadow: inset 0
+            -4px <colour>`.
+         3. Title colour is `text-title-grey` for static
+            tiles, `text-action-high-blue-france` when the
+            title wraps an `<a>`/`<button>`. Rule colour is
+            `border-active-blue-france` (interactive) or
+            `border-plain-grey` (static / no-link). */
     .tile {
+      position: relative;
+      display: flex; flex-direction: column;
       background: var(--c-bg-default);
-      color: var(--c-text-action-high-blue-france);
+      color: var(--c-text-default-grey);
       border: 1px solid var(--c-border-default-grey);
-      padding: var(--s-4v);
-      max-width: 18rem;
-      display: flex; align-items: center; justify-content: space-between;
-      font-weight: 700;
+      padding: var(--s-8v) var(--s-8v) var(--s-9v); /* 32 32 36 */
+      text-align: center;
+      box-shadow: inset 0 -4px 0 var(--c-border-active-blue-france);
+      max-width: 22rem;
+      transition: background-color 80ms;
     }
-    .tile .arrow { color: var(--c-text-action-high-blue-france); }
+    .tile:hover  { background-color: var(--c-bg-default-grey-hover); }
+    .tile:active { background-color: var(--c-bg-default-grey-active); }
+    .tile-pictogram {
+      width: 5rem; height: 5rem; margin: 0 auto var(--s-4v);
+      display: flex; align-items: center; justify-content: center;
+      transition: filter 80ms;
+    }
+    .tile:hover  .tile-pictogram { filter: brightness(1.10); }
+    .tile:active .tile-pictogram { filter: brightness(1.20); }
+    .tile-pictogram svg { width: 100%; height: 100%; }
+    .tile-body { display: flex; flex-direction: column; align-items: center; flex: 1 1 auto; }
+    .tile-start { display: flex; flex-wrap: wrap; gap: var(--s-2v); justify-content: center; margin-bottom: var(--s-3v); }
+    .tile-title {
+      font-size: 1.125rem; line-height: 1.5rem;
+      font-weight: 700;
+      color: var(--c-text-action-high-blue-france);
+      margin: 0 0 var(--s-2v);
+    }
+    .tile-desc { font-size: 1rem; line-height: 1.5rem; margin: 0 0 var(--s-2v); }
+    .tile-detail {
+      font-size: 0.75rem; line-height: 1.25rem;
+      color: var(--c-text-mention-grey);
+      margin: var(--s-3v) 0 0;
+    }
+    .tile-arrow {
+      position: absolute; right: var(--s-8v); bottom: var(--s-9v);
+      width: 1.5rem; height: 1.5rem;
+      color: var(--c-text-action-high-blue-france);
+    }
+    .tile-arrow svg { width: 100%; height: 100%; }
+    /* Sizes — only --sm exists. */
+    .tile--sm { padding: var(--s-6v) var(--s-6v) var(--s-7v); /* 24 24 28 */ }
+    .tile--sm .tile-pictogram { width: 3.5rem; height: 3.5rem; margin-bottom: var(--s-3v); }
+    .tile--sm .tile-title { font-size: 1rem; line-height: 1.5rem; }
+    .tile--sm .tile-desc { font-size: 0.875rem; line-height: 1.5rem; }
+    .tile--sm .tile-arrow { width: 1rem; height: 1rem; right: var(--s-6v); bottom: var(--s-7v); }
+    /* Layout — horizontal puts picto on the left. */
+    .tile--horizontal { flex-direction: row; align-items: flex-start; text-align: left; padding-bottom: var(--s-9v); }
+    .tile--horizontal .tile-pictogram { width: 4rem; height: 4rem; margin: 0 var(--s-8v) 0 0; }
+    .tile--horizontal .tile-body { align-items: flex-start; }
+    .tile--sm.tile--horizontal .tile-pictogram { width: 2.5rem; height: 2.5rem; }
+    /* Decoration variants. */
+    .tile--grey { background-color: var(--c-bg-contrast-grey); border-color: transparent; }
+    .tile--shadow { border-color: transparent; filter: drop-shadow(0 4px 12px rgba(0,0,18,0.16)); background-color: var(--c-bg-raised-grey, var(--c-bg-default)); }
+    .tile--no-border { border-color: transparent; }
+    .tile--no-background { background-color: transparent; }
+    /* Action — download swaps the icon and forces row layout. */
+    .tile--download { flex-direction: row; align-items: flex-start; text-align: left; }
+    .tile--download .tile-pictogram { width: 4rem; height: 4rem; margin: 0 var(--s-8v) 0 0; }
+    .tile--download .tile-body { align-items: flex-start; }
+    /* No-link — title becomes grey, rule becomes grey. */
+    .tile--no-link { box-shadow: inset 0 -4px 0 var(--c-border-plain-grey); }
+    .tile--no-link .tile-title { color: var(--c-text-title-grey); }
+    .tile--no-link .tile-arrow { display: none; }
 
     /* ---- Tags & badges ---- */
     .tag {
@@ -4027,12 +4097,290 @@
       <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Le modificateur `--download` impose la disposition horizontale, remplace la flèche par l'icône `download-line.svg` et place la vignette du fichier sur un fond `background-alt-grey` avec `object-fit: contain` (pas de crop).</p>
     </article>
 
-    <h3 class="component-group">Tuile <span class="component-group__count">— `.fr-tile` (à étendre).</span></h3>
+    <h3 class="component-group">Tuile <span class="component-group__count">— Tailles, layout horizontal, slots (tag/badge), décoration, téléchargement, sans lien.</span></h3>
+
     <article class="component">
-      <header><h4>Tuile</h4><span class="bem">.fr-tile</span></header>
-      <div class="states">
-        <div class="tile">Service public <span class="arrow">→</span></div>
+      <header><h4>Tuile · tailles</h4><span class="bem">.fr-tile / `.fr-tile--sm`</span></header>
+      <div class="states" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6v); align-items: start;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Default — `.fr-tile`</p>
+          <div class="tile">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+              <p class="tile-desc">Description (optionnelle)</p>
+              <p class="tile-detail">Détail (optionnel)</p>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Sm — `.fr-tile--sm`</p>
+          <div class="tile tile--sm">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+              <p class="tile-desc">Description (optionnelle)</p>
+              <p class="tile-detail">Détail (optionnel)</p>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
       </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Sm réduit le padding (24/28), le titre (16/24) et le pictogramme (56 px). La règle 4 px en bas et la flèche restent identiques en couleur.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Tuile · horizontal</h4><span class="bem">.fr-tile--horizontal</span></header>
+      <div class="states">
+        <div class="tile tile--horizontal" style="max-width: 32rem;">
+          <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+          <div class="tile-body">
+            <h3 class="tile-title">Intitulé de la tuile</h3>
+            <p class="tile-desc">Description (optionnelle)</p>
+            <p class="tile-detail">Détail (optionnel)</p>
+          </div>
+          <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Pictogramme à gauche (4 rem), texte aligné à gauche. Variante responsive `.fr-tile--horizontal.fr-tile--vertical@md` : passe en empilement vertical au-dessus du breakpoint `md`.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Tuile · slots & composition</h4><span class="bem">.fr-tile__start (badge / tag) · `__detail`</span></header>
+      <div class="states" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6v); align-items: start;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Avec tag — fond blanc</p>
+          <div class="tile">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <div class="tile-start"><span class="tag">Libellé tag</span></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+              <p class="tile-detail">Détail (optionnel)</p>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Avec badge — fond gris (convention)</p>
+          <div class="tile tile--grey">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <div class="tile-start"><span class="badge badge-default">Libellé badge</span></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+              <p class="tile-detail">Détail (optionnel)</p>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Le slot `__start` accueille badges ou tags au-dessus du titre. Convention DSFR : un tag s'affiche sur fond blanc, un badge s'affiche sur fond gris (`--grey`) — meilleure lisibilité du badge sur la teinte.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Tuile · décoration</h4><span class="bem">.fr-tile--grey · `--shadow` · `--no-border` · `--no-background`</span></header>
+      <div class="states" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6v); align-items: stretch;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Grey — `.fr-tile--grey`</p>
+          <div class="tile tile--grey">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Shadow — `.fr-tile--shadow`</p>
+          <div class="tile tile--shadow">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">No border — `.fr-tile--no-border`</p>
+          <div class="tile tile--no-border">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">No background — `.fr-tile--no-background`</p>
+          <div class="tile tile--no-background">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Tuile · téléchargement & sans lien</h4><span class="bem">.fr-tile--download · variante sans `<a>` (pas de modificateur dédié)</span></header>
+      <div class="states" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6v); align-items: start;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Téléchargement — `.fr-tile--download`</p>
+          <div class="tile tile--download tile--grey">
+            <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+            <div class="tile-body">
+              <h3 class="tile-title">Télécharger le document XX</h3>
+              <p class="tile-detail">PDF — 1,2 Mo — Français</p>
+            </div>
+            <span class="tile-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.5 2v7.6L4.7 6.7l-.7.7L8 11.5l4-4-.7-.8-2.8 2.9V2zM3 13h10v1H3z"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Sans lien — règle grise</p>
+          <div class="tile tile--no-link">
+            <div class="tile-body">
+              <div class="tile-pictogram"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="#000091" stroke-width="2.5">
+    <path d="M16 64 V36 L40 22 L64 36 V64 Z"/>
+    <path d="M22 64 V44 M30 64 V44 M50 64 V44 M58 64 V44"/>
+    <path d="M36 64 V52 H44 V64"/>
+    <path d="M14 64 H66"/>
+    <path d="M40 18 V14 M37 16 H43"/>
+  </g>
+  <g fill="none" stroke="#e1000f" stroke-width="2">
+    <path d="M22 30 H58"/>
+    <circle cx="40" cy="30" r="2.5" fill="#e1000f"/>
+  </g>
+</svg></div>
+              <h3 class="tile-title">Intitulé de la tuile</h3>
+              <p class="tile-detail">Détail (optionnel)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Téléchargement : flèche `↓`, layout forcé en row, `__detail` porte « Extension - Poids - Langue » (obligatoire). Sans lien : la règle 4 px du bas passe en `border-plain-grey`, le titre passe en `text-title-grey`, et la flèche disparaît.</p>
     </article>
 
     <h3 class="component-group">Mise en avant <span class="component-group__count">— `.fr-callout` (à étendre).</span></h3>
