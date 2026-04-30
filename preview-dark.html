@@ -17,42 +17,42 @@
        ============================================================ */
     @font-face {
       font-family: "Marianne";
-      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Light.woff2") format("woff2");
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Light.woff2") format("woff2");
       font-weight: 300;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: "Marianne";
-      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Regular.woff2") format("woff2");
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Regular.woff2") format("woff2");
       font-weight: 400;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: "Marianne";
-      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Medium.woff2") format("woff2");
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Medium.woff2") format("woff2");
       font-weight: 500;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: "Marianne";
-      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Marianne-Bold.woff2") format("woff2");
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Bold.woff2") format("woff2");
       font-weight: 700;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: "Spectral";
-      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Spectral-Regular.woff2") format("woff2");
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.14.4/dist/fonts/Spectral-Regular.woff2") format("woff2");
       font-weight: 400;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: "Spectral";
-      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.0/dist/fonts/Spectral-ExtraBold.woff2") format("woff2");
+      src: url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.14.4/dist/fonts/Spectral-ExtraBold.woff2") format("woff2");
       font-weight: 800;
       font-style: normal;
       font-display: swap;
@@ -117,6 +117,9 @@
       --c-grey-950-100:        #242424;
       --c-grey-950-100-hover:  #474747;
       --c-grey-950-100-active: #5b5b5b;
+      --c-grey-950-125:        #2a2a2a;
+      --c-grey-950-125-hover:  #4e4e4e;
+      --c-grey-950-125-active: #636363;
       --c-grey-925-125:        #2a2a2a;
       --c-grey-900-175:        #353535;
       --c-grey-850-200:        #3a3a3a;
@@ -1606,23 +1609,86 @@
     .badges-group > li { margin: 0; padding: 0; }
     .badges-group .badge { margin: 0 0.25rem 0.5rem 0.25rem; }
 
-    /* ---- Alertes ---- */
+    /* ---- Alertes (`fr-alert`) ---- */
     .alert {
-      display: grid;
-      grid-template-columns: 0.25rem 1fr;
-      gap: var(--s-3v);
-      padding: var(--s-4v);
-      border: 1px solid var(--c-border-default-grey);
-      border-left: 4px solid;
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--c-grey-425-625);
       background: var(--c-bg-default);
+      color: var(--c-text-default-grey);
+      min-height: 6rem;
+      position: relative;
+      overflow: hidden;
     }
-    .alert.alert-success { border-left-color: var(--c-success-425-625); background: var(--c-success-975-75); }
-    .alert.alert-warning { border-left-color: var(--c-warning-425-625); background: var(--c-warning-975-75); }
-    .alert.alert-error   { border-left-color: var(--c-error-425-625);   background: var(--c-error-975-75); }
-    .alert.alert-info    { border-left-color: var(--c-info-425-625);    background: var(--c-info-975-75); }
-    .alert h4 { margin: 0 0 var(--s-1v); font-size: 1rem; }
-    .alert p { margin: 0; }
-    .alert .pad { display: none; }   /* placeholder column for icon */
+    .alert-rail {
+      width: 4.5rem;
+      background: var(--c-grey-425-625);
+      color: var(--c-text-inverted-grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+    .alert-icon {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+      line-height: 1;
+      background: rgba(255,255,255,0.92);
+      color: currentColor;
+    }
+    .alert-body {
+      flex: 1 1 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+    .alert-title {
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 700;
+    }
+    .alert-desc {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      color: var(--c-text-default-grey);
+    }
+    .alert-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      border: none;
+      background: transparent;
+      color: var(--c-text-action-high-blue-france);
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+    }
+    .alert--success { border-color: var(--c-success-425-625); }
+    .alert--success .alert-rail { background: var(--c-success-425-625); }
+    .alert--error   { border-color: var(--c-error-425-625); }
+    .alert--error .alert-rail { background: var(--c-error-425-625); }
+    .alert--info    { border-color: var(--c-info-425-625); }
+    .alert--info .alert-rail { background: var(--c-info-425-625); }
+    .alert--warning { border-color: var(--c-warning-425-625); }
+    .alert--warning .alert-rail { background: var(--c-warning-425-625); }
+    .alert--sm { min-height: 4.5rem; }
+    .alert--sm .alert-rail { width: 3.5rem; }
+    .alert--sm .alert-body { padding: 0.875rem 1rem; gap: 0.25rem; }
+    .alert--sm .alert-title { font-size: 0.875rem; line-height: 1.5rem; font-weight: 400; }
+    .alert--sm .alert-desc { font-size: 0.875rem; line-height: 1.5rem; }
+    .alert--sm .alert-icon { width: 1.5rem; height: 1.5rem; font-size: 1rem; }
 
     /* ---- Fil d'Ariane ---- */
     .breadcrumb {
@@ -2036,6 +2102,17 @@
         <div class="states-row">
           <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-100-hover)"></span><b>hover</b><span class="hex">#474747</span><span class="rgb">rgb(71,71,71)</span></div>
           <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-100-active)"></span><b>active</b><span class="hex">#5b5b5b</span><span class="rgb">rgb(91,91,91)</span></div>
+        </div>
+      </div>
+      <div class="shade">
+        <span class="hero" style="background:var(--c-grey-950-125)"></span>
+        <b class="name">grey-950-125</b>
+        <span class="hex">#2a2a2a</span>
+        <span class="rgb">rgb(42,42,42)</span>
+        <span class="hsl">hsl(0deg 0% 16.5%)</span>
+        <div class="states-row">
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-125-hover)"></span><b>hover</b><span class="hex">#4e4e4e</span><span class="rgb">rgb(78,78,78)</span></div>
+          <div class="state-cell"><span class="bar" style="background:var(--c-grey-950-125-active)"></span><b>active</b><span class="hex">#636363</span><span class="rgb">rgb(99,99,99)</span></div>
         </div>
       </div>
       <div class="shade">
@@ -4781,14 +4858,130 @@
       </div>
     </article>
 
-    <h3 class="component-group">Alerte <span class="component-group__count">— `.fr-alert` (à étendre).</span></h3>
+    <h3 class="component-group">Alerte <span class="component-group__count">— titre, description, statuts, tailles sm/md, dismissible, no-js, icône custom.</span></h3>
     <article class="component">
-      <header><h4>Alertes</h4><span class="bem">.fr-alert</span></header>
-      <div class="states" style="flex-direction: column; align-items: stretch;">
-        <div class="alert alert-success"><span class="pad"></span><div><h4>Demande enregistrée</h4><p>Vous recevrez un accusé de réception par courriel.</p></div></div>
-        <div class="alert alert-warning"><span class="pad"></span><div><h4>Pièce justificative manquante</h4><p>Téléversez le justificatif de domicile pour finaliser.</p></div></div>
-        <div class="alert alert-error"><span class="pad"></span><div><h4>Erreur de transmission</h4><p>Le service est temporairement indisponible. Veuillez réessayer.</p></div></div>
-        <div class="alert alert-info"><span class="pad"></span><div><h4>Maintenance programmée</h4><p>Le service sera indisponible le 30 avril de 02h à 04h.</p></div></div>
+      <header><h4>Alerte · title</h4><span class="bem">.fr-alert</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert">
+          <div class="alert-rail"></div>
+          <div class="alert-body">
+            <h4 class="alert-title">Titre de l'alerte contenant l'intitulé de son type</h4>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · description</h4><span class="bem">.fr-alert + titre + description</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert">
+          <div class="alert-rail"></div>
+          <div class="alert-body">
+            <h4 class="alert-title">Titre de l'alerte contenant l'intitulé de son type</h4>
+            <p class="alert-desc">Texte de description de l'alerte</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · success</h4><span class="bem">.fr-alert.fr-alert--success</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert alert--success">
+          <div class="alert-rail"><span class="alert-icon">✓</span></div>
+          <div class="alert-body"><h4 class="alert-title">Titre du message de succès</h4></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · error</h4><span class="bem">.fr-alert.fr-alert--error</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert alert--error">
+          <div class="alert-rail"><span class="alert-icon">✖</span></div>
+          <div class="alert-body"><h4 class="alert-title">Titre du message d'erreur</h4></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · information</h4><span class="bem">.fr-alert.fr-alert--info</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert alert--info">
+          <div class="alert-rail"><span class="alert-icon">i</span></div>
+          <div class="alert-body"><h4 class="alert-title">Titre du message d'information</h4></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · warning</h4><span class="bem">.fr-alert.fr-alert--warning</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert alert--warning">
+          <div class="alert-rail"><span class="alert-icon">⚠</span></div>
+          <div class="alert-body"><h4 class="alert-title">Titre du message d'avertissement</h4></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · size sm</h4><span class="bem">.fr-alert.fr-alert--sm</span></header>
+      <div class="states" style="display:block;">
+        <div class="states" style="flex-direction: column; align-items: stretch; gap: var(--s-2v);">
+          <div class="alert alert--success alert--sm"><div class="alert-rail"><span class="alert-icon">✓</span></div><div class="alert-body"><h4 class="alert-title">Succès : Description détaillée du message…</h4></div></div>
+          <div class="alert alert--error alert--sm"><div class="alert-rail"><span class="alert-icon">✖</span></div><div class="alert-body"><h4 class="alert-title">Erreur : Description détaillée du message…</h4></div></div>
+          <div class="alert alert--info alert--sm"><div class="alert-rail"><span class="alert-icon">i</span></div><div class="alert-body"><h4 class="alert-title">Information : Description détaillée du message…</h4></div></div>
+          <div class="alert alert--warning alert--sm"><div class="alert-rail"><span class="alert-icon">⚠</span></div><div class="alert-body"><h4 class="alert-title">Attention : Description détaillée du message…</h4></div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · size md</h4><span class="bem">.fr-alert (default)</span></header>
+      <div class="states" style="display:block;">
+        <div class="states" style="flex-direction: column; align-items: stretch; gap: var(--s-3v);">
+          <div class="alert alert--success"><div class="alert-rail"><span class="alert-icon">✓</span></div><div class="alert-body"><h4 class="alert-title">Succès : Description détaillée du message…</h4></div></div>
+          <div class="alert alert--error"><div class="alert-rail"><span class="alert-icon">✖</span></div><div class="alert-body"><h4 class="alert-title">Erreur : Description détaillée du message…</h4></div></div>
+          <div class="alert alert--info"><div class="alert-rail"><span class="alert-icon">i</span></div><div class="alert-body"><h4 class="alert-title">Information : Description détaillée du message…</h4></div></div>
+          <div class="alert alert--warning"><div class="alert-rail"><span class="alert-icon">⚠</span></div><div class="alert-body"><h4 class="alert-title">Attention : Description détaillée du message…</h4></div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · dismissible</h4><span class="bem">.fr-alert + .fr-btn--close (avec JS)</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert">
+          <div class="alert-rail"></div>
+          <div class="alert-body">
+            <button class="alert-close" aria-label="Fermer">×</button>
+            <h4 class="alert-title">Titre du message</h4>
+            <p class="alert-desc">Cliquer sur la croix pour fermer l'alerte</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · dismissible no-js</h4><span class="bem">.fr-alert + .fr-btn--close (sans JS)</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert">
+          <div class="alert-rail"></div>
+          <div class="alert-body">
+            <button class="alert-close" aria-label="Fermer">×</button>
+            <h4 class="alert-title">Titre du message</h4>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Alerte · icon custom</h4><span class="bem">.fr-alert + icône custom dans la rail</span></header>
+      <div class="states" style="display:block;">
+        <div class="alert">
+          <div class="alert-rail"><span class="alert-icon">🔒</span></div>
+          <div class="alert-body"><h4 class="alert-title">Lorem ipsum dolor</h4></div>
+        </div>
       </div>
     </article>
 

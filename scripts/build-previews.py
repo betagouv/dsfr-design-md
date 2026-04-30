@@ -11,12 +11,13 @@ Run from the repo root:
 
     python3 scripts/build-previews.py
 
-Token values are mirrored from @gouvfr/dsfr@1.13.0/dist/dsfr.css.
+Token values are mirrored from @gouvfr/dsfr@<DSFR_VERSION>/dist/dsfr.css.
 """
 from __future__ import annotations
 import re
 import textwrap
 from pathlib import Path
+from dsfr_version import DSFR_VERSION
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -95,6 +96,10 @@ PALETTE = {
         ("grey-950-100",  ("#eeeeee", "#242424"),
                           ("#d2d2d2", "#474747"),
                           ("#c1c1c1", "#5b5b5b")),
+        # Canonical decision-token target for `background-contrast-raised-grey`.
+        ("grey-950-125",  ("#eeeeee", "#2a2a2a"),
+                          ("#d2d2d2", "#4e4e4e"),
+                          ("#c1c1c1", "#636363")),
         ("grey-925-125",  ("#e5e5e5", "#2a2a2a"), None, None),
         ("grey-900-175",  ("#dddddd", "#353535"), None, None),
         ("grey-850-200",  ("#cecece", "#3a3a3a"), None, None),
@@ -985,6 +990,15 @@ def replace_block(src: str, start: str, end: str, replacement: str) -> str:
     return pattern.sub(start + "\n" + replacement + "\n    " + end, src)
 
 
+def sync_dsfr_cdn_version(src: str) -> str:
+    """Replace any hardcoded `@gouvfr/dsfr@x.y.z` CDN references.
+
+    Keeps preview font URLs and related DSFR CDN links aligned with the
+    single source-of-truth version in `scripts/dsfr_version.py`.
+    """
+    return re.sub(r"@gouvfr/dsfr@[0-9]+\.[0-9]+\.[0-9]+", f"@gouvfr/dsfr@{DSFR_VERSION}", src)
+
+
 def regenerate(scheme: str) -> None:
     fname = "preview.html" if scheme == "light" else "preview-dark.html"
     path = ROOT / fname
@@ -1036,6 +1050,10 @@ def regenerate(scheme: str) -> None:
         "<!-- END GENERATED SPACING -->",
         spc,
     )
+
+    # 6. Keep DSFR CDN URLs (fonts etc.) aligned with the single
+    #    version constant.
+    src = sync_dsfr_cdn_version(src)
 
     path.write_text(src)
     print(f"  ✓ {fname}")

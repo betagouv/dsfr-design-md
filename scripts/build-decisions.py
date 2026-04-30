@@ -46,15 +46,11 @@ import sys
 import urllib.request
 from collections import Counter, defaultdict
 from pathlib import Path
+from dsfr_version import DSFR_VERSION, DSFR_CSS_URL
 
 # ---------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------
-
-DSFR_VERSION = "1.13.0"   # bump in lockstep with build-previews.py
-DSFR_CSS_URL = (
-    f"https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@{DSFR_VERSION}/dist/dsfr.css"
-)
 
 ROLE_PREFIXES = ("background-", "text-", "border-", "artwork-")
 DEFAULT_THRESHOLD = 5     # Tier 1+2
@@ -78,6 +74,9 @@ ROLE_ORDER = ("background", "text", "border", "artwork")
 # vocabulary even when the compiled CSS doesn't.
 SYNTHETIC_DECISIONS: dict[str, str] = {
     "background-elevated-grey": "grey-1000-75",
+    "background-contrast-raised-grey": "grey-950-125",
+    "background-contrast-raised-grey-hover": "grey-950-125-hover",
+    "background-contrast-raised-grey-active": "grey-950-125-active",
 }
 
 ALWAYS_INCLUDE = frozenset({
