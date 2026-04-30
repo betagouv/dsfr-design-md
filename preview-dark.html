@@ -1342,6 +1342,32 @@
     .card:active { background-color: var(--c-bg-default-grey-active); }
     .card:hover  .card-img { filter: brightness(1.10); }
     .card:active .card-img { filter: brightness(1.20); }
+    /* Layout axis — image left, body right at 40/60. Below
+       md the canon collapses these back to vertical; we
+       always render horizontal here for the preview tile. */
+    .card--horizontal { flex-direction: row; }
+    .card--horizontal .card-img { aspect-ratio: auto; flex: 0 0 40%; align-self: stretch; }
+    .card--horizontal-half .card-img { flex: 0 0 50%; }
+    .card--horizontal-tier .card-img { flex: 0 0 33.333%; }
+    /* Decoration axis. Each variant flips the bg-colour and
+       optionally drops the border or adds a drop-shadow. */
+    .card--grey { background-color: var(--c-bg-contrast-grey); border-color: transparent; }
+    .card--grey:hover { background-color: var(--c-bg-contrast-grey-hover, var(--c-bg-contrast-grey)); }
+    .card--shadow { border-color: transparent; filter: drop-shadow(0 4px 12px rgba(0,0,18,0.16)); background-color: var(--c-bg-raised-grey, var(--c-bg-default)); }
+    .card--shadow:hover { background-color: var(--c-bg-raised-grey-hover, var(--c-bg-default-grey-hover)); }
+    .card--no-border { border-color: transparent; }
+    .card--no-background { background-color: transparent; border: 1px solid var(--c-border-default-grey); }
+    /* Composition — `__detail`, `__start` row */
+    .card-detail { font-size: 0.75rem; line-height: 1.25rem; color: var(--c-text-mention-grey); margin: 0 0 var(--s-2v); }
+    .card-start  { display: flex; flex-wrap: wrap; gap: var(--s-2v); margin-bottom: var(--s-3v); }
+    /* Download — file metadata replaces description */
+    .card--download .card-img {
+      background-color: var(--c-bg-alt-grey);
+      background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 80'><rect x='6' y='4' width='48' height='72' fill='%23ffffff' stroke='%23000091' stroke-width='2'/><rect x='14' y='18' width='32' height='2' fill='%23929292'/><rect x='14' y='28' width='32' height='2' fill='%23929292'/><rect x='14' y='38' width='32' height='2' fill='%23929292'/><rect x='14' y='48' width='20' height='2' fill='%23929292'/></svg>");
+      background-size: 30% auto;
+      flex: 0 0 35%;
+    }
+    .card--download .card-arrow svg { color: var(--c-text-action-high-blue-france); }
     /* Lg — wider padding (40 px), larger title (22 / 28),
        larger description text (16 / 24) and bigger arrow icon. */
     .card--lg .card-body { padding: var(--s-10v); /* 2.5rem */ }
@@ -3855,7 +3881,7 @@
       </div>
     </article>
 
-    <h3 class="component-group">Carte <span class="component-group__count">— Tailles (sm / md / lg) avec image, titre, description, flèche.</span></h3>
+    <h3 class="component-group">Carte <span class="component-group__count">— Tailles, layout horizontal, décoration (grey/shadow/no-border/no-background), slots de composition, téléchargement.</span></h3>
     <article class="component">
       <header><h4>Carte · tailles</h4><span class="bem">.fr-card · .fr-card--sm · .fr-card--md · .fr-card--lg</span></header>
       <div class="states" style="grid-template-columns: 1fr 1fr; display: grid; gap: var(--s-6v); align-items: stretch;">
@@ -3901,6 +3927,104 @@
           </div>
         </div>
       </div>
+    </article>
+
+
+    <article class="component">
+      <header><h4>Carte · horizontal</h4><span class="bem">.fr-card--horizontal · `--horizontal-half` · `--horizontal-tier`</span></header>
+      <div class="states">
+        <div class="card card--horizontal" style="max-width: 38rem;">
+          <div class="card-img"></div>
+          <div class="card-body">
+            <h3 class="card-title">Intitulé de la carte</h3>
+            <p class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua.</p>
+            <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Image fixée à 40 % du rail. Variantes : `--horizontal-half` (50/50) et `--horizontal-tier` (33/67). En dessous du breakpoint `md`, la disposition retombe sur l'empilement vertical.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Carte · décoration</h4><span class="bem">.fr-card--grey · `--shadow` · `--no-border` · `--no-background`</span></header>
+      <div class="states" style="grid-template-columns: 1fr 1fr; display: grid; gap: var(--s-6v); align-items: stretch;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Grey — `.fr-card--grey`</p>
+          <div class="card card--grey">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Shadow — `.fr-card--shadow`</p>
+          <div class="card card--shadow">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">No border — `.fr-card--no-border`</p>
+          <div class="card card--no-border">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">No background — `.fr-card--no-background`</p>
+          <div class="card card--no-background">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <h3 class="card-title">Intitulé de la carte</h3>
+              <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>Carte · slots & composition</h4><span class="bem">.fr-card__start · `__detail` · `fr-badges-group` · `fr-tags-group`</span></header>
+      <div class="states">
+        <div class="card">
+          <div class="card-img"></div>
+          <div class="card-body">
+            <div class="card-start">
+              <span class="badge badge--info">Information</span>
+              <span class="tag">Étiquette</span>
+            </div>
+            <p class="card-detail">Détail (date, catégorie)</p>
+            <h3 class="card-title">Intitulé de la carte</h3>
+            <p class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+            <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.4 3.6l-.7.7L10.5 7H2v1h8.5l-2.8 2.8.7.7L12.5 7.5z"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Le slot `__start` accueille badges, tags, et un `__detail` (descripteur court en `text-mention-grey`, body-xs) qui se positionne juste au-dessus du titre.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Carte · téléchargement</h4><span class="bem">.fr-card--download</span></header>
+      <div class="states">
+        <div class="card card--horizontal card--download" style="max-width: 38rem;">
+          <div class="card-img"></div>
+          <div class="card-body">
+            <h3 class="card-title">Document à télécharger</h3>
+            <p class="card-detail">PDF — 1,2 Mo</p>
+            <p class="card-desc">Description optionnelle du fichier.</p>
+            <span class="card-arrow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.5 2v7.6L4.7 6.7l-.7.7L8 11.5l4-4-.7-.8-2.8 2.9V2zM3 13h10v1H3z"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Le modificateur `--download` impose la disposition horizontale, remplace la flèche par l'icône `download-line.svg` et place la vignette du fichier sur un fond `background-alt-grey` avec `object-fit: contain` (pas de crop).</p>
     </article>
 
     <h3 class="component-group">Tuile <span class="component-group__count">— `.fr-tile` (à étendre).</span></h3>

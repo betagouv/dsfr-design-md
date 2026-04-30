@@ -71,6 +71,13 @@ colors:
   grey-975-75:                    "#f6f6f6"
   grey-975-75-hover:              "#dfdfdf"
   grey-975-75-active:             "#cfcfcf"
+  # Canonical decision-token target for `background-raised-grey`
+  # and `background-lifted-grey` — used by `.fr-card--shadow`
+  # and elevated callouts. Identical to grey-1000-50 in light
+  # theme but distinct in dark (#1e1e1e vs #161616).
+  grey-1000-75:                   "#ffffff"
+  grey-1000-75-hover:             "#f6f6f6"
+  grey-1000-75-active:            "#ededed"
   grey-950-150:                   "#eeeeee"
   grey-950-150-hover:             "#d2d2d2"
   grey-950-150-active:            "#c1c1c1"
@@ -78,6 +85,12 @@ colors:
   grey-950-100:                   "#eeeeee"
   grey-950-100-hover:             "#d2d2d2"
   grey-950-100-active:            "#c1c1c1"
+  # Canonical decision-token target for
+  # `background-contrast-raised-grey` — used when both
+  # `--shadow` and `--grey` modifiers stack on a card.
+  grey-950-125:                   "#eeeeee"
+  grey-950-125-hover:             "#d2d2d2"
+  grey-950-125-active:            "#c1c1c1"
   grey-925-125:                   "#e5e5e5"
   grey-900-175:                   "#dddddd"
   grey-850-200:                   "#cecece"
@@ -561,6 +574,10 @@ colors:
   background-raised-grey:                            "{colors.grey-1000-75}"   # used 6×
   background-raised-grey-active:                     "{colors.grey-1000-75-active}"   # used 6×
   background-raised-grey-hover:                      "{colors.grey-1000-75-hover}"   # used 6×
+  # Stacks `--shadow` over `--grey` — see `.fr-card--shadow.fr-card--grey`.
+  background-contrast-raised-grey:                   "{colors.grey-950-125}"   # used 1×
+  background-contrast-raised-grey-active:            "{colors.grey-950-125-active}"   # used 1×
+  background-contrast-raised-grey-hover:             "{colors.grey-950-125-hover}"   # used 1×
 
   # ---- text ----
   text-action-high-blue-france:                      "{colors.blue-france-sun-113-625}"   # used 34×
@@ -1228,6 +1245,30 @@ components:
     textColor:       "{colors.text-default-grey}"
     rounded:         "{rounded.none}"
     padding:         40px
+  card-detail:
+    textColor:       "{colors.text-mention-grey}"
+    typography:      "{typography.body-xs}"   # 0.75rem / 1.25rem
+  # Decoration variants — modify the card's background &
+  # elevation. They re-emit `--idle / --hover / --active`
+  # against a different colour pair, so the standard hover
+  # tinting still works inside them.
+  card-grey:
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-default-grey}"
+  # `--shadow` drops the 1 px border, paints with
+  # `background-raised-grey`, and adds `filter: drop-shadow(
+  # var(--raised-shadow))` — a soft elevated drop on the
+  # whole card body. Stacks with `--grey` to use the
+  # `background-contrast-raised-grey` colour pair.
+  card-shadow:
+    backgroundColor: "{colors.background-raised-grey}"
+    textColor:       "{colors.text-default-grey}"
+  card-shadow-grey:
+    backgroundColor: "{colors.background-contrast-raised-grey}"
+    textColor:       "{colors.text-default-grey}"
+  card-no-background:
+    backgroundColor: transparent
+    textColor:       "{colors.text-default-grey}"
   card-hover:
     backgroundColor: "{colors.background-alt-grey}"
     textColor:       "{colors.text-default-grey}"
@@ -1981,6 +2022,53 @@ Three visual constants across all sizes:
 - **Border** is 1 px `border-default-grey` unless `.fr-card--no-border` or `.fr-card--shadow` is set.
 
 **Hover & active states.** When the entire card is interactive (`.fr-enlarge-link` or `.fr-enlarge-button` — the most common preset), hovering darkens the image via a `filter: brightness()` (canon decrements 10 % in light theme, increments 10 % in dark theme — a unified "darken" perception thanks to the `--brighten` direction-aware variable), and tints the card body background to `background-default-grey-hover`. Active state pushes the same delta to 20 %. The two effects together produce a clearly perceptible interactivity feedback: the image area appears to gain a grey overlay, and the body background shifts from white to a faint warm grey.
+
+**Layout axis.** Above the `md` breakpoint the card switches from a top-image vertical stack to a side-by-side row when one of three modifiers is set. The image region width is fixed; everything else flows into the remaining track.
+
+| Modifier | Image width | Body width |
+|----------|-------------|------------|
+| *(none)* | 100 % (top) | 100 % (below image) |
+| `.fr-card--horizontal` | 40 % (left) | 60 % (right) |
+| `.fr-card--horizontal-half` | 50 % | 50 % |
+| `.fr-card--horizontal-tier` | 33.3 % | 66.7 % |
+
+Below the `md` breakpoint, all three horizontal modifiers collapse back to the vertical stack — the canonical CSS guards the `flex-direction: row` behind a `min-width` media query so the layout responds gracefully on mobile.
+
+**Decoration axis.** Background colour, border, and elevation are toggled independently:
+
+| Modifier | Background | Border | Elevation |
+|----------|------------|--------|-----------|
+| *(none)* | `background-default-grey` (white) | 1 px `border-default-grey` | flat |
+| `.fr-card--grey` | `background-contrast-grey` (light grey) | 1 px border | flat |
+| `.fr-card--shadow` | `background-raised-grey` | none | `drop-shadow(--raised-shadow)` |
+| `.fr-card--shadow.fr-card--grey` | `background-contrast-raised-grey` | none | `drop-shadow` |
+| `.fr-card--no-border` | `background-default-grey` | none | flat |
+| `.fr-card--no-background` | `transparent` | 1 px border | flat |
+
+The border-vs-shadow split is handled by the canonical selector `.fr-card:not(.fr-card--no-border):not(.fr-card--shadow)` — adding either modifier removes the inset gradient that draws the four 1 px sides.
+
+**Slots & composition.** Inside `__content` the canonical card lays out three optional regions plus the title and description:
+
+| Slot | BEM | Typical content |
+|------|-----|-----------------|
+| Start | `.fr-card__start` | `fr-badges-group`, `fr-tags-group`, `fr-card__detail` (small descriptor in `text-mention-grey`, body-xs, sits above the title) |
+| Title + desc | `.fr-card__title`, `.fr-card__desc` | The card's main reading content |
+| End | `.fr-card__end` | Detail tail (date, author), the trailing arrow icon when `enlarge-link` |
+| Footer | `.fr-card__footer` | Standalone action buttons, secondary links — sits below the body and outside the enlarged hit-area |
+
+`fr-badges-group` placed in `__header` instead of `__start` floats the badges over the top-left of the image (used in news-item cards). `__detail` is a single-line caption — typically a date or category — that scoots up to sit just above the title with `margin-bottom: -1rem` (canon).
+
+**Action variants.** The trailing icon and the click target both depend on three independent flags:
+
+| Modifier | Icon | Click target | Use case |
+|----------|------|--------------|----------|
+| `.fr-enlarge-link` *(default in canon demos)* | arrow-right (`→`) | entire card | Card linking to a page |
+| `.fr-enlarge-button` | arrow-right | entire card (button) | Card triggering an action (modal, expand) |
+| `.fr-card--download` | download (`↓`) | entire card | File card — title becomes a download link, body shows file metadata via `__detail` |
+| `.fr-card--no-arrow` | *(none)* | depends on link/button modifier | Decorative or contextual card without explicit affordance |
+| `.fr-card--no-icon` | *(none)* | depends on link/button modifier | Same as `--no-arrow`, kept for legacy markup |
+
+`.fr-card--download` also overrides the layout to row (image left at 40 %), and constrains its `__img` to `object-fit: contain` over a `background-alt-grey` panel — file thumbnails are shown padded inside their tile rather than cropped to fill.
 
 ```html
 <div class="fr-card fr-enlarge-link fr-card--lg">
