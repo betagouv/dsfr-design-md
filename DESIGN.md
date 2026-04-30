@@ -1425,12 +1425,58 @@ components:
     rounded:         "{rounded.none}"
     padding:         32px
 
+  # ---- Callout (`fr-callout`) — Mise en avant
+  #
+  # A grey-tinted block with a 4 px coloured rule on its
+  # left edge, used to draw attention to a notice, key
+  # information, or a related action. Three optional slots:
+  #   • Icon (set via `fr-icon-*` class on the callout root)
+  #   • Title (`__title`, h4-sized)
+  #   • Action button (`fr-btn` inside the callout)
+  #
+  # Default colour pair:
+  #   bg = background-contrast-grey
+  #   rule = border-default-blue-france (4 px on the left)
+  #
+  # Thematic colour swap. The callout exposes 17 optional
+  # colour variants (`fr-callout--<name>`) that swap both
+  # the bg and the rule colour together. Pattern:
+  #   bg   = background-contrast-{name}
+  #   rule = border-default-{name}
+  # Available `<name>`s: green-tilleul-verveine,
+  # green-bourgeon, green-emeraude, green-menthe,
+  # green-archipel, blue-ecume, blue-cumulus,
+  # purple-glycine, pink-macaron, pink-tuile,
+  # yellow-tournesol, yellow-moutarde, orange-terre-battue,
+  # brown-cafe-creme, brown-caramel, brown-opera,
+  # beige-gris-galet.
+  # The "Accent Story" in DSFR demos uses `pink-tuile`
+  # (a coral/terracotta accent).
+  # ----
   callout:
-    backgroundColor: "{colors.background-alt-grey}"
+    backgroundColor: "{colors.background-contrast-grey}"
     textColor:       "{colors.text-default-grey}"
-    typography:      "{typography.body-md}"
+    typography:      "{typography.body-lg}"   # 1.125rem / 1.75rem
     rounded:         "{rounded.none}"
-    padding:         24px
+    padding:         24px                     # 1.5rem all sides
+  callout-title:
+    textColor:       "{colors.text-title-grey}"
+    typography:      "{typography.h4}"        # 1.375rem / 1.75rem, weight 700
+  callout-text:
+    textColor:       "{colors.text-default-grey}"
+    typography:      "{typography.body-lg}"
+  # The 4 px coloured rule on the left edge — drawn via
+  # `linear-gradient` background. Width is fixed at 0.25 rem.
+  # The colour reflects the thematic variant.
+  callout-rule:
+    backgroundColor: "{colors.border-default-blue-france}"
+  # Pink-tuile is the canon's "Accent Story" preset. All 16
+  # other thematic variants follow the same shape — swap the
+  # `pink-tuile` segment for any of the names listed above.
+  callout-pink-tuile:
+    backgroundColor: "{colors.background-contrast-pink-tuile}"
+  callout-pink-tuile-rule:
+    backgroundColor: "{colors.border-default-pink-tuile}"
 
   header:
     backgroundColor: "{colors.background-default-grey}"
@@ -2231,6 +2277,78 @@ The `--download` modifier also forces horizontal layout (`flex-direction: row`) 
   <div class="fr-tile__header">
     <div class="fr-tile__pictogram">…</div>
   </div>
+</div>
+```
+
+#### Mise en avant
+
+The callout (`fr-callout`) is a grey-tinted block with a **4 px coloured rule on its left edge**, used to highlight a notice, summarise key information, or pair an action with a contextual prompt. Structurally simpler than card and tile — no image, no pictogram, just three optional slots inside a tinted body.
+
+**Anatomy.**
+
+| Element | BEM | Typography | Colour |
+|---------|-----|------------|--------|
+| Body (background) | `.fr-callout` | — | `background-contrast-grey` |
+| Left rule (4 px) | drawn via `linear-gradient` background-image | — | `border-default-blue-france` (default) or thematic |
+| Icon *(optional)* | `fr-icon-*` class on `.fr-callout` itself, rendered via `::before` | 1 rem icon mask | `text-title-grey` |
+| Title | `.fr-callout__title` | h4 — `1.375rem / 1.75rem`, weight 700 | `text-title-grey` |
+| Text | `.fr-callout__text` | body-lg — `1.125rem / 1.75rem` | `text-default-grey` |
+| Action *(optional)* | `.fr-btn` (any standard button variant) | — | inherits button tokens |
+
+Padding is `1.5rem` on all four sides; default block margin is `0 0 1.5rem`. The icon, when present, sits **above** the title (`display: block; margin: -0.5rem 0 0.5rem`) — it's not a left-side decorator but a stacked tag.
+
+**Composition matrix.** The 4 DSFR demo stories (Default / Icon / Button / Icon+Button) are all permutations of two binary slots:
+
+| Slot | Toggle | Effect |
+|------|--------|--------|
+| Icon | Add `fr-icon-information-line` (or any `fr-icon-*` class) directly on `.fr-callout` | Icon block appears above the title |
+| Button | Add `<button class="fr-btn">…</button>` (or `<a class="fr-btn">`) inside the callout | Button appears below the text with `margin-top: 1rem` |
+
+The Icon+Button story is just `icon=on, button=on` — no extra rule.
+
+**Thematic colour variants.** The callout supports a 17-element thematic palette via single-class modifiers `fr-callout--<name>`. Each variant swaps **both** the body background (`background-contrast-{name}`) and the left rule (`border-default-{name}`) to a coordinated colour pair, while leaving title, text, and icon colours unchanged (so contrast remains readable across themes).
+
+| Variant | BG (light) | Rule (light) | Use |
+|---------|------------|--------------|-----|
+| *(default)* | `background-contrast-grey` (`#eeeeee`) | `border-default-blue-france` (`#000091`) | Generic notice |
+| `--green-tilleul-verveine` | tilleul tinted bg | green rule | Sustainability, ecology |
+| `--green-bourgeon` | bourgeon tinted bg | green rule | Plant / agriculture |
+| `--green-emeraude` | emeraude tinted bg | green rule | Health |
+| `--green-menthe` | menthe tinted bg | green rule | Education |
+| `--green-archipel` | archipel tinted bg | green rule | Maritime / overseas |
+| `--blue-ecume` | écume tinted bg | blue rule | Defence / sea |
+| `--blue-cumulus` | cumulus tinted bg | blue rule | Sport / weather |
+| `--purple-glycine` | glycine tinted bg | purple rule | Culture |
+| `--pink-macaron` | macaron tinted bg | pink rule | Tourism |
+| `--pink-tuile` | tuile tinted bg (`#fee9e7`) | terracotta rule (`#ce614a`) | DSFR's "Accent" preset |
+| `--yellow-tournesol` | tournesol tinted bg | yellow rule | Energy |
+| `--yellow-moutarde` | moutarde tinted bg | mustard rule | Justice / regulation |
+| `--orange-terre-battue` | terre-battue tinted bg | orange rule | Industry |
+| `--brown-cafe-creme` | café-crème tinted bg | brown rule | Heritage |
+| `--brown-caramel` | caramel tinted bg | caramel rule | Local government |
+| `--brown-opera` | opéra tinted bg | brown rule | Generic warm accent |
+| `--beige-gris-galet` | beige tinted bg | beige rule | Generic neutral accent |
+
+The thematic colour names map to French ministerial / administrative palettes — agencies typically pick the variant aligned with their branding. From a CSS perspective they are all generated by the same template: each variant rule is exactly two background-* property assignments. The light/dark theme system handles the corresponding dark-mode tokens automatically.
+
+```html
+<!-- Default callout, no icon, no button -->
+<div class="fr-callout">
+  <h3 class="fr-callout__title">Titre de la mise en avant</h3>
+  <p class="fr-callout__text">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+</div>
+
+<!-- With icon and button -->
+<div class="fr-callout fr-icon-information-line">
+  <h3 class="fr-callout__title">Information</h3>
+  <p class="fr-callout__text">Texte d'explication.</p>
+  <button class="fr-btn">En savoir plus</button>
+</div>
+
+<!-- Thematic accent -->
+<div class="fr-callout fr-callout--pink-tuile">
+  <h3 class="fr-callout__title">Mise en avant accent</h3>
+  <p class="fr-callout__text">Texte d'explication.</p>
 </div>
 ```
 

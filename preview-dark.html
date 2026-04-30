@@ -1524,13 +1524,57 @@
       justify-content: flex-end;
     }
 
-    /* ---- Mise en avant (callout) ---- */
+    /* ---- Mise en avant (callout) ----
+       A grey-tinted block with a 4 px coloured rule on the
+       LEFT edge — drawn here as `border-left` (canon uses a
+       linear-gradient background, same visual). Body bg is
+       `background-contrast-grey` by default; thematic
+       variants swap to `background-contrast-{name}` and
+       align the rule to `border-default-{name}`. The icon
+       (when present) sits ABOVE the title, not as a
+       left-side decorator. */
     .callout {
-      background: var(--c-bg-alt);
-      padding: var(--s-6v);
-      border-left: 4px solid var(--c-text-action-high-blue-france);
+      position: relative;
+      background-color: var(--c-bg-contrast-grey);
+      border-left: 4px solid var(--c-blue-france-sun-113-625);
+      padding: var(--s-6v);              /* 1.5rem */
+      margin: 0 0 var(--s-6v);
+      color: var(--c-text-default-grey);
     }
-    .callout h4 { margin-top: 0; }
+    .callout-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.5rem; height: 1.5rem;
+      margin: -0.5rem 0 0.5rem;
+      color: var(--c-text-title-grey);
+      border: 1px solid currentColor;
+      font-style: normal; font-weight: 700; font-size: 0.875rem; line-height: 1;
+    }
+    .callout-title {
+      font-size: 1.375rem; line-height: 1.75rem;
+      font-weight: 700;
+      color: var(--c-text-title-grey);
+      margin: 0 0 0.5rem;
+    }
+    .callout-text {
+      font-size: 1.125rem; line-height: 1.75rem;
+      margin: 0;
+    }
+    .callout .btn-primary {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--c-bg-action-high-blue-france);
+      color: var(--c-text-inverted-blue-france, #fff);
+      font-weight: 500;
+      font-size: 1rem; line-height: 1.5rem;
+      border: none;
+      cursor: pointer;
+    }
+    .callout .btn-primary:hover { background-color: var(--c-bg-action-high-blue-france-hover); }
+    /* Thematic colour variants — bg + rule swap together. */
+    .callout--pink-tuile      { background-color: var(--c-pink-tuile-950-100);      border-left-color: var(--c-pink-tuile-main-556); }
+    .callout--blue-cumulus    { background-color: var(--c-blue-cumulus-950-100);    border-left-color: var(--c-blue-cumulus-main-526); }
+    .callout--green-emeraude  { background-color: var(--c-green-emeraude-950-100);  border-left-color: var(--c-green-emeraude-main-632); }
 
     /* ---- En-tête / pied de page de démonstration ---- */
     .demo-header {
@@ -4383,13 +4427,71 @@
       <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Téléchargement : flèche `↓`, layout forcé en row, `__detail` porte « Extension - Poids - Langue » (obligatoire). Sans lien : la règle 4 px du bas passe en `border-plain-grey`, le titre passe en `text-title-grey`, et la flèche disparaît.</p>
     </article>
 
-    <h3 class="component-group">Mise en avant <span class="component-group__count">— `.fr-callout` (à étendre).</span></h3>
+    <h3 class="component-group">Mise en avant <span class="component-group__count">— Composition (icône, titre, texte, action) et palette thématique 17 variantes.</span></h3>
+
     <article class="component">
-      <header><h4>Mise en avant</h4><span class="bem">.fr-callout</span></header>
-      <div class="callout">
-        <h4>Information importante</h4>
-        <p>Depuis le 1er janvier, certaines démarches peuvent être réalisées via FranceConnect+ pour une vérification renforcée.</p>
+      <header><h4>Mise en avant · composition</h4><span class="bem">.fr-callout · `__title` · `__text` · `fr-icon-*` · `fr-btn`</span></header>
+      <div class="states" style="display: grid; grid-template-columns: 1fr; gap: var(--s-6v); align-items: stretch;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Default — titre + texte</p>
+          <div class="callout">
+            <h3 class="callout-title">Titre de la mise en avant</h3>
+            <p class="callout-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec libero ultricies aliquet</p>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Avec icône — `fr-icon-information-line`</p>
+          <div class="callout">
+            <span class="callout-icon" aria-hidden="true">i</span>
+            <h3 class="callout-title">Titre de la mise en avant</h3>
+            <p class="callout-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec libero ultricies aliquet</p>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Avec bouton — `fr-btn` à la fin du contenu</p>
+          <div class="callout">
+            <h3 class="callout-title">Titre de la mise en avant</h3>
+            <p class="callout-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec libero ultricies aliquet</p>
+            <button class="btn-primary">En savoir plus</button>
+          </div>
+        </div>
       </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">Trois slots optionnels : icône (au-dessus du titre, via `fr-icon-*` directement sur la racine), titre `__title` (h4, weight 700), et bouton (un `fr-btn` quelconque, `margin-top: 1rem`). DSFR documente la combinaison icône+bouton ; c'est la simple union des deux.</p>
+    </article>
+
+    <article class="component">
+      <header><h4>Mise en avant · couleurs thématiques</h4><span class="bem">.fr-callout--&lt;name&gt; · 17 variantes (1 montrée + 3 exemples)</span></header>
+      <div class="states" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6v); align-items: stretch;">
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Default — grey + blue-france</p>
+          <div class="callout">
+            <h3 class="callout-title">Titre de la mise en avant</h3>
+            <p class="callout-text">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Pink-tuile (canon « Accent »)</p>
+          <div class="callout callout--pink-tuile">
+            <h3 class="callout-title">Titre de la mise en avant</h3>
+            <p class="callout-text">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Blue-cumulus</p>
+          <div class="callout callout--blue-cumulus">
+            <h3 class="callout-title">Titre de la mise en avant</h3>
+            <p class="callout-text">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+          </div>
+        </div>
+        <div>
+          <p class="state-label" style="margin: 0 0 var(--s-2v);">Green-emeraude</p>
+          <div class="callout callout--green-emeraude">
+            <h3 class="callout-title">Titre de la mise en avant</h3>
+            <p class="callout-text">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="margin: var(--s-3v) 0 0; font-size: 0.875rem;">DSFR fournit 17 variantes thématiques (`--green-tilleul-verveine`, `--pink-tuile`, etc.). Chacune remplace simultanément le fond (`background-contrast-{name}`) et la règle gauche (`border-default-{name}`). Voir la table dans la spec pour la liste complète et les usages typiques.</p>
     </article>
 
     <h3 class="component-group">Tag <span class="component-group__count">— `.fr-tag` (à étendre).</span></h3>
