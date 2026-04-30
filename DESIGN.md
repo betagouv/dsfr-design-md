@@ -1421,11 +1421,28 @@ components:
     rounded:         "{rounded.none}"
     padding:         0px
 
+  # ---- Badge (`fr-badge`)
+  #
+  # Compact status/accent label. Orthogonal axes:
+  #   1) Size: md (default) vs `--sm`
+  #   2) Status: `--success|--warning|--error|--info`
+  #   3) Icon/no-icon: same colour pair; icon is composition-only
+  #   4) Accent: `--new` (editorial accent variant)
+  #   5) Ellipsis: truncation utility for long labels
+  #   6) Group: `fr-badges-group` wrap container
+  #
+  # Unlike tags, the default badge is neutral grey. Status modifiers
+  # apply functional colours. All variants keep uppercase label text
+  # with semi-bold emphasis.
   badge:
-    backgroundColor: "{colors.background-action-low-blue-france}"
-    textColor:       "{colors.text-action-high-blue-france}"
+    backgroundColor: "{colors.background-contrast-grey}"
+    textColor:       "{colors.text-label-grey}"
     typography:      "{typography.body-sm}"
     rounded:         "{rounded.pill}"
+    padding:         12px
+    height:          32px
+  badge-sm:
+    typography:      "{typography.body-xs}"
     padding:         8px
     height:          24px
   badge-success:
@@ -1433,13 +1450,19 @@ components:
     textColor:       "{colors.success-425-625}"
   badge-warning:
     backgroundColor: "{colors.warning-975-75}"
-    textColor:       "{colors.text-default-grey}"
+    textColor:       "{colors.warning-425-625}"
   badge-error:
     backgroundColor: "{colors.error-975-75}"
     textColor:       "{colors.text-default-error}"
   badge-info:
     backgroundColor: "{colors.info-975-75}"
     textColor:       "{colors.text-default-info}"
+  badge-new:
+    backgroundColor: "{colors.green-menthe-925-125}"
+    textColor:       "{colors.green-menthe-sun-373-moon-652}"
+  badge-group:
+    rounded:         "{rounded.none}"
+    padding:         0px
 
   # ============================================================
   # FEEDBACK — alerts
@@ -2475,6 +2498,65 @@ The pressed-state corner-badge trick is the tag's most distinctive piece of CSS:
   <li><p class="fr-tag">Libellé 1</p></li>
   <li><p class="fr-tag">Libellé 2</p></li>
   <li><p class="fr-tag">Libellé 3</p></li>
+</ul>
+```
+
+#### Badge
+
+The badge (`fr-badge`) is a compact label for status, accent, or categorisation cues. It shares the pill radius family with tags but has a different default behaviour: **neutral grey at rest**.
+
+| Axis | Toggle | Effect |
+|------|--------|--------|
+| Size | `.fr-badge--sm` | 32px (md) → 24px (sm), typography 14/24 → 12/20 |
+| Status | `.fr-badge--success|--warning|--error|--info` | Functional background/text pairs |
+| Icon | optional leading icon | Same colour pair as status/no-status variant |
+| Accent | `.fr-badge--new` | Editorial accent colour (outside functional status family) |
+| Ellipsis | truncation utility | Long labels clipped with `…` in constrained width |
+| Group | `.fr-badges-group` | Flex-wrap row container for multiple badges |
+
+**Status and accent variants.**
+
+| Variant | BEM modifier | Background | Text |
+|---------|--------------|------------|------|
+| Default | *(none)* | `background-contrast-grey` | `text-label-grey` |
+| Success | `--success` | `success-975-75` | `success-425-625` |
+| Warning | `--warning` | `warning-975-75` | `warning-425-625` |
+| Error | `--error` | `error-975-75` | `text-default-error` |
+| Info | `--info` | `info-975-75` | `text-default-info` |
+| Accent | `--new` | `green-menthe-925-125` | `green-menthe-sun-373-moon-652` |
+
+**Icons.** Status badges can be rendered with or without icon. Icon presence does not define a separate token family — it is a composition choice (`::before` or inline icon element).
+
+**Ellipsis.** For long labels in constrained columns, keep the badge on one line and clip with ellipsis (`white-space: nowrap; overflow: hidden; text-overflow: ellipsis;`).
+
+**Group (`fr-badges-group`).** A list wrapper (`<ul>`/`<ol>`) that lays badges out in a wrapped row. Use md for dense desktop content and sm for compact sidebars or metadata stacks.
+
+```html
+<!-- Default -->
+<p class="fr-badge">Libellé badge</p>
+
+<!-- Small -->
+<p class="fr-badge fr-badge--sm">Libellé badge</p>
+
+<!-- Status with icon -->
+<p class="fr-badge fr-badge--success fr-badge--icon-left fr-icon-checkbox-circle-fill">Libellé badge</p>
+
+<!-- Status without icon -->
+<p class="fr-badge fr-badge--warning">Libellé badge</p>
+
+<!-- Accent -->
+<p class="fr-badge fr-badge--new">Libellé badge</p>
+
+<!-- Ellipsis in constrained width -->
+<p class="fr-badge" style="max-width: 24rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+  Libellé très long qui sera tronqué lorem ipsum dolor sit amet consectetur adipiscing…
+</p>
+
+<!-- Group -->
+<ul class="fr-badges-group">
+  <li><p class="fr-badge">Libellé badge 1</p></li>
+  <li><p class="fr-badge">Libellé badge 2</p></li>
+  <li><p class="fr-badge">Libellé badge 3</p></li>
 </ul>
 ```
 
