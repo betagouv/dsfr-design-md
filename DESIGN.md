@@ -1655,12 +1655,50 @@ components:
     textColor:       "{colors.text-action-high-blue-france}"
     typography:      "{typography.body-sm}"
 
+  # ---- Pied de page (`fr-footer`)
+  #
+  # The footer is the canonical site closure. It carries the bloc marque,
+  # a content description, mandatory government links, and legal notices.
+  # Unlike the header, the footer has no responsive modal behavior — it
+  # simply stacks on narrow viewports.
+  #
+  # Anatomy:
+  #   ┌─ __body ──────────────────────────────────────────┐
+  #   │  __brand (bloc marque)    __content (desc+links) │
+  #   ├─ __bottom ────────────────────────────────────────┤
+  #   │  __bottom-list (liens obligatoires)              │
+  #   │  __bottom-copy (licence)                         │
+  #   └───────────────────────────────────────────────────┘
+  #
+  # Mandatory links (bottom-list): Plan du site, Accessibilité, Mentions légales,
+  # Données personnelles, Gestion des cookies. Optional: Espace presse, etc.
+  # ----
   footer:
     backgroundColor: "{colors.background-default-grey}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-sm}"
     rounded:         "{rounded.none}"
     padding:         32px
+  footer-brand:
+    backgroundColor: "{colors.background-raised-grey}"
+    textColor:       "{colors.text-title-grey}"
+  footer-content:
+    textColor:       "{colors.text-default-grey}"
+    typography:      "{typography.body-sm}"
+  footer-content-desc:
+    textColor:       "{colors.text-default-grey}"
+    typography:      "{typography.body-sm}"
+  footer-content-link:
+    textColor:       "{colors.text-action-high-blue-france}"
+    typography:      "{typography.body-sm}"
+  footer-bottom:
+    padding:         24px
+  footer-bottom-link:
+    textColor:       "{colors.text-default-grey}"
+    typography:      "{typography.body-sm}"
+  footer-bottom-copy:
+    textColor:       "{colors.text-mention-grey}"
+    typography:      "{typography.body-xs}"
 ---
 
 ## Overview
@@ -2828,6 +2866,59 @@ Canonical anatomy:
     </ul>
   </nav>
 </header>
+```
+
+#### Footer
+
+Unlike the header, the footer (`fr-footer`) is documented as a single canonical composition rather than multiple interaction stories.
+
+Canonical anatomy:
+
+- top blue rule (`4px`) in `border-action-high-blue-france`
+- body split in two zones: `__brand` (bloc marque) and `__content` (description + ecosystem links)
+- bottom area (`__bottom`) separated by a neutral divider
+- mandatory legal links in `__bottom-list` (site map, accessibility, legal notice, privacy, cookies)
+- licensing sentence in `__bottom-copy`
+
+Layout behavior:
+
+- desktop: two-column body (`brand` fixed + `content` flexible)
+- mobile: stacked blocks; bottom links wrap naturally
+- no modal behavior, no hidden navigation state
+
+```html
+<footer class="fr-footer" role="contentinfo" id="footer">
+  <div class="fr-container">
+    <div class="fr-footer__body">
+      <div class="fr-footer__brand fr-enlarge-link">
+        <a title="Retour à l'accueil" href="/">
+          <p class="fr-logo">Intitulé<br>officiel</p>
+        </a>
+      </div>
+      <div class="fr-footer__content">
+        <p class="fr-footer__content-desc">Lorem ipsum dolor sit amet…</p>
+        <ul class="fr-footer__content-list">
+          <li class="fr-footer__content-item"><a class="fr-footer__content-link" href="https://info.gouv.fr">info.gouv.fr</a></li>
+          <li class="fr-footer__content-item"><a class="fr-footer__content-link" href="https://service-public.fr">service-public.fr</a></li>
+          <li class="fr-footer__content-item"><a class="fr-footer__content-link" href="https://legifrance.gouv.fr">legifrance.gouv.fr</a></li>
+          <li class="fr-footer__content-item"><a class="fr-footer__content-link" href="https://data.gouv.fr">data.gouv.fr</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fr-footer__bottom">
+      <ul class="fr-footer__bottom-list">
+        <li class="fr-footer__bottom-item"><a class="fr-footer__bottom-link" href="#">Plan du site</a></li>
+        <li class="fr-footer__bottom-item"><a class="fr-footer__bottom-link" href="#">Accessibilité</a></li>
+        <li class="fr-footer__bottom-item"><a class="fr-footer__bottom-link" href="#">Mentions légales</a></li>
+        <li class="fr-footer__bottom-item"><a class="fr-footer__bottom-link" href="#">Données personnelles</a></li>
+        <li class="fr-footer__bottom-item"><a class="fr-footer__bottom-link" href="#">Gestion des cookies</a></li>
+      </ul>
+      <div class="fr-footer__bottom-copy">
+        <p>Sauf mention explicite, les contenus sont proposés sous licence etalab-2.0.</p>
+      </div>
+    </div>
+  </div>
+</footer>
 ```
 
 ## Do's and Don'ts

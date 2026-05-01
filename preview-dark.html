@@ -1916,23 +1916,88 @@
       color: var(--c-text-action-high-blue-france);
     }
 
-    .demo-footer {
+    /* ---- Pied de page (composition canonique) ---- */
+    .ftr {
       background: var(--c-bg-default);
-      border-top: 1px solid var(--c-border-default-grey);
-      padding: var(--s-8v) var(--s-6v);
-      font-size: 0.875rem;
-      display: grid;
-      grid-template-columns: 14rem 1fr;
-      gap: var(--s-8v);
+      border: 1px solid var(--c-border-default-grey);
+      border-top: 4px solid var(--c-text-action-high-blue-france);
       margin-top: var(--s-6v);
     }
-    .demo-footer .brand { font-weight: 700; line-height: 1.1; }
-    .demo-footer .brand .rule { display: block; width: 2.5rem; border-top: 1px solid var(--c-text-default-grey); margin: var(--s-1v) 0; }
-    .demo-footer ul { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: var(--s-8v); }
-    .demo-footer li { margin-bottom: var(--s-2v); }
-    .demo-footer a { color: var(--c-text-default-grey); text-decoration: none; }
-    .demo-footer a:hover { text-decoration: underline; }
-    .demo-footer .legal { grid-column: 1 / -1; padding-top: var(--s-6v); border-top: 1px solid var(--c-border-default-grey); color: var(--c-text-mention-grey); }
+    .ftr-container { padding: 1.5rem; }
+    .ftr-body {
+      display: grid;
+      grid-template-columns: 13rem 1fr;
+      gap: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--c-border-default-grey);
+    }
+    .ftr-brand { font-weight: 700; line-height: 1.1; }
+    .ftr-logo {
+      font-family: var(--font-marianne);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.7875rem;
+    }
+    .ftr-logo .rf {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.625rem;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .ftr-content-desc {
+      margin: 0 0 1.25rem 0;
+      font-size: 1rem;
+      line-height: 1.75rem;
+      color: var(--c-text-default-grey);
+    }
+    .ftr-content-list,
+    .ftr-bottom-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+    }
+    .ftr-content-link {
+      color: var(--c-text-default-grey);
+      text-decoration: none;
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      font-weight: 700;
+    }
+    .ftr-content-link:hover,
+    .ftr-bottom-link:hover,
+    .ftr-copy a:hover { text-decoration: underline; }
+    .ftr-bottom { padding-top: 1.25rem; }
+    .ftr-bottom-item { position: relative; }
+    .ftr-bottom-item + .ftr-bottom-item { padding-left: 1rem; }
+    .ftr-bottom-item + .ftr-bottom-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.2rem;
+      bottom: 0.2rem;
+      border-left: 1px solid var(--c-border-default-grey);
+    }
+    .ftr-bottom-link,
+    .ftr-copy,
+    .ftr-copy a {
+      color: var(--c-text-mention-grey);
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      text-decoration: none;
+    }
+    .ftr-copy {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--c-border-default-grey);
+    }
+    .ftr-copy p { margin: 0; }
 
     /* ---- Bandeau légal ---- */
     .legal-notice {
@@ -1945,8 +2010,8 @@
     .legal-notice strong { color: var(--c-text-default-grey); }
 
     @media (max-width: 640px) {
-      .demo-footer { grid-template-columns: 1fr; }
-      .demo-footer ul { columns: 1; }
+      .ftr-body { grid-template-columns: 1fr; }
+      .ftr-bottom-item + .ftr-bottom-item { padding-left: 0.75rem; }
     }
   </style>
 </head>
@@ -5279,29 +5344,38 @@
       </div>
     </article>
 
-    <h3 class="component-group">Pied de page <span class="component-group__count">— `.fr-footer` (à étendre).</span></h3>
+    <h3 class="component-group">Pied de page <span class="component-group__count">— démo canonique `.fr-footer` (pas de stories DSFR).</span></h3>
     <article class="component">
-      <header><h4>Pied de page</h4><span class="bem">.fr-footer</span></header>
-      <footer class="demo-footer">
-        <div class="brand">
-          République<br>
-          <span class="rule"></span>
-          Française
+      <header><h4>Pied de page · démo complète</h4><span class="bem">.fr-footer</span></header>
+      <footer class="ftr" role="contentinfo" aria-label="Pied de page">
+        <div class="ftr-container">
+          <div class="ftr-body">
+            <div class="ftr-brand">
+              <p class="ftr-logo">INTITULÉ<br>OFFICIEL<span class="rf">Liberté<br>Égalité<br>Fraternité</span></p>
+            </div>
+            <div class="ftr-content">
+              <p class="ftr-content-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.</p>
+              <ul class="ftr-content-list">
+                <li><a class="ftr-content-link" href="https://info.gouv.fr" target="_blank" rel="noopener external">info.gouv.fr ↗</a></li>
+                <li><a class="ftr-content-link" href="https://service-public.gouv.fr" target="_blank" rel="noopener external">service-public.gouv.fr ↗</a></li>
+                <li><a class="ftr-content-link" href="https://legifrance.gouv.fr" target="_blank" rel="noopener external">legifrance.gouv.fr ↗</a></li>
+                <li><a class="ftr-content-link" href="https://data.gouv.fr" target="_blank" rel="noopener external">data.gouv.fr ↗</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ftr-bottom">
+            <ul class="ftr-bottom-list">
+              <li class="ftr-bottom-item"><a class="ftr-bottom-link" href="#">Plan du site</a></li>
+              <li class="ftr-bottom-item"><a class="ftr-bottom-link" href="#">Accessibilité : non/partiellement/totalement conforme</a></li>
+              <li class="ftr-bottom-item"><a class="ftr-bottom-link" href="#">Mentions légales</a></li>
+              <li class="ftr-bottom-item"><a class="ftr-bottom-link" href="#">Données personnelles</a></li>
+              <li class="ftr-bottom-item"><a class="ftr-bottom-link" href="#">Gestion des cookies</a></li>
+            </ul>
+            <div class="ftr-copy">
+              <p>Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md" target="_blank" rel="noopener external">licence etalab-2.0</a>.</p>
+            </div>
+          </div>
         </div>
-        <ul>
-          <li><a href="#">legifrance.gouv.fr</a></li>
-          <li><a href="#">gouvernement.fr</a></li>
-          <li><a href="#">service-public.fr</a></li>
-          <li><a href="#">data.gouv.fr</a></li>
-          <li><a href="#">Plan du site</a></li>
-          <li><a href="#">Accessibilité&nbsp;: totalement conforme</a></li>
-          <li><a href="#">Mentions légales</a></li>
-          <li><a href="#">Données personnelles</a></li>
-        </ul>
-        <p class="legal">
-          Sauf mention contraire, tous les textes de ce site sont sous
-          <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md">licence Etalab&nbsp;2.0</a>.
-        </p>
       </footer>
     </article>
   </section>
