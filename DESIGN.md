@@ -1611,12 +1611,49 @@ components:
   callout-pink-tuile-rule:
     backgroundColor: "{colors.border-default-pink-tuile}"
 
+  # ---- En-tête (`fr-header`)
+  #
+  # The header is the brand carrier for every State page. Desktop (lg+)
+  # renders brand, service, tools and nav inline; mobile collapses
+  # tools + nav into a modal opened by the hamburger button.
+  #
+  # Anatomy (desktop / lg+):
+  #   ┌─ __brand ──────────────────── __tools ──────┐
+  #   │  __logo  __service             __tools-links │
+  #   │  (Marianne) (Nom du site)     (Contact, …)   │
+  #   ├───────────── fr-nav ─────────────────────────┤
+  #   │  nav__link  nav__link  nav__link              │
+  #   └──────────────────────────────────────────────┘
+  #
+  # Mobile (< lg):
+  #   __brand-top holds __logo + __navbar (hamburger + search).
+  #   __service sits below __brand-top with a separator.
+  #   Tools + nav are inside a fr-modal shown on hamburger click.
+  # ----
   header:
     backgroundColor: "{colors.background-default-grey}"
     textColor:       "{colors.text-default-grey}"
     typography:      "{typography.body-md}"
     rounded:         "{rounded.none}"
     padding:         16px
+  header-brand:
+    backgroundColor: "{colors.background-raised-grey}"
+    textColor:       "{colors.text-title-grey}"
+  header-service:
+    textColor:       "{colors.text-title-grey}"
+    typography:      "{typography.h5}"
+  header-service-tagline:
+    textColor:       "{colors.text-default-grey}"
+    typography:      "{typography.body-sm}"
+  header-nav:
+    backgroundColor: "{colors.background-default-grey}"
+    textColor:       "{colors.text-default-grey}"
+    typography:      "{typography.body-sm}"
+  header-nav-active:
+    textColor:       "{colors.text-action-high-blue-france}"
+  header-tools:
+    textColor:       "{colors.text-action-high-blue-france}"
+    typography:      "{typography.body-sm}"
 
   footer:
     backgroundColor: "{colors.background-default-grey}"
@@ -2722,6 +2759,76 @@ Canonical opened-state anatomy:
 | Footer (pied de page) | `.fr-footer` (includes `.fr-footer__brand`, `.fr-footer__bottom`, `.fr-footer__partners`) |
 
 The header is the brand carrier: the Marianne lockup (*"République Française"*) sits in `.fr-header__brand`, and the operator/service lockup sits beside it in `.fr-header__service`. This is the canonical *bloc marque* and must be present on every State page.
+
+#### Header
+
+The header (`fr-header`) has two rendering modes driven by breakpoints:
+
+| Breakpoint | Layout | Nav + tools location |
+|-----------|--------|---------------------|
+| < `lg` (mobile) | Brand-top row with hamburger (`fr-btn--menu`) + search icon. Service below separator. | Inside a `fr-modal` opened by the hamburger button. |
+| ≥ `lg` (desktop) | Brand + service inline left, tools top-right, nav bar below. Hamburger hidden (`display: none`). | Inline in `__tools` (top-right) and `fr-nav` (below brand). |
+
+**Stories (desktop state, which the previews render):**
+
+| Story | What's visible |
+|-------|---------------|
+| Minimal | Bloc marque only (Marianne lockup + "INTITULÉ OFFICIEL" + Liberté Égalité Fraternité) |
+| Service | Minimal + service name (`__service-title`) + baseline (`__service-tagline`) below a separator |
+| Navigation | Service + horizontal `fr-nav` bar below the header body |
+| Tool links | Service + `__tools-links` top-right (Contact, Espace recruteur, etc.) |
+
+Canonical anatomy:
+
+- Top border: 4 px solid `border-action-high-blue-france`
+- Brand bg: `background-raised-grey` (with `drop-shadow(raised-shadow)`)
+- Service title: `1.125rem / 1.5rem` (base), `1.25rem / 1.75rem` (md+), weight 700
+- Service tagline: `0.875rem / 1.5rem`, weight 400
+- Nav links: `0.875rem / 1.5rem`, weight 400, active = 2 px bottom border in `text-action-high-blue-france`
+- Tool links: `0.875rem / 1.5rem`, weight 500, icon + label, color `text-action-high-blue-france`
+
+```html
+<!-- Minimal header -->
+<header class="fr-header">
+  <div class="fr-header__body">
+    <div class="fr-header__body-row">
+      <div class="fr-header__brand">
+        <div class="fr-header__brand-top">
+          <div class="fr-header__logo">
+            <p class="fr-logo">INTITULÉ<br>OFFICIEL</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Header with service + navigation -->
+<header class="fr-header">
+  <div class="fr-header__body">
+    <div class="fr-header__body-row">
+      <div class="fr-header__brand">
+        <div class="fr-header__brand-top">
+          <div class="fr-header__logo">
+            <p class="fr-logo">INTITULÉ<br>OFFICIEL</p>
+          </div>
+        </div>
+        <div class="fr-header__service">
+          <p class="fr-header__service-title">Nom du site / service</p>
+          <p class="fr-header__service-tagline">baseline - précisions sur l'organisation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="fr-nav" aria-label="Navigation principale">
+    <ul class="fr-nav__list">
+      <li class="fr-nav__item"><a class="fr-nav__link" href="#" aria-current="page">Accueil</a></li>
+      <li class="fr-nav__item"><a class="fr-nav__link" href="#">Démarches</a></li>
+      <li class="fr-nav__item"><a class="fr-nav__link" href="#">Aide</a></li>
+    </ul>
+  </nav>
+</header>
+```
 
 ## Do's and Don'ts
 

@@ -1853,29 +1853,68 @@
     .callout--blue-cumulus    { background-color: var(--c-blue-cumulus-950-100);    border-left-color: var(--c-blue-cumulus-main-526); }
     .callout--green-emeraude  { background-color: var(--c-green-emeraude-950-100);  border-left-color: var(--c-green-emeraude-main-632); }
 
-    /* ---- En-tête / pied de page de démonstration ---- */
-    .demo-header {
+    /* ---- En-tête (état desktop / lg+) ---- */
+    .hdr {
       border-top: 4px solid var(--c-text-action-high-blue-france);
       border-bottom: 1px solid var(--c-border-default-grey);
       background: var(--c-bg-default);
-      padding: var(--s-4v) var(--s-6v);
-      display: flex; align-items: center; gap: var(--s-6v); flex-wrap: wrap;
     }
-    .demo-header .brand {
+    .hdr-body {
+      display: flex; align-items: center;
+      padding: 1.5rem 1.5rem;
+    }
+    .hdr-brand {
+      display: flex; align-items: center; gap: 1rem;
+      flex: 0 0 auto;
+    }
+    .hdr-logo {
       font-family: var(--font-marianne); font-weight: 700;
-      line-height: 1.1; font-size: 0.875rem; text-transform: uppercase;
+      line-height: 1.1; font-size: 0.7875rem; text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-    .demo-header .brand .rule {
-      display: block;
-      width: 2.5rem; border-top: 1px solid var(--c-text-default-grey);
-      margin: var(--s-1v) 0;
+    .hdr-logo .rule {
+      display: block; width: 2.5rem;
+      border-top: 1px solid var(--c-text-default-grey);
+      margin: 0.25rem 0;
     }
-    .demo-header .service { font-weight: 700; font-size: 1rem; }
-    .demo-header .service small { display: block; font-weight: 400; font-size: 0.875rem; color: var(--c-text-mention-grey); }
-    .demo-header nav { margin-left: auto; display: flex; gap: var(--s-4v); font-size: 0.875rem; }
-    .demo-header nav a { color: var(--c-text-default-grey); text-decoration: none; padding: var(--s-2v) 0; border-bottom: 2px solid transparent; }
-    .demo-header nav a[aria-current="true"] { border-bottom-color: var(--c-text-action-high-blue-france); color: var(--c-text-action-high-blue-france); }
+    .hdr-service {
+      padding-left: 1rem;
+      border-left: 1px solid var(--c-border-default-grey);
+    }
+    .hdr-service-title {
+      font-weight: 700; font-size: 1.25rem; line-height: 1.75rem;
+      color: var(--c-text-title-grey); margin: 0;
+    }
+    .hdr-service-tagline {
+      font-size: 0.875rem; line-height: 1.5rem;
+      color: var(--c-text-mention-grey); margin: 0;
+    }
+    .hdr-tools {
+      margin-left: auto;
+      display: flex; gap: 0.75rem; align-items: center;
+    }
+    .hdr-tool-link {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      font-size: 0.875rem; line-height: 1.5rem; font-weight: 500;
+      color: var(--c-text-action-high-blue-france); text-decoration: none;
+      padding: 0.25rem 0.75rem;
+    }
+    .hdr-tool-link .ico { font-size: 1rem; }
+    .hdr-nav {
+      display: flex; gap: 0; padding: 0 1.5rem;
+      border-top: 1px solid var(--c-border-default-grey);
+    }
+    .hdr-nav a {
+      display: inline-flex; align-items: center;
+      font-size: 0.875rem; line-height: 1.5rem;
+      min-height: 3.5rem; padding: 1rem;
+      color: var(--c-text-default-grey); text-decoration: none;
+      border-bottom: 2px solid transparent;
+    }
+    .hdr-nav a[aria-current="page"] {
+      border-bottom-color: var(--c-text-action-high-blue-france);
+      color: var(--c-text-action-high-blue-france);
+    }
 
     .demo-footer {
       background: var(--c-bg-default);
@@ -5164,24 +5203,79 @@
       </div>
     </article>
 
-    <h3 class="component-group">En-tête <span class="component-group__count">— `.fr-header` (à étendre).</span></h3>
+    <h3 class="component-group">En-tête <span class="component-group__count">— minimal, service, navigation, tool links (état desktop).</span></h3>
     <article class="component">
-      <header><h4>En-tête (bloc-marque)</h4><span class="bem">.fr-header</span></header>
-      <div class="demo-header">
-        <div class="brand">
-          République<br>
-          <span class="rule"></span>
-          Française
+      <header><h4>En-tête · minimal</h4><span class="bem">.fr-header</span></header>
+      <div class="states" style="display:block;">
+        <div class="hdr">
+          <div class="hdr-body">
+            <div class="hdr-brand">
+              <div class="hdr-logo">INTITULÉ<br>OFFICIEL<br><span class="rule"></span><span style="font-size:0.625rem;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">Liberté<br>Égalité<br>Fraternité</span></div>
+            </div>
+          </div>
         </div>
-        <div class="service">
-          Direction interministérielle<br>
-          <small>Services numériques de l'État</small>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>En-tête · service</h4><span class="bem">.fr-header + __service</span></header>
+      <div class="states" style="display:block;">
+        <div class="hdr">
+          <div class="hdr-body">
+            <div class="hdr-brand">
+              <div class="hdr-logo">INTITULÉ<br>OFFICIEL<br><span class="rule"></span><span style="font-size:0.625rem;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">Liberté<br>Égalité<br>Fraternité</span></div>
+              <div class="hdr-service">
+                <p class="hdr-service-title">Nom du site / service</p>
+                <p class="hdr-service-tagline">baseline - précisions sur l'organisation</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <nav>
-          <a href="#" aria-current="true">Accueil</a>
-          <a href="#">Démarches</a>
-          <a href="#">Aide</a>
-        </nav>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>En-tête · navigation</h4><span class="bem">.fr-header + fr-nav</span></header>
+      <div class="states" style="display:block;">
+        <div class="hdr">
+          <div class="hdr-body">
+            <div class="hdr-brand">
+              <div class="hdr-logo">INTITULÉ<br>OFFICIEL<br><span class="rule"></span><span style="font-size:0.625rem;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">Liberté<br>Égalité<br>Fraternité</span></div>
+              <div class="hdr-service">
+                <p class="hdr-service-title">Nom du site / service</p>
+                <p class="hdr-service-tagline">baseline - précisions sur l'organisation</p>
+              </div>
+            </div>
+          </div>
+          <nav class="hdr-nav" aria-label="Navigation principale">
+            <a href="#" aria-current="page">Accueil</a>
+            <a href="#">Démarches</a>
+            <a href="#">Publications</a>
+            <a href="#">Aide</a>
+          </nav>
+        </div>
+      </div>
+    </article>
+
+    <article class="component">
+      <header><h4>En-tête · tool links</h4><span class="bem">.fr-header + __tools-links</span></header>
+      <div class="states" style="display:block;">
+        <div class="hdr">
+          <div class="hdr-body">
+            <div class="hdr-brand">
+              <div class="hdr-logo">INTITULÉ<br>OFFICIEL<br><span class="rule"></span><span style="font-size:0.625rem;font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">Liberté<br>Égalité<br>Fraternité</span></div>
+              <div class="hdr-service">
+                <p class="hdr-service-title">Nom du site / service</p>
+                <p class="hdr-service-tagline">baseline - précisions sur l'organisation</p>
+              </div>
+            </div>
+            <div class="hdr-tools">
+              <a href="#" class="hdr-tool-link"><span class="ico">👥</span> Contact</a>
+              <a href="#" class="hdr-tool-link"><span class="ico">💼</span> Espace recruteur</a>
+              <a href="#" class="hdr-tool-link"><span class="ico">🔑</span> Se connecter</a>
+            </div>
+          </div>
+        </div>
       </div>
     </article>
 
