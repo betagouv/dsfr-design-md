@@ -1897,7 +1897,23 @@
       color: var(--c-text-action-high-blue-france); text-decoration: none;
       padding: 0.25rem 0.75rem;
     }
-    .hdr-tool-link .ico { font-size: 1rem; }
+    .hdr-tool-link .ico {
+      width: 1rem;
+      height: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 1rem;
+    }
+    .hdr-tool-link .ico svg {
+      width: 1rem;
+      height: 1rem;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
     .hdr-nav {
       display: flex; gap: 0; padding: 0 1.5rem;
       border-top: 1px solid var(--c-border-default-grey);
@@ -5329,9 +5345,9 @@
               </div>
             </div>
             <div class="hdr-tools">
-              <a href="#" class="hdr-tool-link"><span class="ico">👥</span> Contact</a>
-              <a href="#" class="hdr-tool-link"><span class="ico">💼</span> Espace recruteur</a>
-              <a href="#" class="hdr-tool-link"><span class="ico">🔑</span> Se connecter</a>
+              <a href="#" class="hdr-tool-link"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><path d="M2.5 18.5c0-2.6 2.4-4.5 5.5-4.5s5.5 1.9 5.5 4.5"></path><circle cx="17" cy="9" r="2.5"></circle><path d="M14.5 18.5c.2-1.7 1.8-3 4-3 1.3 0 2.4.4 3.2 1.2"></path></svg></span> Contact</a>
+              <a href="#" class="hdr-tool-link"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="11" rx="1"></rect><path d="M9 8V6.5a3 3 0 0 1 6 0V8"></path><path d="M3.5 12.5h17"></path></svg></span> Espace recruteur</a>
+              <a href="#" class="hdr-tool-link"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 19.5c.9-2.9 3.7-4.5 7-4.5s6.1 1.6 7 4.5"></path></svg></span> Se connecter</a>
             </div>
           </div>
         </div>
