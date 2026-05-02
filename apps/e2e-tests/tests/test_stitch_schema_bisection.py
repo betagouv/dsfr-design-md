@@ -2,6 +2,8 @@ import pytest
 import asyncio
 import os
 import time
+import re
+from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -27,105 +29,76 @@ def mcp_server_params():
 
 @pytest.fixture(scope="module")
 def stitch_project_id(mcp_server_params):
-    """Creates a new project for this test run to ensure a clean state."""
+    """Creates a new project for this test run. Synchronous to avoid scope issues."""
     project_title = f"E2E Bisect Run - {int(time.time())}"
     
-    async def _create_project():
+    async def _create():
         async with stdio_client(mcp_server_params) as (read, write):
             async with ClientSession(read, write) as session:
                 await session.initialize()
-                result = await session.call_tool("create_project", {
-                    "title": project_title
-                })
+                result = await session.call_tool("create_project", {"title": project_title})
                 if result.isError:
-                    pytest.fail(f"Failed to create isolated project: {result.content}")
-                
-                # The result should contain the new project name/ID in its text payload.
-                # Since Stitch MCP returns text, we need to extract the ID.
-                # Usually it looks like "Project created: projects/12345..."
-                # Let's extract the digits.
-                import re
-                text = result.content[0].text
-                match = re.search(r'projects/(\d+)', text)
-                if match:
-                    return match.group(1)
-                else:
-                    pytest.fail(f"Could not parse projectId from result: {text}")
-                    
-    return asyncio.run(_create_project())
+                    return None
+                from mcp.types import TextContent
+                if isinstance(result.content[0], TextContent):
+                    match = re.search(r'projects/(\d+)', result.content[0].text)
+                    return match.group(1) if match else None
+        return None
 
-async def _create_design_system_with_payload(server_params, project_id, test_name, theme_payload):
-    """Helper to send a payload to Stitch MCP and return the result."""
-    design_system = {
-        "displayName": f"{test_name}",
-        "theme": theme_payload
-    }
-    
-    async with stdio_client(server_params) as (read, write):
+    pid = asyncio.run(_create())
+    if not pid:
+        pytest.fail("Failed to create isolated project for test run")
+    print(f"\n📁 Created Project: {pid} ({project_title})")
+    return pid
+
+@asynccontextmanager
+async def get_stitch_session(params):
+    """Helper context manager to avoid anyio ScopeMismatch errors in fixtures."""
+    async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
-            
-            result = await session.call_tool("create_design_system", {
-                "projectId": project_id,
-                "designSystem": design_system
-            })
-            
-            if result.isError:
-                error_msg = result.content[0].text if result.content else "Unknown error"
-                pytest.fail(f"Stitch API rejected payload: {error_msg}")
-            
-            return result
+            yield session
 
-def test_01_minimal_valid_schema(mcp_server_params, stitch_project_id):
-    """Test the absolute minimum theme schema required by Stitch."""
-    theme = {
-        "colorMode": "LIGHT"
-    }
-    asyncio.run(_create_design_system_with_payload(mcp_server_params, stitch_project_id, "Minimal", theme))
+async def _create_ds(session, project_id, test_name, theme):
+    """Helper to send payload to Stitch."""
+    design_system = {"displayName": test_name, "theme": theme}
+    result = await session.call_tool("create_design_system", {
+        "projectId": project_id,
+        "designSystem": design_system
+    })
+    if result.isError:
+        from mcp.types import TextContent
+        msg = result.content[0].text if (result.content and isinstance(result.content[0], TextContent)) else "Unknown"
+        pytest.fail(f"Stitch API rejected payload: {msg}")
+    return result
 
-def test_02_adding_primary_color(mcp_server_params, stitch_project_id):
-    """Test adding just the primary color override."""
-    theme = {
-        "colorMode": "LIGHT",
-        "overridePrimaryColor": "#000091" # Bleu France
-    }
-    asyncio.run(_create_design_system_with_payload(mcp_server_params, stitch_project_id, "PrimaryColor", theme))
+@pytest.mark.asyncio
+async def test_01_minimal_valid_schema(mcp_server_params, stitch_project_id):
+    async with get_stitch_session(mcp_server_params) as session:
+        await _create_ds(session, stitch_project_id, "Minimal", {"colorMode": "LIGHT"})
 
-def test_03_adding_design_md_basics(mcp_server_params, stitch_project_id):
-    """Test adding a basic designMd string."""
-    theme = {
-        "colorMode": "LIGHT",
-        "designMd": "## Brand\\nThis is the Marianne DSFR system."
-    }
-    asyncio.run(_create_design_system_with_payload(mcp_server_params, stitch_project_id, "BasicDesignMd", theme))
+@pytest.mark.asyncio
+async def test_02_adding_primary_color(mcp_server_params, stitch_project_id):
+    async with get_stitch_session(mcp_server_params) as session:
+        await _create_ds(session, stitch_project_id, "Primary", {"colorMode": "LIGHT", "overridePrimaryColor": "#000091"})
 
-def test_04_full_dsfr_design_md(mcp_server_params, stitch_project_id):
-    """Test injecting the full DSFR Markdown document without any JSON shape overrides."""
+@pytest.mark.asyncio
+async def test_03_adding_design_md_basics(mcp_server_params, stitch_project_id):
+    async with get_stitch_session(mcp_server_params) as session:
+        await _create_ds(session, stitch_project_id, "BasicMd", {"colorMode": "LIGHT", "designMd": "## Brand"})
+
+@pytest.mark.asyncio
+async def test_04_full_dsfr_design_md(mcp_server_params, stitch_project_id):
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    design_md_path = os.path.join(current_dir, "../../../packages/dsfr-design-md/DESIGN.md")
-    
-    with open(design_md_path, "r") as f:
+    path = os.path.join(current_dir, "../../../packages/dsfr-design-md/DESIGN.md")
+    with open(path, "r") as f:
         full_md = f.read()
-        
-    theme = {
-        "colorMode": "LIGHT",
-        "designMd": full_md
-    }
-    asyncio.run(_create_design_system_with_payload(mcp_server_params, stitch_project_id, "FullDesignMd", theme))
+    async with get_stitch_session(mcp_server_params) as session:
+        await _create_ds(session, stitch_project_id, "FullDSFR", {"colorMode": "LIGHT", "designMd": full_md})
 
-def test_05_breaking_schema_reproduction(mcp_server_params, stitch_project_id):
-    """
-    Attempt to reproduce the exact schema that causes 'Invalid Argument'.
-    """
-    theme = {
-        "colorMode": "LIGHT",
-        "font": "INTER", 
-        "overridePrimaryColor": "#000091",
-        "overrideSecondaryColor": "#E1000F",
-        "roundness": "ROUND_NONE"
-    }
-    
-    try:
-        asyncio.run(_create_design_system_with_payload(mcp_server_params, stitch_project_id, "BrokenSchema", theme))
-    except BaseException:
-        pytest.xfail("Schema intentionally broken to verify API limits")
+@pytest.mark.xfail(reason="Schema intentionally broken to verify API limits")
+@pytest.mark.asyncio
+async def test_05_breaking_schema_reproduction(mcp_server_params, stitch_project_id):
+    theme = {"colorMode": "LIGHT", "roundness": "ROUND_NONE"}
+    async with get_stitch_session(mcp_server_params) as session:
+        await _create_ds(session, stitch_project_id, "Broken", theme)
