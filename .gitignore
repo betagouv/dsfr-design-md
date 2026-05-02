@@ -30,6 +30,9 @@ Thumbs.db
 # Lint / test output
 .eslintcache
 coverage/
+.pytest_cache/
+__pycache__/
+*.pyc
 
 # Letta Code personal settings
 .letta/settings.local.json
