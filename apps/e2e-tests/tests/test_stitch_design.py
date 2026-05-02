@@ -57,7 +57,13 @@ async def _run_test_stitch_design_system_validation():
             assert result.content, "Should return content"
             
             import json
-            data = json.loads(result.content[0].text)
+            from mcp.types import TextContent
+            
+            first_content = result.content[0]
+            if not isinstance(first_content, TextContent):
+                pytest.fail("Expected text content from list_design_systems")
+                
+            data = json.loads(first_content.text)
             if not data.get("designSystems"):
                 pytest.fail("No design systems found in project to update")
                 
