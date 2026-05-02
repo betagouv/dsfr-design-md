@@ -12,3 +12,8 @@ e2e-tests = { workspace = true }
 
 [tool.uv.workspace]
 members = ["apps/*", "packages/*"]
+
+[dependency-groups]
+dev = [
+    "pytest-asyncio>=1.3.0",
+]
