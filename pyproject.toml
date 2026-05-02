@@ -1,0 +1,14 @@
+[project]
+name = "dsfr-design-md-workspace"
+version = "0.1.0"
+description = "DSFR Design MD Workspace"
+requires-python = ">=3.11"
+dependencies = [
+    "e2e-tests",
+]
+
+[tool.uv.sources]
+e2e-tests = { workspace = true }
+
+[tool.uv.workspace]
+members = ["apps/*", "packages/*"]
