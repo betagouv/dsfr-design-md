@@ -101,7 +101,10 @@ def test_03_adding_design_md_basics(mcp_server_params, stitch_project_id):
 
 def test_04_full_dsfr_design_md(mcp_server_params, stitch_project_id):
     """Test injecting the full DSFR Markdown document without any JSON shape overrides."""
-    with open("packages/dsfr-design-md/DESIGN.md", "r") as f:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    design_md_path = os.path.join(current_dir, "../../../packages/dsfr-design-md/DESIGN.md")
+    
+    with open(design_md_path, "r") as f:
         full_md = f.read()
         
     theme = {

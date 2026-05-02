@@ -10,6 +10,7 @@ yarn-error.log*
 dist/
 build/
 *.tsbuildinfo
+.moon/cache/
 
 # Environment
 .env

@@ -5,5 +5,5 @@ projects:
   - "packages/*"
 
 vcs:
-  manager: "git"
+  client: "git"
   defaultBranch: "main"
