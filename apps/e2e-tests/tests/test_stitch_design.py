@@ -1,6 +1,5 @@
 import pytest
 import os
-import re
 from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -12,7 +11,7 @@ def mcp_server_params():
     api_key = os.environ.get("STITCH_API_KEY")
     if not api_key:
         pytest.skip("STITCH_API_KEY not found in .env")
-    
+
     return StdioServerParameters(
         command="npx",
         args=[
