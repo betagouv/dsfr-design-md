@@ -93,8 +93,18 @@ async def test_04_full_dsfr_design_md(mcp_server_params, stitch_project_id):
     path = os.path.join(current_dir, "../../../packages/dsfr-design-md/DESIGN.md")
     with open(path, "r") as f:
         full_md = f.read()
+        
+    theme_payload = {
+        "colorMode": "LIGHT",
+        "overridePrimaryColor": "#000091",     # Bleu France
+        "overrideSecondaryColor": "#c9191e",   # Rouge Marianne
+        "overrideTertiaryColor": "#aea397",    # Gris Galet (accent)
+        "overrideNeutralColor": "#7b7b7b",     # Gris neutre
+        "designMd": full_md
+    }
+    
     async with get_stitch_session(mcp_server_params) as session:
-        await _create_ds(session, stitch_project_id, "FullDSFR", {"colorMode": "LIGHT", "designMd": full_md})
+        await _create_ds(session, stitch_project_id, "FullDSFR", theme_payload)
 
 @pytest.mark.xfail(reason="Schema intentionally broken to verify API limits")
 @pytest.mark.asyncio
