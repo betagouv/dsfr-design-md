@@ -1,0 +1,8 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+
+tasks:
+  test:
+    command: "uv run pytest tests/ -s"
+    description: "Run e2e tests against Stitch API"
+    options:
+      cache: false
